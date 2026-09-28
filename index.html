@@ -666,21 +666,6 @@
             box-sizing: border-box;
         }
         .feedback-textarea:focus { border-color: var(--accent); }
-        
-        .feedback-admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-        .feedback-admin-table th, .feedback-admin-table td {
-            border: 1px solid var(--border-color);
-            padding: 8px 10px;
-            text-align: left;
-        }
-        .feedback-admin-table th {
-            background: #f1f5f9;
-        }
 
         /* ESTILOS NUEVO DROPDOWN CON CHECKBOXES INTERACTIVOS */
         .stores-dropdown-container {
@@ -744,7 +729,7 @@
         <div class="subtitle">te ayuda ahorrar de verdad verdad</div>
     </header>
 
-    <!-- AVISO INFORMATIVO ACTUALIZADO SEGÚN TUS INDICACIONES -->
+    <!-- AVISO INFORMATIVO ACTUALIZADO -->
     <div class="disclaimer-box">
         <span>ℹ️</span>
         <div>
@@ -839,7 +824,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN DE TIENDAS AMPLIADA CON DROPDOWN DE CHECKBOXES AMIGABLE -->
+    <!-- SECCIÓN DE TIENDAS AMPLIADA -->
     <div class="card">
         <div class="card-header">
             <h3>🏪 Comercios y Supermercados en Línea</h3>
@@ -977,66 +962,59 @@
         <div class="card-body" id="texto-resultado"></div>
     </div>
 
-    <!-- BUZÓN DE SUGERENCIAS Y ADMINISTRACIÓN -->
+    <!-- BUZÓN DE SUGERENCIAS DIRECTO A FORMSPREE -->
     <div class="card" style="border: 2px dashed #0f766e; background: #fdfbf7;">
         <div class="card-header">
-            <h3>💬 Buzón de Sugerencias y Nuevos Productos</h3>
+            <h3>💬 Buzón de Sugerencias (Envío Directo a Correo)</h3>
             <button class="toggle-btn" id="btn-toggle-sugerencias" onclick="toggleSeccion('cuerpo-sugerencias', 'btn-toggle-sugerencias')">Minimizar ➖</button>
         </div>
         <div class="card-body" id="cuerpo-sugerencias">
             <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-                ¿Echas en falta algún supermercado en línea o producto? Escríbenos aquí.
+                ¿Echas en falta algún supermercado en línea o producto? Escríbenos y se enviará directo a nuestro correo institucional.
             </div>
 
-            <div class="feedback-form-grid">
-                <div class="express-field">
-                    <label>👤 Tu Nombre o Alias</label>
-                    <input type="text" id="sug-nombre" class="express-input-manual" placeholder="Ej. Camilo Andrés" style="margin-top:0; background:white;">
-                </div>
-                <div class="express-field">
-                    <label>📧 Correo de Contacto</label>
-                    <input type="email" id="sug-email" class="express-input-manual" placeholder="Ej. correo@gmail.com" style="margin-top:0; background:white;">
-                </div>
-            </div>
-            
-            <div class="express-field" style="margin-bottom: 12px;">
-                <label>✍️ Tu Sugerencia</label>
-                <textarea id="sug-mensaje" class="feedback-textarea" placeholder="Ej. Agreguen más tiendas virtuales o referencias..."></textarea>
-            </div>
+            <!-- ELEMENTOS REQUERIDOS POR FORMSPREE AJAX -->
+            <div data-fs-success style="background: #ecfdf5; border: 1px solid #10b981; color: #065f46; padding: 10px; border-radius: 8px; margin-bottom: 12px; font-weight: 600; display:none;"></div>
+            <div data-fs-error style="background: #fef2f2; border: 1px solid #ef4444; color: #991b1b; padding: 10px; border-radius: 8px; margin-bottom: 12px; font-weight: 600; display:none;"></div>
 
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="express-btn" style="flex: 1;" onclick="enviarSugerencia()">📥 Guardar Sugerencia en la Web</button>
-                <a id="btn-enviar-correo" href="#" target="_blank" class="express-btn" style="flex: 1; text-align: center; text-decoration: none; background: linear-gradient(135deg, #059669, #10b981); display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
-                    ✉️ Enviar a mi Correo Asignado
-                </a>
-            </div>
+            <form id="my-form">
+                <div class="feedback-form-grid">
+                    <div class="express-field">
+                        <label for="nombre">👤 Tu Nombre o Alias</label>
+                        <input type="text" id="nombre" name="nombre" class="express-input-manual" placeholder="Ej. Camilo Andrés" required style="margin-top:0; background:white;" data-fs-field>
+                        <span data-fs-error="nombre" style="font-size:11px; color:#ef4444;"></span>
+                    </div>
+                    <div class="express-field">
+                        <label for="email">📧 Correo de Contacto</label>
+                        <input type="email" id="email" name="email" class="express-input-manual" placeholder="Ej. correo@gmail.com" required style="margin-top:0; background:white;" data-fs-field>
+                        <span data-fs-error="email" style="font-size:11px; color:#ef4444;"></span>
+                    </div>
+                </div>
+                
+                <div class="express-field" style="margin-bottom: 12px;">
+                    <label for="message">✍️ Tu Sugerencia o Mensaje</label>
+                    <textarea id="message" name="message" class="feedback-textarea" placeholder="Ej. Agreguen más tiendas virtuales..." required data-fs-field></textarea>
+                    <span data-fs-error="message" style="font-size:11px; color:#ef4444;"></span>
+                </div>
 
-            <div style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 15px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="color: var(--primary); margin: 0; font-size: 14px;">📋 Panel de Lectura (Sugerencias Recibidas)</h4>
-                    <button class="sel-btn" onclick="limpiarSugerencias()" style="font-size: 11px; padding: 4px 8px;">🗑️ Borrar Todas</button>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="submit" class="express-btn" style="flex: 1; background: linear-gradient(135deg, #059669, #10b981);" data-fs-submit-btn>
+                        ✉️ Enviar Mensaje Directo al Correo
+                    </button>
                 </div>
-                <div style="overflow-x: auto;">
-                    <table class="feedback-admin-table">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Remitente</th>
-                                <th>Mensaje / Sugerencia</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-sugerencias-body">
-                            <!-- Se llena dinámicamente -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
+    <!-- SDK DE FORMSPREE AJAX -->
     <script>
-        // BASE DE DATOS EXACTAMENTE DE 150 PRODUCTOS
+        window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+        formspree('initForm', { formElement: '#my-form', formId: 'xjykjwyz' });
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+    <script>
+        // BASE DE DATOS DE 150 PRODUCTOS
         const baseDatosProductos = [
             { id: "p1", cat: "granos", icon: "🌻", searchKeyword: "aceite", nombre: "Aceite de Girasol / Soya", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 500 ml": { d1: 4900, ara: 5100, barrio: 5300, exito: 5700, olimpica: 5900, caribe: 5200, euro: 5400, vaquita: 5300, jumbo: 5800 }, "Botella 1000 ml": { d1: 9400, ara: 9700, barrio: 10100, exito: 10500, olimpica: 10900, caribe: 9900, euro: 10200, vaquita: 10000, jumbo: 10800 } } },
             { id: "p2", cat: "granos", icon: "🫒", searchKeyword: "aceite de oliva", nombre: "Aceite de Oliva Extra Virgen", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.005, presentacionActual: "Frasco 500 ml", presentaciones: { "Frasco 250 ml": { d1: 5600, ara: 13500, barrio: 14200, exito: 15500, olimpica: 14900, caribe: 13900, euro: 14000, vaquita: 13800, jumbo: 15200 }, "Frasco 500 ml": { d1: 9900, ara: 24200, barrio: 25500, exito: 28000, olimpica: 26900, caribe: 24900, euro: 25000, vaquita: 24500, jumbo: 27500 } } },
@@ -1194,7 +1172,6 @@
 
         let categoriaActual = 'todos';
         let pestanaActiva = 'catalogo';
-        const CORREO_ADMIN = "contacto@ahorra.com";
 
         function toggleSeccion(idCuerpo, idBtn) {
             const cuerpo = document.getElementById(idCuerpo);
@@ -2035,82 +2012,11 @@
             resultadoCard.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function enviarSugerencia() {
-            const nombre = document.getElementById('sug-nombre').value.trim() || 'Anónimo';
-            const email = document.getElementById('sug-email').value.trim() || 'Sin correo';
-            const mensaje = document.getElementById('sug-mensaje').value.trim();
-
-            if (!mensaje) {
-                alert("Por favor escribe una sugerencia o comentario antes de enviar.");
-                return;
-            }
-
-            const nuevaSugerencia = {
-                fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-                remitente: `${nombre} (${email})`,
-                texto: mensaje
-            };
-
-            let lista = JSON.parse(localStorage.getItem('ahorra_sugerencias')) || [];
-            lista.unshift(nuevaSugerencia);
-            localStorage.setItem('ahorra_sugerencias', JSON.stringify(lista));
-
-            const mailtoLink = `mailto:${CORREO_ADMIN}?subject=Nueva%20Sugerencia%20Ahorrá%20de%20${encodeURIComponent(nombre)}&body=${encodeURIComponent("Remitente: " + nombre + "\nCorreo: " + email + "\n\nMensaje:\n" + mensaje)}`;
-            document.getElementById('btn-enviar-correo').setAttribute('href', mailtoLink);
-
-            document.getElementById('sug-mensaje').value = '';
-            alert("¡Sugerencia guardada con éxito en la plataforma!");
-            renderizarSugerencias();
-        }
-
-        function renderizarSugerencias() {
-            const tbody = document.getElementById('tabla-sugerencias-body');
-            let lista = JSON.parse(localStorage.getItem('ahorra_sugerencias')) || [];
-
-            if (lista.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" align="center" style="color:var(--text-muted);">No hay sugerencias registradas todavía.</td></tr>`;
-                return;
-            }
-
-            let html = '';
-            lista.forEach((sug, index) => {
-                html += `
-                    <tr>
-                        <td style="white-space: nowrap; font-size:11px;">${sug.fecha}</td>
-                        <td><b>${sug.remitente}</b></td>
-                        <td>${sug.texto}</td>
-                        <td align="center">
-                            <button class="sel-btn" onclick="eliminarSugerencia(${index})" style="background:#fef2f2; color:#dc2626; border-color:#fecaca; font-size:10px; padding:3px 6px;">🗑️</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
-        function eliminarSugerencia(index) {
-            let lista = JSON.parse(localStorage.getItem('ahorra_sugerencias')) || [];
-            lista.splice(index, 1);
-            localStorage.setItem('ahorra_sugerencias', JSON.stringify(lista));
-            renderizarSugerencias();
-        }
-
-        function limpiarSugerencias() {
-            if (confirm("¿Estás seguro de vaciar todas las sugerencias registradas?")) {
-                localStorage.removeItem('ahorra_sugerencias');
-                renderizarSugerencias();
-            }
-        }
-
         window.onload = function() {
             renderizarProductos();
             actualizarResumenPresupuestoVivo();
-            renderizarSugerencias();
             actualizarEstimadoDias();
             actualizarTextoComerciosSeleccionados();
-
-            const defaultMailto = `mailto:${CORREO_ADMIN}?subject=Sugerencia%20Plataforma%20Ahorrá`;
-            document.getElementById('btn-enviar-correo').setAttribute('href', defaultMailto);
         };
     </script>
 </body>
