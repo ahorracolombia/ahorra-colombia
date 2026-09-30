@@ -1,0 +1,21 @@
+{
+  "name": "ahorra-colombia",
+  "version": "1.0.0",
+  "description": "Comparador Masivo Multitienda 2026",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'No build step required for vanilla HTML project'",
+    "lint": "echo 'No linter configured'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "price-comparison",
+    "colombia",
+    "shopping"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
