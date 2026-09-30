@@ -716,6 +716,317 @@
         .store-checkbox-item:hover {
             background: #f0fdf4;
         }
+
+        /* ===== MIS LISTAS PERSONALIZADAS ===== */
+        .listas-guardadas-card {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);
+            border: 2px solid #99f6e4;
+            margin-bottom: 20px;
+        }
+        .listas-guardadas-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+        .guardar-lista-btn {
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color:#fff;
+            border:none;
+            padding:10px 15px;
+            border-radius:9px;
+            font-size:12px;
+            font-weight:800;
+            cursor:pointer;
+            box-shadow:0 4px 10px rgba(15,118,110,.18);
+        }
+        .guardar-lista-btn:hover { transform:translateY(-1px); }
+        .listas-vacias {
+            text-align:center;
+            padding:18px;
+            color:var(--text-muted);
+            font-size:12px;
+            background:#f8fafc;
+            border:1px dashed var(--border-color);
+            border-radius:10px;
+        }
+        .lista-guardada.minimizada .lista-guardada-contenido { display:none; }
+        .lista-minimizar-btn {
+            border:1px solid #cbd5e1; background:#f8fafc; color:#334155;
+            border-radius:7px; padding:5px 8px; cursor:pointer; font-size:10px;
+            font-weight:800; white-space:nowrap;
+        }
+        .lista-minimizar-btn:hover { background:#e2e8f0; }
+        .lista-guardada-top-acciones { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+        .lista-guardada {
+            border:1px solid #d1fae5;
+            background:#fff;
+            border-radius:11px;
+            padding:12px;
+            margin-bottom:9px;
+            cursor:pointer;
+            transition:all .18s ease;
+        }
+        .lista-guardada:hover {
+            border-color:#14b8a6;
+            box-shadow:0 4px 12px rgba(15,118,110,.10);
+            transform:translateY(-1px);
+        }
+        .lista-guardada-top {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+        .lista-guardada-nombre { font-weight:800; color:#0f766e; font-size:14px; }
+        .lista-guardada-meta { font-size:10px; color:var(--text-muted); margin-top:3px; }
+        .lista-valores {
+            display:flex;
+            gap:6px;
+            flex-wrap:wrap;
+            margin-top:9px;
+        }
+        .lista-productos-preview {
+            margin-top:10px;
+            padding:9px;
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:9px;
+        }
+        .lista-productos-preview-titulo {
+            font-size:10px;
+            font-weight:900;
+            color:#475569;
+            margin-bottom:6px;
+            text-transform:uppercase;
+        }
+        .lista-producto-preview {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:8px;
+            padding:7px 0;
+            border-bottom:1px solid #e2e8f0;
+            font-size:10px;
+            color:#334155;
+        }
+        .lista-producto-preview:last-child { border-bottom:none; }
+        .lista-producto-preview-info { min-width:0; flex:1; }
+        .lista-producto-preview-nombre { font-weight:800; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .lista-producto-preview-detalle { color:#64748b; display:block; margin-top:2px; }
+        .lista-producto-preview-controles { display:flex; align-items:center; gap:4px; flex-shrink:0; }
+        .lista-cantidad-btn {
+            width:25px; height:25px; border:1px solid #cbd5e1; border-radius:7px;
+            background:#fff; color:#0f172a; font-size:15px; font-weight:900;
+            cursor:pointer; line-height:1; padding:0;
+        }
+        .lista-cantidad-btn:hover { background:#f1f5f9; }
+        .lista-cantidad-num { min-width:28px; text-align:center; font-size:11px; font-weight:900; color:#0f766e; }
+        .lista-eliminar-producto-btn {
+            width:25px; height:25px; border:1px solid #fecaca; border-radius:7px;
+            background:#fff1f2; color:#dc2626; font-size:12px; cursor:pointer; padding:0;
+        }
+        .lista-eliminar-producto-btn:hover { background:#fee2e2; }
+        .lista-productos-mas {
+            margin-top:6px;
+            font-size:10px;
+            color:#0f766e;
+            font-weight:800;
+            text-align:center;
+        }
+        .lista-detalle-edicion {
+            margin-top:11px;
+            background:#fff;
+            border:1px solid #bae6fd;
+            border-radius:9px;
+            padding:9px;
+        }
+        .lista-detalle-edicion-titulo {
+            font-size:11px;
+            font-weight:900;
+            color:#0369a1;
+            margin-bottom:7px;
+        }
+        .lista-detalle-edicion-item {
+            display:grid;
+            grid-template-columns:minmax(0,1fr) auto auto;
+            gap:8px;
+            align-items:center;
+            padding:7px 0;
+            border-bottom:1px solid #e0f2fe;
+            font-size:10px;
+        }
+        .lista-detalle-edicion-item:last-child { border-bottom:none; }
+        .lista-detalle-edicion-item strong { color:#334155; }
+        .lista-detalle-edicion-item span { color:#64748b; }
+        .lista-detalle-edicion-item .cantidad {
+            background:#ecfeff; color:#0e7490; border-radius:6px; padding:3px 6px; font-weight:800;
+        }
+        .lista-valor-chip {
+            background:#f0fdf4;
+            border:1px solid #bbf7d0;
+            color:#166534;
+            border-radius:8px;
+            padding:5px 8px;
+            font-size:10px;
+            font-weight:800;
+        }
+        .lista-acciones { display:flex; gap:6px; flex-wrap:wrap; margin-top:9px; }
+        .lista-accion-btn {
+            border:1px solid var(--border-color);
+            background:#f8fafc;
+            color:var(--text-main);
+            padding:6px 9px;
+            border-radius:7px;
+            cursor:pointer;
+            font-size:10px;
+            font-weight:700;
+        }
+        .lista-accion-btn:hover { background:#e2e8f0; }
+        .lista-accion-btn.eliminar { color:#b91c1c; background:#fef2f2; border-color:#fecaca; }
+        .lista-edicion-box {
+            display:none;
+            margin-top:12px;
+            padding:12px;
+            border-radius:10px;
+            background:#ecfeff;
+            border:1px solid #67e8f9;
+        }
+        .lista-edicion-box.activa { display:block; }
+        .lista-edicion-titulo { font-weight:800; color:#0e7490; font-size:13px; margin-bottom:8px; }
+        .lista-edicion-acciones { display:flex; gap:7px; flex-wrap:wrap; }
+        .lista-edicion-acciones button {
+            border:none; border-radius:8px; padding:8px 11px; cursor:pointer; font-size:11px; font-weight:800;
+        }
+        .btn-actualizar-lista { background:#059669; color:#fff; }
+        .btn-cerrar-lista { background:#e2e8f0; color:#334155; }
+        .lista-valor-edicion { margin-top:10px; font-size:11px; color:#334155; }
+        .lista-valor-edicion-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+        .lista-valor-edicion-grid span { background:#fff; border:1px solid #bae6fd; border-radius:7px; padding:5px 8px; font-weight:800; color:#0369a1; }
+        .lista-inline-editor {
+            margin-top:10px;
+            padding:10px;
+            background:#f8fafc;
+            border:1px solid #dbeafe;
+            border-radius:9px;
+        }
+        .lista-inline-editor-title {
+            font-size:10px;
+            font-weight:900;
+            color:#0f766e;
+            margin-bottom:7px;
+        }
+        .lista-producto-preview-edit {
+            display:grid;
+            grid-template-columns:minmax(0,1fr) auto auto;
+            align-items:center;
+            gap:7px;
+            padding:8px 0;
+            border-bottom:1px solid #e2e8f0;
+        }
+        .lista-producto-preview-edit:last-child { border-bottom:none; }
+        .lista-producto-edit-info { min-width:0; }
+        .lista-producto-edit-select {
+            max-width:155px;
+            padding:5px 6px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            background:#fff;
+            font-size:9px;
+            color:#334155;
+        }
+        .lista-inline-search {
+            width:100%;
+            box-sizing:border-box;
+            padding:8px 10px;
+            border:1px solid #bae6fd;
+            border-radius:8px;
+            outline:none;
+            font-size:11px;
+            background:#fff;
+        }
+        .lista-inline-search:focus {
+            border-color:#0284c7;
+            box-shadow:0 0 0 2px rgba(2,132,199,.10);
+        }
+        .lista-search-results {
+            margin-top:7px;
+            max-height:190px;
+            overflow-y:auto;
+            border:1px solid #e2e8f0;
+            border-radius:8px;
+            background:#fff;
+        }
+        .lista-search-result {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:8px;
+            padding:7px 8px;
+            border-bottom:1px solid #f1f5f9;
+            font-size:10px;
+        }
+        .lista-search-result:last-child { border-bottom:none; }
+        .lista-search-result-info {
+            min-width:0;
+            flex:1;
+        }
+        .lista-search-result-name {
+            display:block;
+            font-weight:800;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .lista-search-result-meta {
+            display:block;
+            margin-top:2px;
+            color:#64748b;
+            font-size:9px;
+        }
+        .lista-add-product-btn {
+            border:1px solid #99f6e4;
+            background:#ecfdf5;
+            color:#047857;
+            border-radius:7px;
+            padding:5px 8px;
+            cursor:pointer;
+            font-size:9px;
+            font-weight:900;
+            white-space:nowrap;
+        }
+        .lista-add-product-btn:hover { background:#d1fae5; }
+        .lista-footer-actions {
+            display:flex;
+            gap:7px;
+            flex-wrap:wrap;
+            margin-top:10px;
+        }
+        .lista-carrito-btn {
+            flex:1;
+            min-width:145px;
+            border:none;
+            background:linear-gradient(135deg,#0f766e,#14b8a6);
+            color:#fff;
+            border-radius:8px;
+            padding:8px 10px;
+            cursor:pointer;
+            font-size:10px;
+            font-weight:900;
+        }
+        .lista-carrito-btn:hover { transform:translateY(-1px); }
+        .lista-guardar-auto {
+            font-size:9px;
+            color:#64748b;
+            margin-top:6px;
+        }
+        @media (max-width:600px) {
+            .listas-guardadas-header { align-items:stretch; }
+            .guardar-lista-btn { width:100%; }
+        }
+
     </style>
 </head>
 <body>
@@ -949,6 +1260,30 @@
             </div>
 
         </div>
+    </div>
+
+
+    <!-- ===== MIS LISTAS PERSONALIZADAS ===== -->
+    <div class="card listas-guardadas-card" id="seccion-listas-personalizadas">
+        <div class="card-header listas-guardadas-header">
+            <div>
+                <h3>💾 Mis Listas Personalizadas</h3>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Guarda una lista completa para modificarla directamente, minimizarla y consultar su valor.</div>
+            </div>
+            <button type="button" class="guardar-lista-btn" onclick="ahorraGuardarLista()">💾 Guardar lista actual</button>
+        </div>
+
+        <div id="lista-form-guardar" style="display:none;margin-bottom:12px;background:#f8fafc;border:1px solid var(--border-color);padding:12px;border-radius:10px;">
+            <label for="nombre-nueva-lista" style="display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#334155;">Nombre de la lista</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <input id="nombre-nueva-lista" type="text" maxlength="60" placeholder="Ej. Mercado quincenal" style="flex:1;min-width:200px;padding:9px 11px;border:1px solid var(--border-color);border-radius:8px;outline:none;">
+                <button type="button" class="guardar-lista-btn" onclick="ahorraConfirmarGuardarLista()">Guardar</button>
+                <button type="button" class="sel-btn" onclick="ahorraCancelarGuardarLista()">Cancelar</button>
+            </div>
+        </div>
+
+        <div id="contenedor-listas-guardadas"></div>
+
     </div>
 
     <button class="calc-btn" onclick="calcularMercadoMasivo()">🚀 Calcular Comparativa Multitienda (Unificada vs Compra Mixta)</button>
@@ -2019,5 +2354,569 @@
             actualizarTextoComerciosSeleccionados();
         };
     </script>
+
+<script>
+(function () {
+    'use strict';
+
+    const STORAGE_KEY = 'ahorra_listas_personalizadas_v3';
+
+    function obtenerListas() {
+        try {
+            const datos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            return Array.isArray(datos) ? datos : [];
+        } catch (e) {
+            console.error('No se pudieron leer las listas guardadas:', e);
+            return [];
+        }
+    }
+
+    function guardarListas(listas) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(listas));
+    }
+
+    function esc(valor) {
+        return String(valor ?? '')
+            .replace(/&/g,'&amp;')
+            .replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;')
+            .replace(/"/g,'&quot;')
+            .replace(/'/g,'&#039;');
+    }
+
+    function pesos(valor) {
+        return '$' + Math.round(Number(valor) || 0).toLocaleString('es-CO');
+    }
+
+    function obtenerProductoGuardado(item) {
+        return baseDatosProductos.find(prod => prod.id === item.id);
+    }
+
+    function calcularValores(estado) {
+        const totales = {};
+        (estado.comercios || listadoTiendasActivas).forEach(t => totales[t] = 0);
+
+        (estado.productos || []).forEach(item => {
+            const p = baseDatosProductos.find(prod => prod.id === item.id);
+            if (!p) return;
+
+            const pres = (p.presentaciones && p.presentaciones[item.presentacionActual]) || {};
+            const custom = item.preciosUnitariosCustom || {};
+            const qty = Number(item.qty) || 1;
+
+            (estado.comercios || listadoTiendasActivas).forEach(t => {
+                const unitario = custom[t] !== undefined
+                    ? Number(custom[t])
+                    : Number(pres[t] || 0);
+                totales[t] += unitario * qty;
+            });
+        });
+
+        return totales;
+    }
+
+    function renderizarBuscadorProductosLista(listaId) {
+        const inputId = 'buscar-lista-' + encodeURIComponent(listaId).replace(/%/g, '_');
+        const resultadosId = 'resultados-lista-' + encodeURIComponent(listaId).replace(/%/g, '_');
+
+        return `
+            <div class="lista-inline-editor">
+                <div class="lista-inline-editor-title">🔎 BUSCAR PRODUCTOS EN EL CATÁLOGO PARA AÑADIRLOS A ESTA LISTA</div>
+                <input
+                    id="${esc(inputId)}"
+                    class="lista-inline-search"
+                    type="search"
+                    placeholder="Ej. arroz, leche, aceite, pollo..."
+                    autocomplete="off"
+                    oninput="ahorraBuscarProductoParaLista('${encodeURIComponent(listaId)}', this.value)"
+                    onclick="event.stopPropagation()"
+                >
+                <div id="${esc(resultadosId)}" class="lista-search-results" style="display:none;"></div>
+            </div>
+        `;
+    }
+
+    window.ahorraBuscarProductoParaLista = function(encodedId, termino) {
+        const id = decodeURIComponent(encodedId);
+        const contId = 'resultados-lista-' + encodeURIComponent(id).replace(/%/g, '_');
+        const cont = document.getElementById(contId);
+        if (!cont) return;
+
+        const q = String(termino || '').trim().toLowerCase();
+
+        if (q.length < 2) {
+            cont.style.display = 'none';
+            cont.innerHTML = '';
+            return;
+        }
+
+        const encontrados = baseDatosProductos
+            .filter(p => {
+                const texto = [
+                    p.nombre,
+                    p.searchKeyword,
+                    p.cat
+                ].filter(Boolean).join(' ').toLowerCase();
+
+                return texto.includes(q);
+            })
+            .slice(0, 12);
+
+        if (!encontrados.length) {
+            cont.style.display = 'block';
+            cont.innerHTML = '<div style="padding:10px;color:#64748b;font-size:10px;text-align:center;">No encontramos productos con esa búsqueda.</div>';
+            return;
+        }
+
+        cont.style.display = 'block';
+        cont.innerHTML = encontrados.map(p => {
+            const presentacion = p.presentacionActual || Object.keys(p.presentaciones || {})[0] || 'Presentación';
+            const safeName = esc(p.icon + ' ' + p.nombre);
+            const safePresentation = esc(presentacion);
+
+            return `
+                <div class="lista-search-result" onclick="event.stopPropagation()">
+                    <div class="lista-search-result-info">
+                        <span class="lista-search-result-name">${safeName}</span>
+                        <span class="lista-search-result-meta">${safePresentation} · ${esc(p.cat || '')}</span>
+                    </div>
+                    <button
+                        type="button"
+                        class="lista-add-product-btn"
+                        onclick="event.stopPropagation(); ahorraAgregarProductoALista('${encodeURIComponent(id)}','${encodeURIComponent(p.id)}')"
+                    >➕ Añadir</button>
+                </div>
+            `;
+        }).join('');
+    };
+
+    window.ahorraAgregarProductoALista = function(encodedId, encodedProductId) {
+        const id = decodeURIComponent(encodedId);
+        const productId = decodeURIComponent(encodedProductId);
+
+        const listas = obtenerListas();
+        const lista = listas.find(l => l.id === id);
+        const producto = baseDatosProductos.find(p => p.id === productId);
+
+        if (!lista || !producto) return;
+
+        if (!lista.estado) lista.estado = {};
+        if (!Array.isArray(lista.estado.productos)) lista.estado.productos = [];
+
+        const existente = lista.estado.productos.find(item => item.id === productId);
+
+        if (existente) {
+            existente.qty = (Number(existente.qty) || 1) + 1;
+        } else {
+            existente = {
+                id: producto.id,
+                qty: 1,
+                presentacionActual: producto.presentacionActual || Object.keys(producto.presentaciones || {})[0] || '',
+                preciosUnitariosCustom: {}
+            };
+            lista.estado.productos.push(existente);
+        }
+
+        lista.fecha = new Date().toISOString();
+        guardarListas(listas);
+        renderizarListas();
+
+        setTimeout(() => {
+            const inputId = 'buscar-lista-' + encodeURIComponent(id).replace(/%/g, '_');
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.focus();
+                window.ahorraBuscarProductoParaLista(encodedId, input.value);
+            }
+        }, 0);
+    };
+
+    window.ahorraCambiarCantidadLista = function(encodedId, indice, delta) {
+        const id = decodeURIComponent(encodedId);
+        const listas = obtenerListas();
+        const lista = listas.find(l => l.id === id);
+
+        if (!lista || !lista.estado || !Array.isArray(lista.estado.productos)) return;
+
+        const item = lista.estado.productos[indice];
+        if (!item) return;
+
+        const cantidadActual = Number(item.qty) || 1;
+        item.qty = Math.max(1, cantidadActual + Number(delta || 0));
+        lista.fecha = new Date().toISOString();
+
+        guardarListas(listas);
+        renderizarListas();
+    };
+
+    window.ahorraCambiarPresentacionLista = function(encodedId, indice, presentacion) {
+        const id = decodeURIComponent(encodedId);
+        const listas = obtenerListas();
+        const lista = listas.find(l => l.id === id);
+
+        if (!lista || !lista.estado || !Array.isArray(lista.estado.productos)) return;
+
+        const item = lista.estado.productos[indice];
+        const producto = item ? obtenerProductoGuardado(item) : null;
+
+        if (!item || !producto || !producto.presentaciones[presentacion]) return;
+
+        item.presentacionActual = presentacion;
+        item.preciosUnitariosCustom = Object.assign({}, item.preciosUnitariosCustom || {});
+        lista.fecha = new Date().toISOString();
+
+        guardarListas(listas);
+        renderizarListas();
+    };
+
+    window.ahorraEliminarProductoLista = function(encodedId, indice) {
+        const id = decodeURIComponent(encodedId);
+        const listas = obtenerListas();
+        const lista = listas.find(l => l.id === id);
+
+        if (!lista || !lista.estado || !Array.isArray(lista.estado.productos)) return;
+
+        const item = lista.estado.productos[indice];
+        if (!item) return;
+
+        const p = obtenerProductoGuardado(item);
+        const nombre = p ? p.nombre : ('Producto ' + item.id);
+
+        if (!confirm(`¿Eliminar “${nombre}” de la lista “${lista.nombre}”?`)) return;
+
+        lista.estado.productos.splice(indice, 1);
+        lista.fecha = new Date().toISOString();
+
+        guardarListas(listas);
+        renderizarListas();
+    };
+
+    const listasMinimizadas = new Set();
+
+    window.ahorraAlternarMinimizarLista = function(encodedId) {
+        const id = decodeURIComponent(encodedId);
+
+        if (listasMinimizadas.has(id)) {
+            listasMinimizadas.delete(id);
+        } else {
+            listasMinimizadas.add(id);
+        }
+
+        renderizarListas();
+    };
+
+    function renderizarProductosInlineLista(items, listaId) {
+        const listaItems = Array.isArray(items) ? items : [];
+
+        if (!listaItems.length) {
+            return `
+                <div class="lista-productos-preview">
+                    <div class="lista-productos-preview-titulo">🛒 Productos de esta lista</div>
+                    <div style="font-size:10px;color:#64748b;">No hay productos en esta lista. Usa el buscador de abajo para añadir productos.</div>
+                </div>
+            `;
+        }
+
+        let html = `
+            <div class="lista-productos-preview">
+                <div class="lista-productos-preview-titulo">🛒 Productos de esta lista (${listaItems.length})</div>
+        `;
+
+        listaItems.forEach((item, indice) => {
+            const p = obtenerProductoGuardado(item);
+            const nombre = p ? p.nombre : ('Producto ' + item.id);
+            const presentacionActual = item.presentacionActual || (p && p.presentacionActual) || '';
+            const qty = Number(item.qty) || 1;
+
+            const opciones = p && p.presentaciones
+                ? Object.keys(p.presentaciones).map(pres => `
+                    <option value="${esc(pres)}" ${pres === presentacionActual ? 'selected' : ''}>${esc(pres)}</option>
+                `).join('')
+                : `<option value="${esc(presentacionActual)}">${esc(presentacionActual)}</option>`;
+
+            html += `
+                <div class="lista-producto-preview-edit" onclick="event.stopPropagation()">
+                    <div class="lista-producto-edit-info">
+                        <span class="lista-producto-preview-nombre">${esc(p ? p.icon + ' ' + nombre : nombre)}</span>
+                        <select
+                            class="lista-producto-edit-select"
+                            title="Cambiar presentación"
+                            onchange="event.stopPropagation(); ahorraCambiarPresentacionLista('${encodeURIComponent(listaId)}', ${indice}, this.value)"
+                        >
+                            ${opciones}
+                        </select>
+                    </div>
+
+                    <div class="lista-producto-preview-controles">
+                        <button type="button" class="lista-cantidad-btn" title="Restar" onclick="event.stopPropagation(); ahorraCambiarCantidadLista('${encodeURIComponent(listaId)}', ${indice}, -1)">−</button>
+                        <span class="lista-cantidad-num">x${qty}</span>
+                        <button type="button" class="lista-cantidad-btn" title="Sumar" onclick="event.stopPropagation(); ahorraCambiarCantidadLista('${encodeURIComponent(listaId)}', ${indice}, 1)">+</button>
+                        <button type="button" class="lista-eliminar-producto-btn" title="Eliminar producto" onclick="event.stopPropagation(); ahorraEliminarProductoLista('${encodeURIComponent(listaId)}', ${indice})">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        return html;
+    }
+
+    function renderizarListas() {
+        const cont = document.getElementById('contenedor-listas-guardadas');
+        if (!cont) return;
+
+        const listas = obtenerListas();
+
+        if (!listas.length) {
+            cont.innerHTML = `
+                <div class="listas-vacias">
+                    📂 Todavía no tienes listas guardadas.<br>
+                    <span style="font-size:11px;">Selecciona productos y pulsa <b>💾 Guardar lista actual</b>.</span>
+                </div>
+            `;
+            return;
+        }
+
+        cont.innerHTML = listas.map(lista => {
+            const estado = lista.estado || {};
+            const valores = calcularValores(estado);
+            const comercios = Array.isArray(estado.comercios) ? estado.comercios : listadoTiendasActivas;
+            const chips = comercios
+                .map(t => `<span class="lista-valor-chip">${esc(obtenerNombreTienda(t))}: ${pesos(valores[t])}</span>`)
+                .join('');
+
+            const productos = Array.isArray(estado.productos) ? estado.productos.length : 0;
+            const fecha = lista.fecha ? new Date(lista.fecha).toLocaleString('es-CO') : '';
+            const safeId = encodeURIComponent(lista.id);
+            const minimizada = listasMinimizadas.has(lista.id);
+
+            return `
+                <div class="lista-guardada${minimizada ? ' minimizada' : ''}" data-lista-id="${esc(safeId)}">
+                    <div class="lista-guardada-top">
+                        <div style="min-width:0;">
+                            <div class="lista-guardada-nombre">📋 ${esc(lista.nombre)}</div>
+                            <div class="lista-guardada-meta">
+                                ${productos} productos · Última modificación: ${esc(fecha)}
+                            </div>
+                        </div>
+
+                        <div class="lista-guardada-top-acciones">
+                            <button
+                                type="button"
+                                class="lista-minimizar-btn"
+                                onclick="event.stopPropagation(); ahorraAlternarMinimizarLista('${safeId}')"
+                            >${minimizada ? '＋ Maximizar' : '− Minimizar'}</button>
+                            <button
+                                type="button"
+                                class="lista-accion-btn eliminar"
+                                onclick="event.stopPropagation(); ahorraEliminarLista('${safeId}')"
+                            >🗑️ Eliminar</button>
+                        </div>
+                    </div>
+
+                    <div class="lista-guardada-contenido">
+                        ${renderizarProductosInlineLista(estado.productos || [], lista.id)}
+
+                        <div class="lista-valores">
+                            ${chips || '<span class="lista-valor-chip">Sin comercios seleccionados</span>'}
+                        </div>
+
+                        ${renderizarBuscadorProductosLista(lista.id)}
+
+                        <div class="lista-guardar-auto">
+                            💾 Los cambios de cantidad, presentación, eliminación y nuevos productos se guardan automáticamente.
+                        </div>
+
+                        <div class="lista-footer-actions">
+                            <button
+                                type="button"
+                                class="lista-carrito-btn"
+                                onclick="event.stopPropagation(); ahorraCargarLista('${safeId}')"
+                            >🛒 Añadir al carrito</button>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function mostrarFormularioGuardar() {
+        const seleccionados = baseDatosProductos.filter(p => p.seleccionado);
+
+        if (!seleccionados.length) {
+            alert('Primero selecciona al menos un producto para guardar la lista.');
+            cambiarPestana('carrito');
+            return;
+        }
+
+        const form = document.getElementById('lista-form-guardar');
+        const input = document.getElementById('nombre-nueva-lista');
+
+        form.style.display = 'block';
+        input.value = '';
+        input.focus();
+    }
+
+    window.ahorraGuardarLista = mostrarFormularioGuardar;
+
+    window.ahorraCancelarGuardarLista = function() {
+        const form = document.getElementById('lista-form-guardar');
+        if (form) form.style.display = 'none';
+    };
+
+    window.ahorraConfirmarGuardarLista = function() {
+        const input = document.getElementById('nombre-nueva-lista');
+        const nombre = (input.value || '').trim();
+
+        if (!nombre) {
+            alert('Escribe un nombre para la lista.');
+            input.focus();
+            return;
+        }
+
+        const productosSeleccionados = baseDatosProductos.filter(p => p.seleccionado);
+
+        if (!productosSeleccionados.length) {
+            alert('No hay productos seleccionados para guardar.');
+            return;
+        }
+
+        const estado = {
+            productos: productosSeleccionados.map(p => ({
+                id: p.id,
+                qty: p.qty || 1,
+                presentacionActual: p.presentacionActual,
+                preciosUnitariosCustom: Object.assign({}, p.preciosUnitariosCustom || {})
+            })),
+            comercios: typeof obtenerComerciosSeleccionadosArray === 'function'
+                ? obtenerComerciosSeleccionadosArray()
+                : listadoTiendasActivas
+        };
+
+        const listas = obtenerListas();
+
+        listas.unshift({
+            id: 'lista_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            nombre,
+            fecha: new Date().toISOString(),
+            estado
+        });
+
+        guardarListas(listas);
+        window.ahorraCancelarGuardarLista();
+        renderizarListas();
+
+        alert('Lista guardada correctamente. Ahora puedes modificarla directamente desde “Mis Listas Personalizadas”.');
+    };
+
+    /*
+     * "Añadir al carrito":
+     * carga la lista guardada en el carrito principal sin abrir ningún editor separado.
+     */
+    window.ahorraCargarLista = function(encodedId) {
+        const id = decodeURIComponent(encodedId);
+        const lista = obtenerListas().find(l => l.id === id);
+
+        if (!lista) {
+            alert('No se encontró esa lista guardada.');
+            renderizarListas();
+            return;
+        }
+
+        const estado = lista.estado || {};
+        const mapa = new Map((estado.productos || []).map(x => [x.id, x]));
+
+        baseDatosProductos.forEach(p => {
+            const guardado = mapa.get(p.id);
+
+            p.seleccionado = !!guardado;
+
+            if (guardado) {
+                p.qty = Number(guardado.qty) || 1;
+
+                if (guardado.presentacionActual && p.presentaciones[guardado.presentacionActual]) {
+                    p.presentacionActual = guardado.presentacionActual;
+                }
+
+                p.preciosUnitariosCustom = Object.assign(
+                    {},
+                    guardado.preciosUnitariosCustom || {}
+                );
+            }
+        });
+
+        const comercios = Array.isArray(estado.comercios)
+            ? estado.comercios
+            : listadoTiendasActivas;
+
+        document.querySelectorAll('.chk-comercio').forEach(chk => {
+            chk.checked = comercios.includes(chk.value);
+        });
+
+        const chkTodos = document.getElementById('chk-todos-comercios');
+
+        if (chkTodos) {
+            chkTodos.checked =
+                comercios.length === document.querySelectorAll('.chk-comercio').length;
+        }
+
+        actualizarTextoComerciosSeleccionados();
+        cambiarPestana('carrito');
+        renderizarCarrito();
+        actualizarResumenPresupuestoVivo();
+
+        const catalogoCard = document.getElementById('cuerpo-productos');
+        if (catalogoCard) {
+            catalogoCard.scrollIntoView({ behavior:'smooth', block:'start' });
+        }
+    };
+
+    window.ahorraEliminarLista = function(encodedId) {
+        const id = decodeURIComponent(encodedId);
+        const lista = obtenerListas().find(l => l.id === id);
+
+        if (!lista) return;
+
+        if (!confirm(`¿Eliminar la lista “${lista.nombre}”?`)) return;
+
+        guardarListas(obtenerListas().filter(l => l.id !== id));
+        listasMinimizadas.delete(id);
+        renderizarListas();
+    };
+
+    // Las listas ya no usan un panel de edición separado.
+    // Se conservan estas funciones como compatibilidad para cualquier referencia antigua.
+    window.ahorraActualizarLista = function() {
+        renderizarListas();
+    };
+
+    window.ahorraCerrarEdicionLista = function() {
+        // No hace nada porque la edición ahora es directamente dentro de cada lista.
+    };
+
+    window.addEventListener('load', function() {
+        renderizarListas();
+    });
+})();
+</script>
+
+
+    <footer class="ahorra-app-footer" aria-label="Autoría de la aplicación">
+        by David Ocampo 2026
+    </footer>
+    <style>
+        .ahorra-app-footer {
+            text-align: center;
+            padding: 28px 16px 36px;
+            margin-top: 32px;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+    </style>
+npm i @vercel/analyticsimport { Analytics } from "@vercel/analytics/next"
 </body>
 </html>
