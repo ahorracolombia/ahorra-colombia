@@ -1,0 +1,17 @@
+{
+  "name": "ahorra-colombia",
+  "version": "1.0.0",
+  "description": "Ahorra Colombia - Comparador Masivo Multitienda",
+  "private": true,
+  "scripts": {
+    "dev": "npx http-server -p 3000",
+    "build": "echo 'Static HTML project - no build needed'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
