@@ -1444,6 +1444,9 @@
                         <button type="button" class="sel-btn" id="btn-vaciar-carrito" onclick="vaciarCarritoSeguro()" style="background: #fef2f2; color: #dc2626; border-color: #fecaca;">
                             🗑️ Vaciar Carrito
                         </button>
+                        <button type="button" class="sel-btn" id="btn-ir-comparativa-carrito" onclick="irAComparativaDesdeCarrito()" style="background: #ecfeff; color: #0f766e; border-color: #99f6e4;">
+                            📊 Ver sumatoria y comparativa
+                        </button>
                     </div>
                 </div>
 
@@ -1926,10 +1929,9 @@
             actualizarContadorCarrito();
             actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
 
-            // La acción explícita de añadir lleva directamente a la comparativa,
-            // aunque la sección de resultados estuviera minimizada.
-            calcularMercadoMasivo(false);
-            abrirComparativaYBajar();
+            // Añadir al carrito NO abre ni desplaza la página a la comparativa.
+            // La comparativa queda disponible mediante el botón del carrito.
+            if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
         }
 
         function anadirMarcadosAlCarrito() {
@@ -1950,8 +1952,20 @@
             actualizarContadorCarrito();
             actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
 
-            calcularMercadoMasivo(false);
-            abrirComparativaYBajar();
+            // Añadir varios productos tampoco lleva automáticamente a la comparativa.
+            if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+        }
+
+        function irAComparativaDesdeCarrito() {
+            const productosEnCarrito = baseDatosProductos.filter(productoEstaEnCarrito);
+            if (!productosEnCarrito.length) {
+                alert('Añade al menos un producto al carrito para ver la sumatoria y comparativa.');
+                return;
+            }
+
+            // Calcula primero la comparativa con los datos actuales y luego baja
+            // hasta el resultado, pero solo cuando el usuario lo solicita.
+            calcularMercadoMasivo(true);
         }
 
         function vaciarCarrito() {
