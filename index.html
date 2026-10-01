@@ -1027,7 +1027,159 @@
             .guardar-lista-btn { width:100%; }
         }
 
-    </style>
+
+        /* Ventana independiente del carrito: conserva precios, productos y comparativas. */
+        #ventana-carrito-independiente {
+            margin-top: 14px;
+        }
+        #ventana-carrito-independiente .card-body {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #ventana-carrito-independiente #vista-carrito {
+            display: block !important;
+        }
+    
+
+/* ===== CARRITO FLOTANTE / MINI VENTANA ===== */
+#ventana-carrito-independiente{
+ position:fixed!important; left:50%; top:110px; transform:translateX(-50%);
+ width:min(620px,calc(100vw - 28px)); max-width:620px; margin:0!important;
+ z-index:99990; display:none; padding:0!important;
+ border:1px solid rgba(15,118,110,.28); border-radius:16px;
+ box-shadow:0 24px 60px rgba(15,23,42,.22);
+ overflow:hidden;
+}
+#ventana-carrito-independiente.carrito-flotante-visible{display:block!important;}
+#ventana-carrito-independiente .card-header{
+ margin:0; padding:10px 12px; background:linear-gradient(135deg,#0f766e,#14b8a6);
+ border-bottom:0; cursor:move; user-select:none; color:#fff;
+}
+#ventana-carrito-independiente .card-header h3{color:#fff;display:flex;align-items:center;gap:7px;}
+#ventana-carrito-independiente .cart-badge{background:#fff;color:#0f766e;}
+#ventana-carrito-independiente .toggle-btn{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.35);}
+#ventana-carrito-independiente .toggle-btn:hover{background:rgba(255,255,255,.28);color:#fff;}
+#ventana-carrito-independiente .card-body{max-height:min(72vh,680px);overflow:auto;background:#fff;}
+#ventana-carrito-independiente #vista-carrito{display:block!important;}
+#boton-carrito-flotante{
+ position:fixed; right:22px; bottom:22px; z-index:99991; width:78px; height:78px;
+ border:0; border-radius:50%; cursor:pointer; color:#fff;
+ background:linear-gradient(135deg,#0f766e,#14b8a6);
+ box-shadow:0 12px 28px rgba(15,118,110,.35); font-size:29px;
+ display:flex;align-items:center;justify-content:center;
+ transition:transform .18s ease,box-shadow .18s ease;
+}
+#boton-carrito-flotante:hover{transform:scale(1.07);box-shadow:0 16px 34px rgba(15,118,110,.42);}
+#boton-carrito-flotante .cart-floating-badge{
+ position:absolute; right:-2px; top:-4px; min-width:20px; height:20px; padding:0 5px;
+ border-radius:999px; background:#ef4444; color:#fff; border:2px solid #fff;
+ font:800 10px/16px system-ui,sans-serif; display:flex;align-items:center;justify-content:center;
+}
+#boton-carrito-flotante .cart-floating-total{
+ position:absolute; left:50%; bottom:5px; transform:translateX(-50%);
+ min-width:54px; padding:2px 7px; border-radius:999px;
+ background:#fff; color:#065f46; border:2px solid rgba(255,255,255,.95);
+ font:900 10px/15px system-ui,sans-serif; white-space:nowrap;
+ box-shadow:0 3px 9px rgba(0,0,0,.16);
+}
+.catalog-search-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+.catalog-search-row .search-box{flex:1;min-width:0;}
+.catalog-search-clear{border:1px solid var(--border-color);background:#fff;color:#475569;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer;white-space:nowrap;}
+.catalog-search-clear:hover{background:#f8fafc;color:var(--primary);}
+@media(max-width:600px){
+ .catalog-search-row{align-items:stretch;}
+ .catalog-search-clear{padding:9px 10px;}
+}
+.carrito-arrastre-activo{cursor:grabbing!important;}
+@media(max-width:600px){
+ #ventana-carrito-independiente{top:70px;width:calc(100vw - 18px);}
+ #boton-carrito-flotante{right:14px;bottom:14px;width:56px;height:56px;}
+}
+
+
+/* ===== VALOR CENTRAL: MEJOR OPCIÓN DE COMPRA ===== */
+.mejor-opcion-carrito{
+  margin:12px auto 14px; max-width:430px; text-align:center; padding:14px 16px;
+  border:2px solid #99f6e4; border-radius:14px;
+  background:linear-gradient(135deg,#ecfdf5,#f0fdfa);
+  box-shadow:0 8px 22px rgba(15,118,110,.10);
+}
+.mejor-opcion-etiqueta{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.4px;color:#0f766e}
+.mejor-opcion-valor{font-size:28px;line-height:1.15;font-weight:950;color:#065f46;margin:4px 0}
+.mejor-opcion-tienda{font-size:11px;font-weight:800;color:#475569}
+
+        .live-catalog-toolbar {
+            margin: 10px 0 14px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(14,165,233,.07), rgba(16,185,129,.06));
+        }
+        .live-catalog-toolbar > div:first-child {
+            display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+        }
+        .live-status {
+            font-size:11px; color:var(--text-muted);
+            padding:4px 8px; border-radius:999px; background:rgba(100,116,139,.10);
+        }
+        .live-status.live-ok { color:#047857; background:rgba(16,185,129,.12); }
+        .live-status.live-busy { color:#0369a1; background:rgba(14,165,233,.12); }
+        .live-status.live-error { color:#b91c1c; background:rgba(239,68,68,.10); }
+        .live-catalog-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+        .live-progress { font-size:11px; color:var(--text-muted); margin-top:7px; min-height:16px; }
+        .live-note { font-size:10px; color:var(--text-muted); margin-top:6px; line-height:1.35; }
+        .live-source-badge {
+            display:inline-block; margin-left:5px; padding:2px 6px; border-radius:8px;
+            font-size:9px; background:rgba(14,165,233,.10); color:#0369a1;
+        }
+
+        /* ===== FLUJO DE BÚSQUEDA ANTES DE AÑADIR AL CARRITO ===== */
+        .catalogo-estado-ayuda {
+            margin: 8px 0 12px;
+            padding: 9px 11px;
+            border: 1px solid #bae6fd;
+            background: #f0f9ff;
+            color: #0369a1;
+            border-radius: 9px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        .catalogo-add-selected {
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+        .catalogo-add-selected:hover { transform: translateY(-1px); }
+        .catalogo-add-btn {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #99f6e4;
+            padding: 6px 9px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            margin-top: 5px;
+        }
+        .catalogo-add-btn:hover { background: #d1fae5; }
+        .catalogo-item-state {
+            font-size: 9px;
+            font-weight: 800;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        .catalogo-item-state.en-carrito {
+            color: #047857;
+        }
+
+</style>
 </head>
 <body>
 
@@ -1179,32 +1331,57 @@
         </div>
     </div>
 
-    <!-- SECCIÓN DE PRODUCTOS Y CARRITO DE COMPRAS -->
+    <!-- ===== BÚSQUEDA GENERAL / CATÁLOGO ===== -->
     <div class="card">
         <div class="card-header">
-            <h3 id="titulo-catalogo-principal">📦 Catálogo Súper Masivo (Calculando Total...)</h3>
-            <button class="toggle-btn" id="btn-toggle-productos" onclick="toggleSeccion('cuerpo-productos', 'btn-toggle-productos')">Minimizar ➖</button>
+            <h3>🔎 Búsqueda general y catálogo</h3>
+            <button class="toggle-btn" id="btn-toggle-productos"
+                    onclick="toggleSeccion('cuerpo-productos', 'btn-toggle-productos')">
+                Minimizar ➖
+            </button>
         </div>
-        <div class="card-body" id="cuerpo-productos">
-
-            <!-- PESTAÑAS DE NAVEGACIÓN -->
-            <div class="tabs-nav">
-                <button class="tab-btn active" id="tab-btn-catalogo" onclick="cambiarPestana('catalogo')">
-                    📋 Catálogo Completo
-                </button>
-                <button class="tab-btn" id="tab-btn-carrito" onclick="cambiarPestana('carrito')">
-                    🛒 Mi Carrito <span class="cart-badge" id="contador-carrito">0</span>
-                </button>
-            </div>
-
-            <!-- VISTA DE CATÁLOGO COMPLETO -->
+        <div class="card-body" id="cuerpo-productos" style="display:block;">
             <div id="vista-catalogo">
-                <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar producto en el catálogo (ej. panela, chocolate, salsa, vinagre, mostaza, aceite, arroz)..." onkeyup="renderizarProductos()">
+                <div class="catalog-search-row" role="search">
+                    <input type="search" id="buscador" class="search-box" autocomplete="off" placeholder="🔍 Buscar artículo por nombre…" oninput="renderizarProductos()" onsearch="renderizarProductos()" onkeydown="if(event.key==='Escape'){this.value='';renderizarProductos();this.focus();}" aria-label="Buscar producto por nombre">
+                    <button type="button" class="catalog-search-clear" onclick="limpiarBusquedaCatalogo()" aria-label="Limpiar búsqueda">✕ Limpiar</button>
+                </div>
+
+                <div class="live-catalog-toolbar" id="live-catalog-toolbar">
+                    <div>
+                        <b>🌐 Catálogos en vivo</b>
+                        <span id="estado-catalogos-vivos" class="live-status">Catálogo local cargado</span>
+                    </div>
+                    <div class="live-catalog-actions">
+                        <button class="sel-btn" onclick="ahorraBuscarCatalogosEnVivo()">⚡ Actualizar búsqueda con precios en vivo</button>
+                        <button class="sel-btn" onclick="ahorraCargarTodosLosCatalogos()">📚 Cargar todos los productos online</button>
+                    </div>
+                    <div id="progreso-catalogos-vivos" class="live-progress"></div>
+                    <div class="live-note">
+                        Los precios provenientes de una API se muestran con fecha/hora de consulta. Los comercios sin API pública permanecen con su catálogo existente y no se les inventan precios.
+                    </div>
+                </div>
+
                 
+                <div class="catalogo-estado-ayuda">
+                    🔎 <b>Modo búsqueda:</b> aquí puedes marcar, desmarcar, buscar, cambiar presentación, sumar/restar cantidades y modificar precios sin enviarlos al carrito.
+                    <b>El carrito solo cambia cuando pulses “Añadir al carrito”.</b>
+                </div>
+
+                <div id="mejor-opcion-carrito" class="mejor-opcion-carrito" style="display:none;">
+                    <div class="mejor-opcion-etiqueta">💰 Mejor opción de compra</div>
+                    <div id="mejor-opcion-valor" class="mejor-opcion-valor">$0</div>
+                    <div id="mejor-opcion-tienda" class="mejor-opcion-tienda">Calculando…</div>
+                </div>
+
                 <div class="selection-controls">
                     <div>
                         <button class="sel-btn" onclick="seleccionarTodosProductos(true)">✅ Marcar Todos</button>
                         <button class="sel-btn" onclick="seleccionarTodosProductos(false)">❌ Desmarcar Todos</button>
+                        <button type="button" id="btn-anadir-marcados-carrito" class="catalogo-add-selected"
+                                onclick="anadirMarcadosAlCarrito()" disabled>
+                            🛒 Añadir marcados al carrito
+                        </button>
                     </div>
                     <div>
                         <select id="orden-select" class="sort-select" onchange="renderizarProductos()">
@@ -1227,11 +1404,25 @@
                     <button class="cat-btn" onclick="filtrarCategoria('licores', this)">Licores y Vinos</button>
                 </div>
 
+                <div id="contador-productos-catalogo" style="font-size:11px;color:#475569;font-weight:800;margin:10px 0 6px;"></div>
                 <div class="products-grid" id="contenedor-productos"></div>
             </div>
+        </div>
+    </div>
 
-            <!-- VISTA DE MI CARRITO -->
-            <div id="vista-carrito" style="display: none;">
+    <!-- ===== MI CARRITO: VENTANA FLOTANTE ===== -->
+    <button type="button" id="boton-carrito-flotante" aria-label="Abrir carrito" title="Abrir / ocultar carrito" onclick="alternarCarritoFlotante()">
+        🛒<span class="cart-floating-badge" id="contador-carrito-flotante">0</span><span class="cart-floating-total" id="total-carrito-flotante">$0</span>
+    </button>
+    <div class="card" id="ventana-carrito-independiente">
+        <div class="card-header">
+            <h3 id="titulo-carrito-independiente">🛒 Mi Carrito <span class="cart-badge" id="contador-carrito">0</span></h3>
+            <button class="toggle-btn" id="btn-toggle-carrito" type="button" onclick="alternarContenidoCarrito(event)">
+                Minimizar ➖
+            </button>
+        </div>
+        <div class="card-body" id="cuerpo-carrito" style="display:none;">
+            <div id="vista-carrito" style="display:block;">
                 
                 <!-- CAJA DE PRESUPUESTO EN TIEMPO REAL -->
                 <div class="live-budget-box" id="caja-presupuesto-vivo">
@@ -1250,7 +1441,7 @@
                             <option value="az">🔤 Alfabético (A - Z)</option>
                             <option value="za">🔤 Alfabético (Z - A)</option>
                         </select>
-                        <button class="sel-btn" onclick="seleccionarTodosProductos(false)" style="background: #fef2f2; color: #dc2626; border-color: #fecaca;">
+                        <button type="button" class="sel-btn" id="btn-vaciar-carrito" onclick="vaciarCarritoSeguro()" style="background: #fef2f2; color: #dc2626; border-color: #fecaca;">
                             🗑️ Vaciar Carrito
                         </button>
                     </div>
@@ -1258,7 +1449,6 @@
 
                 <div class="products-grid" id="contenedor-carrito"></div>
             </div>
-
         </div>
     </div>
 
@@ -1349,6 +1539,36 @@
     <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
     <script>
+        function inicializarPanelesMinimizados() {
+            // El catálogo debe quedar visible desde el inicio para que los productos
+            // puedan verse, filtrarse y compararse sin tener que abrirlo manualmente.
+            const catalogo = document.getElementById('cuerpo-productos');
+            const btnCatalogo = document.getElementById('btn-toggle-productos');
+            if (catalogo) catalogo.style.display = 'block';
+            if (btnCatalogo) btnCatalogo.textContent = 'Minimizar ➖';
+
+            // Las demás secciones permanecen minimizadas.
+            const paneles = [
+                ['cuerpo-carrito', 'btn-toggle-carrito'],
+                ['texto-resultado', 'btn-toggle-resultados'],
+                ['cuerpo-tiendas', 'btn-toggle-tiendas'],
+                ['cuerpo-sugerencias', 'btn-toggle-sugerencias']
+            ];
+
+            paneles.forEach(([id, btnId]) => {
+                const panel = document.getElementById(id);
+                const btn = document.getElementById(btnId);
+                if (panel) panel.style.display = 'none';
+                if (btn) btn.textContent = 'Expandir ➕';
+            });
+
+            // Render inicial: muestra todos los productos locales.
+            if (typeof renderizarProductos === 'function') renderizarProductos();
+            if (typeof renderizarListas === 'function') renderizarListas();
+        }
+
+        document.addEventListener('DOMContentLoaded', inicializarPanelesMinimizados);
+
         // BASE DE DATOS DE 150 PRODUCTOS
         const baseDatosProductos = [
             { id: "p1", cat: "granos", icon: "🌻", searchKeyword: "aceite", nombre: "Aceite de Girasol / Soya", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 500 ml": { d1: 4900, ara: 5100, barrio: 5300, exito: 5700, olimpica: 5900, caribe: 5200, euro: 5400, vaquita: 5300, jumbo: 5800 }, "Botella 1000 ml": { d1: 9400, ara: 9700, barrio: 10100, exito: 10500, olimpica: 10900, caribe: 9900, euro: 10200, vaquita: 10000, jumbo: 10800 } } },
@@ -1633,29 +1853,133 @@
 
         function cambiarPestana(pestana) {
             pestanaActiva = pestana;
-            
-            const btnCat = document.getElementById('tab-btn-catalogo');
-            const btnCar = document.getElementById('tab-btn-carrito');
-            const vistaCat = document.getElementById('vista-catalogo');
-            const vistaCar = document.getElementById('vista-carrito');
 
             if (pestana === 'catalogo') {
-                btnCat.classList.add('active');
-                btnCar.classList.remove('active');
-                vistaCat.style.display = 'block';
-                vistaCar.style.display = 'none';
+                const panel = document.getElementById('cuerpo-productos');
+                const btn = document.getElementById('btn-toggle-productos');
+                if (panel) panel.style.display = 'block';
+                if (btn) btn.textContent = 'Minimizar ➖';
                 renderizarProductos();
             } else {
-                btnCar.classList.add('active');
-                btnCat.classList.remove('active');
-                vistaCat.style.display = 'none';
-                vistaCar.style.display = 'block';
+                const panel = document.getElementById('cuerpo-carrito');
+                const btn = document.getElementById('btn-toggle-carrito');
+                if (panel) panel.style.display = 'block';
+                if (btn) btn.textContent = 'Minimizar ➖';
                 renderizarCarrito();
+                actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
             }
         }
 
+        function productoEstaEnCarrito(p) {
+            return p && p.enCarrito === true;
+        }
+
+        function limpiarSeleccionVisualBusqueda() {
+            // La selección de búsqueda es independiente del carrito.
+            baseDatosProductos.forEach(p => {
+                p.seleccionado = false;
+            });
+        }
+
+        function actualizarEstadoBotonAgregarCatalogo() {
+            const marcados = baseDatosProductos.filter(p => p.seleccionado === true).length;
+            const btn = document.getElementById('btn-anadir-marcados-carrito');
+            if (btn) {
+                btn.textContent = marcados
+                    ? `🛒 Añadir ${marcados} marcado${marcados === 1 ? '' : 's'} al carrito`
+                    : '🛒 Añadir marcados al carrito';
+                btn.disabled = marcados === 0;
+                btn.style.opacity = marcados === 0 ? '0.55' : '1';
+                btn.style.cursor = marcados === 0 ? 'not-allowed' : 'pointer';
+            }
+        }
+
+        function abrirComparativaYBajar() {
+            const cuerpoResultados = document.getElementById('texto-resultado');
+            const btnResultados = document.getElementById('btn-toggle-resultados');
+            const resultado = document.getElementById('resultado');
+
+            if (cuerpoResultados) cuerpoResultados.style.display = 'block';
+            if (btnResultados) btnResultados.textContent = 'Minimizar ➖';
+
+            if (resultado) {
+                resultado.style.display = 'block';
+                setTimeout(() => {
+                    resultado.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+            }
+        }
+
+        function anadirProductoAlCarrito(idProd, desdeSeleccion) {
+            const prod = baseDatosProductos.find(p => p.id === idProd);
+            if (!prod) return;
+
+            sincronizarPreciosCustom(prod);
+            prod.enCarrito = true;
+
+            if (desdeSeleccion) {
+                prod.seleccionado = false;
+            }
+
+            renderizarProductos();
+            renderizarCarrito();
+            actualizarContadorCarrito();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+
+            // La acción explícita de añadir lleva directamente a la comparativa,
+            // aunque la sección de resultados estuviera minimizada.
+            calcularMercadoMasivo(false);
+            abrirComparativaYBajar();
+        }
+
+        function anadirMarcadosAlCarrito() {
+            const marcados = baseDatosProductos.filter(p => p.seleccionado === true);
+            if (!marcados.length) {
+                alert('Marca primero los productos que quieres añadir al carrito.');
+                return;
+            }
+
+            marcados.forEach(p => {
+                sincronizarPreciosCustom(p);
+                p.enCarrito = true;
+                p.seleccionado = false;
+            });
+
+            renderizarProductos();
+            renderizarCarrito();
+            actualizarContadorCarrito();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+
+            calcularMercadoMasivo(false);
+            abrirComparativaYBajar();
+        }
+
+        function vaciarCarrito() {
+            // Vacía ÚNICAMENTE el carrito. La base del catálogo permanece intacta.
+            baseDatosProductos.forEach(p => {
+                p.enCarrito = false;
+                p.seleccionado = false;
+                p.qty = 1;
+            });
+
+            // Limpia también cualquier resultado anterior para no mostrar una
+            // comparativa de productos que ya no están en el carrito.
+            const textoResultado = document.getElementById('texto-resultado');
+            const resultado = document.getElementById('resultado');
+            const btnResultado = document.getElementById('btn-toggle-resultados');
+            if (textoResultado) textoResultado.style.display = 'none';
+            if (btnResultado) btnResultado.textContent = 'Expandir ➕';
+            if (resultado) resultado.style.display = 'none';
+
+            renderizarProductos();
+            renderizarCarrito();
+            actualizarContadorCarrito();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+            actualizarEstadoBotonAgregarCatalogo();
+        }
+
         function actualizarContadorCarrito() {
-            const seleccionados = baseDatosProductos.filter(p => p.seleccionado);
+            const seleccionados = baseDatosProductos.filter(productoEstaEnCarrito);
             let totalUnidades = 0;
             seleccionados.forEach(p => {
                 totalUnidades += (p.qty || 1);
@@ -1670,7 +1994,7 @@
 
         function actualizarResumenPresupuestoVivo() {
             const gridVivo = document.getElementById('grid-presupuesto-vivo');
-            const seleccionados = baseDatosProductos.filter(p => p.seleccionado);
+            const seleccionados = baseDatosProductos.filter(productoEstaEnCarrito);
 
             if (seleccionados.length === 0) {
                 gridVivo.innerHTML = `<div style="font-size:11px; color: var(--text-muted); text-align:center; width:100%;">Selecciona productos en el carrito para ver el total acumulado en tiempo real.</div>`;
@@ -1737,6 +2061,7 @@
 
             baseDatosProductos.forEach(p => {
                 p.seleccionado = false;
+                p.enCarrito = false;
                 p.qty = 1;
             });
 
@@ -1758,8 +2083,9 @@
                 }
 
                 p.seleccionado = incluir;
+                p.enCarrito = incluir;
 
-                if (p.seleccionado) {
+                if (productoEstaEnCarrito(p)) {
                     if (dias <= 3) {
                         p.qty = 1;
                         if (p.searchKeyword === 'huevos') {
@@ -1787,7 +2113,8 @@
             });
 
             cambiarPestana('carrito');
-            calcularMercadoMasivo();
+            calcularMercadoMasivo(false);
+            abrirComparativaYBajar();
         }
 
         function generarMercadoPorPresupuesto() {
@@ -1796,6 +2123,7 @@
 
             baseDatosProductos.forEach(p => {
                 p.seleccionado = false;
+                p.enCarrito = false;
                 p.qty = 1;
             });
 
@@ -1825,6 +2153,7 @@
 
                 if (gastoActual + precioRef <= presupuestoMax) {
                     p.seleccionado = true;
+                            p.enCarrito = true;
                     p.qty = 1;
                     p.preciosUnitariosCustom = {};
                     listadoTiendasActivas.forEach(t => {
@@ -1838,7 +2167,7 @@
             while (gastoActual < (presupuestoMax * 0.90) && iteraciones < 6) {
                 let agregadoEnCiclo = false;
                 baseDatosProductos.forEach(p => {
-                    if (p.seleccionado) {
+                    if (productoEstaEnCarrito(p)) {
                         const presObj = p.presentaciones[p.presentacionActual] || {};
                         let precioRef = presObj.d1 || 5000;
                         if (gastoActual + precioRef <= presupuestoMax) {
@@ -1846,11 +2175,12 @@
                             gastoActual += precioRef;
                             agregadoEnCiclo = true;
                         }
-                    } else if (!p.seleccionado && (p.cat === 'granos' || p.cat === 'frutas' || p.cat === 'lacteos' || p.cat === 'proteinas')) {
+                    } else if (!productoEstaEnCarrito(p) && (p.cat === 'granos' || p.cat === 'frutas' || p.cat === 'lacteos' || p.cat === 'proteinas')) {
                         const presObj = p.presentaciones[p.presentacionActual] || {};
                         let precioRef = presObj.d1 || 5000;
                         if (gastoActual + precioRef <= presupuestoMax) {
                             p.seleccionado = true;
+                            p.enCarrito = true;
                             p.qty = 1;
                             p.preciosUnitariosCustom = {};
                             listadoTiendasActivas.forEach(t => {
@@ -1866,7 +2196,8 @@
             }
 
             cambiarPestana('carrito');
-            calcularMercadoMasivo();
+            calcularMercadoMasivo(false);
+            abrirComparativaYBajar();
         }
 
         function filtrarCategoria(cat, elementoBtn) {
@@ -1877,33 +2208,39 @@
         }
 
         function seleccionarTodosProductos(marcar) {
+            // IMPORTANTE: marcar/desmarcar en búsqueda NO modifica el carrito.
             baseDatosProductos.forEach(p => {
                 p.seleccionado = marcar;
-                if (!marcar) {
-                    p.qty = 1;
-                } else {
+                if (marcar) {
                     sincronizarPreciosCustom(p);
                 }
             });
-            actualizarContadorCarrito();
-            if (pestanaActiva === 'catalogo') renderizarProductos();
-            else renderizarCarrito();
-            actualizarResumenPresupuestoVivo();
+
+            if (pestanaActiva === 'catalogo') {
+                renderizarProductos();
+            }
+            actualizarEstadoBotonAgregarCatalogo();
         }
 
         function toggleSeleccionProducto(idProd, estado) {
             const prod = baseDatosProductos.find(p => p.id === idProd);
-            if (prod) {
-                prod.seleccionado = estado;
-                if (!estado) {
-                    prod.qty = 1;
-                } else {
-                    sincronizarPreciosCustom(prod);
-                }
+            if (!prod) return;
+
+            // En el catálogo el checkbox es una selección temporal.
+            const esCheckboxCarrito = !!document.getElementById(`car-chk-${idProd}`);
+            if (esCheckboxCarrito && pestanaActiva !== 'catalogo') {
+                prod.enCarrito = estado;
+                if (estado) sincronizarPreciosCustom(prod);
+                renderizarCarrito();
+                actualizarContadorCarrito();
+                actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+                if (!estado) calcularMercadoMasivo(false);
+                return;
             }
-            actualizarContadorCarrito();
-            if (pestanaActiva === 'carrito') renderizarCarrito();
-            actualizarResumenPresupuestoVivo();
+
+            prod.seleccionado = estado;
+            if (estado) sincronizarPreciosCustom(prod);
+            actualizarEstadoBotonAgregarCatalogo();
         }
 
         /* HTML PARA EL CATÁLOGO */
@@ -1915,6 +2252,7 @@
 
             const keyword = p.searchKeyword;
             const estaChecked = p.seleccionado ? 'checked' : '';
+            const estaEnCarrito = productoEstaEnCarrito(p);
             const qtyActual = p.qty || 1;
 
             sincronizarPreciosCustom(p);
@@ -1944,6 +2282,13 @@
                             <select class="size-select" id="cat-size-${p.id}" onchange="cambiarPresentacion('${p.id}', this.value)">
                                 ${opcionesPres}
                             </select>
+                            <div class="catalogo-item-state ${estaEnCarrito ? 'en-carrito' : ''}">
+                                ${estaEnCarrito ? '🛒 Ya está en el carrito' : '🔎 En búsqueda / todavía no añadido'}
+                            </div>
+                            <button type="button" class="catalogo-add-btn"
+                                onclick="event.stopPropagation(); anadirProductoAlCarrito('${p.id}', false)">
+                                ${estaEnCarrito ? '➕ Añadir otra vez / conservar' : '🛒 Añadir al carrito'}
+                            </button>
                         </div>
                     </div>
 
@@ -2041,17 +2386,30 @@
             `;
         }
 
+        function normalizarTextoBusqueda(valor) {
+            return String(valor ?? '')
+                .toLocaleLowerCase('es-CO')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '');
+        }
+
         function renderizarProductos() {
             const contenedor = document.getElementById('contenedor-productos');
-            const busqueda = document.getElementById('buscador').value.toLowerCase();
-            const orden = document.getElementById('orden-select').value;
+            if (!contenedor) return;
+            const buscador = document.getElementById('buscador');
+            const ordenSelect = document.getElementById('orden-select');
+            const busqueda = normalizarTextoBusqueda(buscador ? buscador.value : '');
+            const orden = ordenSelect ? ordenSelect.value : 'az';
 
             const totalBD = baseDatosProductos.length;
             document.getElementById('titulo-catalogo-principal').textContent = `📦 Catálogo Súper Masivo (${totalBD} Productos Multitienda Online)`;
 
             let filtrados = baseDatosProductos.filter(p => {
                 const coincideCat = categoriaActual === 'todos' || p.cat === categoriaActual;
-                const coincideBusqueda = p.nombre.toLowerCase().includes(busqueda) || p.searchKeyword.toLowerCase().includes(busqueda);
+                const textoProducto = normalizarTextoBusqueda(p.nombre);
+                const textoClave = normalizarTextoBusqueda(p.searchKeyword);
+                const textoCategoria = normalizarTextoBusqueda(p.cat);
+                const coincideBusqueda = !busqueda || textoProducto.includes(busqueda) || textoClave.includes(busqueda) || textoCategoria.includes(busqueda);
                 return coincideCat && coincideBusqueda;
             });
 
@@ -2061,6 +2419,12 @@
                 return 0;
             });
 
+            const contadorCatalogo = document.getElementById('contador-productos-catalogo');
+            if (contadorCatalogo) {
+                const etiqueta = categoriaActual === 'todos' ? 'todas las categorías' : categoriaActual;
+                contadorCatalogo.textContent = `📦 Mostrando ${filtrados.length} de ${totalBD} productos · ${etiqueta}${busqueda ? ` · búsqueda: “${busqueda}”` : ''}`;
+            }
+
             let html = '';
             if (filtrados.length === 0) {
                 html = '<div style="text-align:center; padding: 20px; color: var(--text-muted);">No se encontraron productos coincidentes.</div>';
@@ -2069,12 +2433,13 @@
             }
             contenedor.innerHTML = html;
             actualizarContadorCarrito();
+            actualizarEstadoBotonAgregarCatalogo();
         }
 
         function renderizarCarrito() {
             const contenedor = document.getElementById('contenedor-carrito');
             const ordenCarrito = document.getElementById('orden-select-carrito').value;
-            let seleccionados = baseDatosProductos.filter(p => p.seleccionado);
+            let seleccionados = baseDatosProductos.filter(productoEstaEnCarrito);
 
             seleccionados.sort((a, b) => {
                 if (ordenCarrito === 'az') return a.nombre.localeCompare(b.nombre);
@@ -2087,7 +2452,7 @@
                     <div class="empty-cart-msg">
                         <div>🛒</div>
                         <b>Tu carrito está vacío</b>
-                        <p style="font-size: 12px; margin-top: 5px;">Selecciona tus productos en el "Catálogo Completo" o usa el asistente inteligente arriba.</p>
+                        <p style="font-size: 12px; margin-top: 5px;">Añade productos desde el catálogo con el botón “Añadir al carrito” o usa el asistente inteligente arriba.</p>
                     </div>
                 `;
             } else {
@@ -2096,7 +2461,7 @@
                 contenedor.innerHTML = html;
             }
             actualizarContadorCarrito();
-            actualizarResumenPresupuestoVivo();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
         }
 
         function cambiarPresentacion(idProd, nuevaPres) {
@@ -2115,7 +2480,7 @@
 
             if (pestanaActiva === 'catalogo') renderizarProductos();
             else renderizarCarrito();
-            actualizarResumenPresupuestoVivo();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
         }
 
         function actualizarCantidad(idProd, val) {
@@ -2137,7 +2502,7 @@
                 });
             }
             actualizarContadorCarrito();
-            actualizarResumenPresupuestoVivo();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
         }
 
         function actualizarPrecioUnitarioManual(idProd, tiendaKey, valorUnitarioStr) {
@@ -2157,7 +2522,7 @@
                 const subLabelCar = document.getElementById(`car-sub-${idProd}-${tiendaKey}`);
                 if (subLabelCar) subLabelCar.textContent = `$${subtotal.toLocaleString()}`;
             }
-            actualizarResumenPresupuestoVivo();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
         }
 
         function obtenerNombreTienda(key) {
@@ -2173,11 +2538,13 @@
             return key.toUpperCase();
         }
 
-        function calcularMercadoMasivo() {
+        function calcularMercadoMasivo(mostrarAlertas = true) {
             let tiendasSeleccionadas = obtenerComerciosSeleccionadosArray();
 
             if (tiendasSeleccionadas.length === 0) {
-                alert("Por favor selecciona al menos un comercio en el menú desplegable para comparar.");
+                if (mostrarAlertas) {
+                    alert("Por favor selecciona al menos un comercio en el menú desplegable para comparar.");
+                }
                 return;
             }
 
@@ -2198,7 +2565,7 @@
             let productosCalculados = [];
 
             baseDatosProductos.forEach(p => {
-                if (p.seleccionado) {
+                if (productoEstaEnCarrito(p)) {
                     const cantidad = p.qty || 1;
                     itemsAnalizados++;
                     totalUnidadesAnalizadas += cantidad;
@@ -2349,7 +2716,7 @@
 
         window.onload = function() {
             renderizarProductos();
-            actualizarResumenPresupuestoVivo();
+            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
             actualizarEstimadoDias();
             actualizarTextoComerciosSeleccionados();
         };
@@ -2591,15 +2958,17 @@
         renderizarListas();
     };
 
-    const listasMinimizadas = new Set();
+    // Las listas guardadas aparecen minimizadas por defecto para evitar una página interminable.
+    // Al pulsar “Maximizar” se conserva abierta durante esta sesión.
+    const listasMaximizadas = new Set();
 
     window.ahorraAlternarMinimizarLista = function(encodedId) {
         const id = decodeURIComponent(encodedId);
 
-        if (listasMinimizadas.has(id)) {
-            listasMinimizadas.delete(id);
+        if (listasMaximizadas.has(id)) {
+            listasMaximizadas.delete(id);
         } else {
-            listasMinimizadas.add(id);
+            listasMaximizadas.add(id);
         }
 
         renderizarListas();
@@ -2688,7 +3057,7 @@
             const productos = Array.isArray(estado.productos) ? estado.productos.length : 0;
             const fecha = lista.fecha ? new Date(lista.fecha).toLocaleString('es-CO') : '';
             const safeId = encodeURIComponent(lista.id);
-            const minimizada = listasMinimizadas.has(lista.id);
+            const minimizada = !listasMaximizadas.has(lista.id);
 
             return `
                 <div class="lista-guardada${minimizada ? ' minimizada' : ''}" data-lista-id="${esc(safeId)}">
@@ -2743,10 +3112,10 @@
     }
 
     function mostrarFormularioGuardar() {
-        const seleccionados = baseDatosProductos.filter(p => p.seleccionado);
+        const seleccionados = baseDatosProductos.filter(productoEstaEnCarrito);
 
         if (!seleccionados.length) {
-            alert('Primero selecciona al menos un producto para guardar la lista.');
+            alert('Primero añade al menos un producto al carrito para guardar la lista.');
             cambiarPestana('carrito');
             return;
         }
@@ -2776,10 +3145,10 @@
             return;
         }
 
-        const productosSeleccionados = baseDatosProductos.filter(p => p.seleccionado);
+        const productosSeleccionados = baseDatosProductos.filter(productoEstaEnCarrito);
 
         if (!productosSeleccionados.length) {
-            alert('No hay productos seleccionados para guardar.');
+            alert('No hay productos en el carrito para guardar.');
             return;
         }
 
@@ -2831,7 +3200,8 @@
         baseDatosProductos.forEach(p => {
             const guardado = mapa.get(p.id);
 
-            p.seleccionado = !!guardado;
+            p.seleccionado = false;
+            p.enCarrito = !!guardado;
 
             if (guardado) {
                 p.qty = Number(guardado.qty) || 1;
@@ -2863,14 +3233,20 @@
         }
 
         actualizarTextoComerciosSeleccionados();
+
+        // La lista se carga en el carrito independiente y conserva todos
+        // los precios, comparativas y funciones del carrito original.
         cambiarPestana('carrito');
         renderizarCarrito();
-        actualizarResumenPresupuestoVivo();
+        actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+        calcularMercadoMasivo();
 
-        const catalogoCard = document.getElementById('cuerpo-productos');
-        if (catalogoCard) {
-            catalogoCard.scrollIntoView({ behavior:'smooth', block:'start' });
-        }
+        const cuerpoResultados = document.getElementById('texto-resultado');
+        const btnResultados = document.getElementById('btn-toggle-resultados');
+        if (cuerpoResultados) cuerpoResultados.style.display = 'block';
+        if (btnResultados) btnResultados.textContent = 'Minimizar ➖';
+
+        abrirComparativaYBajar();
     };
 
     window.ahorraEliminarLista = function(encodedId) {
@@ -2882,7 +3258,7 @@
         if (!confirm(`¿Eliminar la lista “${lista.nombre}”?`)) return;
 
         guardarListas(obtenerListas().filter(l => l.id !== id));
-        listasMinimizadas.delete(id);
+        listasMaximizadas.delete(id);
         renderizarListas();
     };
 
@@ -2900,8 +3276,487 @@
         renderizarListas();
     });
 })();
+
+/* ============================================================
+   CATÁLOGOS ONLINE EN VIVO — V5
+   - Mantiene el catálogo local y el flujo actual.
+   - Consulta APIs públicas de catálogos VTEX cuando están disponibles.
+   - Une productos por EAN cuando el comercio lo entrega.
+   - No inventa precios para comercios sin fuente automática.
+   ============================================================ */
+(function () {
+    const LIVE_CATALOG_CONFIG = {
+        d1:      { nombre: 'D1', dominio: 'https://www.d1.com.co', plataforma: 'vtex' },
+        exito:   { nombre: 'Éxito', dominio: 'https://www.exito.com', plataforma: 'vtex' },
+        olimpica:{ nombre: 'Olímpica', dominio: 'https://www.olimpica.com', plataforma: 'vtex' },
+        jumbo:   { nombre: 'Jumbo Online', dominio: 'https://www.jumbo.com.co', plataforma: 'vtex' },
+        euro:    { nombre: 'Euro Supermercados', dominio: 'https://www.eurosupermercados.com.co', plataforma: 'vtex' },
+        vaquita: { nombre: 'Vaquita Express', dominio: 'https://vaquitaexpress.com.co', plataforma: 'magento' }
+    };
+
+    const VTEX_PATH = '/api/catalog_system/pub/products/search';
+    const LIVE_PAGE_SIZE = 50;
+    const LIVE_MAX_PAGES = 500; // permite catálogos grandes sin fijar un número artificial pequeño
+    let liveCatalogAbort = null;
+
+    function liveStatus(text, kind) {
+        const el = document.getElementById('estado-catalogos-vivos');
+        if (!el) return;
+        el.textContent = text;
+        el.className = 'live-status' + (kind ? ' live-' + kind : '');
+    }
+
+    function liveProgress(text) {
+        const el = document.getElementById('progreso-catalogos-vivos');
+        if (el) el.textContent = text || '';
+    }
+
+    function liveNormalizeText(v) {
+        return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase().replace(/\s+/g, ' ').trim();
+    }
+
+    function liveEsc(v) {
+        return String(v || '').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    }
+
+    function livePriceFromItem(item) {
+        const sellers = Array.isArray(item && item.sellers) ? item.sellers : [];
+        const valid = sellers
+            .map(s => s && s.commertialOffer)
+            .filter(o => o && Number(o.Price) > 0 && (o.AvailableQuantity === undefined || Number(o.AvailableQuantity) > 0));
+        if (!valid.length) return 0;
+        return Number(valid[0].Price);
+    }
+
+    function livePresentation(name) {
+        const text = String(name || '').trim();
+        const m = text.match(/(?:x\s*)?(\d+(?:[.,]\d+)?)\s*(kg|g|gr|ml|l|lt|litro|und|unid|unidades)\b/i);
+        if (!m) return 'Unidad / presentación online';
+        return text.slice(Math.max(0, text.toLowerCase().lastIndexOf(m[0].toLowerCase()) - 18)).trim() || m[0];
+    }
+
+    function liveCategory(product) {
+        const raw = Array.isArray(product && product.categories) ? product.categories.join(' ') : '';
+        const c = liveNormalizeText(raw);
+        if (/aseo|limpieza|hogar/.test(c)) return 'aseo';
+        if (/lacteo|yogur|leche|queso/.test(c)) return 'lacteos';
+        if (/carne|pollo|pescado|marisco|embutido/.test(c)) return 'proteinas';
+        if (/fruta|verdura|hortaliza/.test(c)) return 'frutas';
+        if (/bebida|agua|gaseosa|jugo|cafe/.test(c)) return 'snacks';
+        return 'granos';
+    }
+
+    function liveUpsertVTEX(storeKey, product) {
+        const item = Array.isArray(product.items) ? product.items.find(i => livePriceFromItem(i) > 0) || product.items[0] : null;
+        if (!item) return false;
+
+        const name = product.productName || item.name || 'Producto sin nombre';
+        const ean = String(item.ean || '').replace(/\D/g,'');
+        const sku = String(item.itemId || product.productId || '');
+        const key = ean ? `ean:${ean}` : `${storeKey}:${liveNormalizeText(name)}:${sku}`;
+        const presentation = livePresentation(item.name || name);
+        const price = livePriceFromItem(item);
+        if (!(price > 0)) return false;
+
+        let existing = window.__ahorraLiveByKey && window.__ahorraLiveByKey[key];
+        if (!existing) {
+            existing = baseDatosProductos.find(p => p.liveKey === key);
+        }
+
+        if (!existing) {
+            existing = {
+                id: `live_${storeKey}_${ean || sku || Math.random().toString(36).slice(2,9)}`,
+                liveKey: key,
+                cat: liveCategory(product),
+                icon: '🛒',
+                searchKeyword: liveNormalizeText(name),
+                nombre: name,
+                qty: 1,
+                esencial: false,
+                seleccionado: false,
+                consumoDiarioPersona: 0,
+                presentacionActual: presentation,
+                presentaciones: {}
+            };
+            baseDatosProductos.push(existing);
+            if (!window.__ahorraLiveByKey) window.__ahorraLiveByKey = {};
+            window.__ahorraLiveByKey[key] = existing;
+        }
+
+        existing.nombre = existing.nombre || name;
+        existing.searchKeyword = liveNormalizeText(existing.nombre);
+        existing.presentaciones[presentation] = existing.presentaciones[presentation] || {};
+        existing.presentaciones[presentation][storeKey] = price;
+        existing.presentacionActual = existing.presentacionActual || presentation;
+        existing.preciosUnitariosCustom = existing.preciosUnitariosCustom || {};
+        existing.preciosUnitariosCustom[storeKey] = price;
+        existing._liveUpdatedAt = new Date().toISOString();
+        existing._liveStore = storeKey;
+        existing._liveEAN = ean || existing._liveEAN || '';
+        existing._liveUrl = product.linkText ? `${LIVE_CATALOG_CONFIG[storeKey].dominio}/${String(product.linkText).replace(/^\/+/,'')}/p` : '';
+        return true;
+    }
+
+    async function fetchJson(url, options) {
+        const response = await fetch(url, Object.assign({
+            headers: { 'Accept': 'application/json' },
+            credentials: 'omit',
+            cache: 'no-store'
+        }, options || {}));
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+    }
+
+    async function consultarVTEX(storeKey, termino, from, to) {
+        const cfg = LIVE_CATALOG_CONFIG[storeKey];
+        let url = `${cfg.dominio}${VTEX_PATH}?_from=${from}&_to=${to}`;
+        if (termino) url += `&ft=${encodeURIComponent(termino)}`;
+        return fetchJson(url);
+    }
+
+    async function cargarVTEX(storeKey, termino, completo) {
+        let from = 0, page = 0, total = 0, loaded = 0;
+        while (page < LIVE_MAX_PAGES) {
+            const to = from + LIVE_PAGE_SIZE - 1;
+            const data = await consultarVTEX(storeKey, termino, from, to);
+            const products = Array.isArray(data) ? data : [];
+            if (!products.length) break;
+
+            products.forEach(p => { if (liveUpsertVTEX(storeKey, p)) loaded++; });
+            total += products.length;
+            page++;
+
+            if (!completo || products.length < LIVE_PAGE_SIZE) break;
+            from += LIVE_PAGE_SIZE;
+            liveProgress(`Cargando ${LIVE_CATALOG_CONFIG[storeKey].nombre}: ${total.toLocaleString('es-CO')} productos procesados...`);
+        }
+        return { total, loaded };
+    }
+
+    async function cargarMagentoVaquita(termino, completo) {
+        const cfg = LIVE_CATALOG_CONFIG.vaquita;
+        let page = 1, totalPages = 1, total = 0, loaded = 0;
+        do {
+            const query = `query($search:String,$page:Int){products(search:$search,pageSize:48,currentPage:$page){total_count page_info{current_page page_size total_pages} items{name sku url_key price_range{minimum_price{final_price{value}}}}}}`;
+            const body = JSON.stringify({ query, variables: { search: termino || '', page } });
+
+            const data = await fetchJson(`${cfg.dominio}/graphql`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body
+            });
+
+            const products = data && data.data && data.data.products;
+            const items = products && Array.isArray(products.items) ? products.items : [];
+            totalPages = Number(products && products.page_info && products.page_info.total_pages) || 1;
+            total = Number(products && products.total_count) || total;
+
+            items.forEach(it => {
+                const price = Number(
+                    it && it.price_range &&
+                    it.price_range.minimum_price &&
+                    it.price_range.minimum_price.final_price &&
+                    it.price_range.minimum_price.final_price.value
+                );
+                if (!(price > 0)) return;
+                const fake = {
+                    productName: it.name,
+                    productId: it.sku,
+                    linkText: it.url_key,
+                    categories: ['Despensa'],
+                    items: [{
+                        itemId: it.sku,
+                        name: it.name,
+                        ean: '',
+                        sellers: [{ commertialOffer: { Price: price, AvailableQuantity: 1 } }]
+                    }]
+                };
+                if (liveUpsertVTEX('vaquita', fake)) loaded++;
+            });
+
+            if (!completo) break;
+            page++;
+            liveProgress(`Cargando ${cfg.nombre}: página ${Math.min(page, totalPages)} de ${totalPages} · ${loaded.toLocaleString('es-CO')} productos integrados...`);
+        } while (page <= totalPages && page <= LIVE_MAX_PAGES);
+
+        return { total, loaded };
+    }
+
+    window.ahorraBuscarCatalogosEnVivo = async function () {
+        const termino = (document.getElementById('buscador')?.value || '').trim();
+        if (!termino) {
+            alert('Escribe primero un producto para consultar los catálogos en línea.');
+            return;
+        }
+
+        if (liveCatalogAbort) liveCatalogAbort.abort();
+        liveCatalogAbort = new AbortController();
+
+        const panelCatalogo = document.getElementById('cuerpo-productos');
+        const btnCatalogo = document.getElementById('btn-toggle-productos');
+        if (panelCatalogo) panelCatalogo.style.display = 'block';
+        if (btnCatalogo) btnCatalogo.textContent = 'Minimizar ➖';
+
+        liveStatus('Consultando APIs en vivo…', 'busy');
+        liveProgress(`Buscando “${termino}” en los comercios con catálogo automático…`);
+
+        const tiendas = obtenerComerciosSeleccionadosArray().filter(k => LIVE_CATALOG_CONFIG[k]);
+        if (!tiendas.length) {
+            liveStatus('Selecciona al menos un comercio con API disponible.', 'error');
+            return;
+        }
+
+        const resultados = [];
+        for (const storeKey of tiendas) {
+            try {
+                const r = storeKey === 'vaquita'
+                    ? await cargarMagentoVaquita(termino, false)
+                    : await cargarVTEX(storeKey, termino, false);
+                resultados.push({ storeKey, ...r });
+            } catch (e) {
+                resultados.push({ storeKey, total: 0, loaded: 0, error: e });
+            }
+        }
+
+        const ok = resultados.filter(r => r.loaded > 0).length;
+        const fallidos = resultados.filter(r => r.error).length;
+        liveStatus(`${ok}/${resultados.length} fuentes respondieron · ${new Date().toLocaleTimeString('es-CO')}`, ok ? 'ok' : 'error');
+        liveProgress(resultados.map(r => `${LIVE_CATALOG_CONFIG[r.storeKey].nombre}: ${r.loaded || 0}`).join(' · '));
+
+        renderizarProductos();
+        if (typeof renderizarCarrito === 'function') renderizarCarrito();
+        if (typeof actualizarResumenPresupuestoVivo === 'function') actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+
+        if (fallidos) {
+            liveProgress((document.getElementById('progreso-catalogos-vivos').textContent || '') + ' · Algunas fuentes rechazaron la consulta por CORS/red.');
+        }
+    };
+
+    window.ahorraCargarTodosLosCatalogos = async function () {
+        const tiendas = obtenerComerciosSeleccionadosArray().filter(k => LIVE_CATALOG_CONFIG[k]);
+        if (!tiendas.length) {
+            alert('Selecciona al menos un comercio con catálogo automático.');
+            return;
+        }
+
+        const confirmacion = confirm(
+            'Esto descargará el catálogo público completo de cada comercio disponible, por páginas, y puede tardar varios minutos.\\n\\n' +
+            'La página seguirá funcionando y podrás minimizar esta sección. ¿Continuar?'
+        );
+        if (!confirmacion) return;
+
+        liveStatus('Descargando catálogos completos…', 'busy');
+        let total = 0, loaded = 0;
+
+        for (const storeKey of tiendas) {
+            try {
+                const r = storeKey === 'vaquita'
+                    ? await cargarMagentoVaquita('', true)
+                    : await cargarVTEX(storeKey, '', true);
+                total += r.total || 0;
+                loaded += r.loaded || 0;
+                liveProgress(`${LIVE_CATALOG_CONFIG[storeKey].nombre}: ${r.loaded || 0} productos integrados · acumulado ${loaded.toLocaleString('es-CO')}`);
+                renderizarProductos();
+            } catch (e) {
+                liveProgress(`${LIVE_CATALOG_CONFIG[storeKey].nombre}: no disponible desde el navegador (${e.message || e}).`);
+            }
+        }
+
+        liveStatus(`${loaded.toLocaleString('es-CO')} productos online integrados`, loaded ? 'ok' : 'error');
+        liveProgress(`Consulta completada: ${total.toLocaleString('es-CO')} registros recibidos. Última actualización ${new Date().toLocaleString('es-CO')}.`);
+        renderizarProductos();
+        if (typeof renderizarCarrito === 'function') renderizarCarrito();
+        if (typeof calcularMercadoMasivo === 'function' && typeof obtenerComerciosSeleccionadosArray === 'function') {
+            // No recalculamos automáticamente el mercado para no cambiar decisiones del usuario.
+            // Los precios ya quedan disponibles para la comparativa cuando él la ejecute.
+        }
+    };
+
+    // Actualización periódica: refresca solamente los productos actualmente visibles/seleccionados
+    // cuando el usuario ya está usando la sección de catálogo, evitando una descarga masiva silenciosa.
+    setInterval(async () => {
+        const panel = document.getElementById('cuerpo-productos');
+        const input = document.getElementById('buscador');
+        if (!panel || panel.style.display === 'none' || !input || !input.value.trim()) return;
+        try {
+            await window.ahorraBuscarCatalogosEnVivo();
+        } catch (_) {}
+    }, 5 * 60 * 1000);
+
+    window.addEventListener('load', function () {
+        liveStatus('APIs listas · consulta bajo demanda', '');
+    });
+})();
+
 </script>
 
+
+
+<script>
+/* ===== MOTOR SEGURO DE CATÁLOGO Y CARRITO =====
+   Esta capa evita que un error de otra función deje inutilizados
+   el catálogo o el botón de vaciar carrito. */
+(function () {
+    function productosDisponibles() {
+        return (typeof baseDatosProductos !== 'undefined' && Array.isArray(baseDatosProductos))
+            ? baseDatosProductos : [];
+    }
+
+    function textoNormalSeguro(v) {
+        return String(v == null ? '' : v).toLocaleLowerCase('es-CO')
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function actualizarContadorSeguro() {
+        const lista = productosDisponibles();
+        const carrito = lista.filter(p => p && p.enCarrito === true);
+        const unidades = carrito.reduce((n,p) => n + (Number(p.qty) || 1), 0);
+        const contador = document.getElementById('contador-carrito');
+        if (contador) contador.textContent = carrito.length;
+        const titulo = document.getElementById('titulo-conteo-carrito');
+        if (titulo) titulo.textContent = `Lista personalizada de compras: ${carrito.length} productos · ${unidades} unidades`;
+        if (typeof window.actualizarBadgeCarritoFlotante === 'function') window.actualizarBadgeCarritoFlotante();
+    }
+
+    function actualizarBotonMarcadosSeguro() {
+        const n = productosDisponibles().filter(p => p.seleccionado === true).length;
+        const b = document.getElementById('btn-anadir-marcados-carrito');
+        if (!b) return;
+        b.disabled = n === 0;
+        b.textContent = n ? `🛒 Añadir ${n} marcado${n === 1 ? '' : 's'} al carrito` : '🛒 Añadir marcados al carrito';
+        b.style.opacity = n ? '1' : '.55';
+    }
+
+    window.limpiarBusquedaCatalogo = function () {
+        const buscador = document.getElementById('buscador');
+        if (buscador) { buscador.value = ''; buscador.focus(); }
+        pintarCatalogoSeguro();
+    };
+
+    function pintarCatalogoSeguro() {
+        const cont = document.getElementById('contenedor-productos');
+        if (!cont) return;
+        const lista = productosDisponibles();
+        const buscador = document.getElementById('buscador');
+        const orden = document.getElementById('orden-select');
+        const q = textoNormalSeguro(buscador ? buscador.value : '');
+        const ord = orden ? orden.value : 'az';
+        const cat = (typeof categoriaActual !== 'undefined') ? categoriaActual : 'todos';
+
+        let items = lista.filter(p => {
+            const catOk = cat === 'todos' || p.cat === cat;
+            const texto = textoNormalSeguro(`${p.nombre || ''} ${p.searchKeyword || ''} ${p.cat || ''}`);
+            return catOk && (!q || texto.includes(q));
+        });
+        items.sort((a,b) => ord === 'za'
+            ? String(b.nombre).localeCompare(String(a.nombre),'es')
+            : String(a.nombre).localeCompare(String(b.nombre),'es'));
+
+        const titulo = document.getElementById('titulo-catalogo-principal');
+        if (titulo) titulo.textContent = `📦 Catálogo Súper Masivo (${lista.length} Productos Multitienda Online)`;
+        const contador = document.getElementById('contador-productos-catalogo');
+        if (contador) contador.textContent = `📦 Mostrando ${items.length} de ${lista.length} productos · ${cat === 'todos' ? 'todas las categorías' : cat}${q ? ` · búsqueda: “${q}”` : ''}`;
+
+        if (!items.length) {
+            cont.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:#64748b;font-weight:700">No se encontraron productos con esos filtros.</div>';
+        } else {
+            let html = '';
+            items.forEach(p => {
+                try {
+                    if (typeof generarItemCatalogoHTML === 'function') html += generarItemCatalogoHTML(p);
+                    else throw new Error('generador no disponible');
+                } catch (e) {
+                    html += `<div class="product-card" style="padding:15px"><div style="font-size:26px">${p.icon || '📦'}</div><b>${p.nombre || 'Producto'}</b><div style="margin-top:8px"><button type="button" class="sel-btn" onclick="anadirProductoAlCarrito('${p.id}')">🛒 Añadir al carrito</button></div></div>`;
+                }
+            });
+            cont.innerHTML = html;
+        }
+        actualizarContadorSeguro();
+        actualizarBotonMarcadosSeguro();
+    }
+
+    function pintarCarritoSeguro() {
+        const cont = document.getElementById('contenedor-carrito');
+        if (!cont) return;
+        const lista = productosDisponibles().filter(p => p.enCarrito === true);
+        const orden = document.getElementById('orden-select-carrito');
+        const ord = orden ? orden.value : 'az';
+        lista.sort((a,b) => ord === 'za'
+            ? String(b.nombre).localeCompare(String(a.nombre),'es')
+            : String(a.nombre).localeCompare(String(b.nombre),'es'));
+
+        if (!lista.length) {
+            cont.innerHTML = `<div class="empty-cart-msg"><div>🛒</div><b>Tu carrito está vacío</b><p style="font-size:12px;margin-top:5px">Añade productos desde el catálogo.</p></div>`;
+        } else {
+            let html = '';
+            lista.forEach(p => {
+                try {
+                    if (typeof generarItemCarritoHTML === 'function') html += generarItemCarritoHTML(p);
+                    else throw new Error('generador no disponible');
+                } catch (e) {
+                    html += `<div class="product-card" style="padding:15px"><b>${p.icon || '📦'} ${p.nombre || 'Producto'}</b><div>Cantidad: ${Number(p.qty)||1}</div><button type="button" class="sel-btn" onclick="eliminarProductoDelCarritoSeguro('${p.id}')">🗑️ Quitar</button></div>`;
+                }
+            });
+            cont.innerHTML = html;
+        }
+        actualizarContadorSeguro();
+    }
+
+    window.renderizarProductosSeguro = pintarCatalogoSeguro;
+    window.renderizarCarritoSeguro = pintarCarritoSeguro;
+
+    window.vaciarCarritoSeguro = function () {
+        const lista = productosDisponibles();
+        lista.forEach(p => {
+            p.enCarrito = false;
+            p.seleccionado = false;
+            p.qty = 1;
+        });
+        pintarCarritoSeguro();
+        pintarCatalogoSeguro();
+        const resultado = document.getElementById('resultado');
+        const texto = document.getElementById('texto-resultado');
+        if (texto) { texto.innerHTML = ''; texto.style.display = 'none'; }
+        if (resultado) resultado.style.display = 'none';
+        const btn = document.getElementById('btn-toggle-resultados');
+        if (btn) btn.textContent = 'Expandir ➕';
+        const panel = document.getElementById('cuerpo-carrito');
+        const btnCar = document.getElementById('btn-toggle-carrito');
+        if (panel) panel.style.display = 'block';
+        if (btnCar) btnCar.textContent = 'Minimizar ➖';
+    };
+
+    window.eliminarProductoDelCarritoSeguro = function (id) {
+        const p = productosDisponibles().find(x => x.id === id);
+        if (!p) return;
+        p.enCarrito = false;
+        p.seleccionado = false;
+        p.qty = 1;
+        pintarCarritoSeguro();
+        pintarCatalogoSeguro();
+    };
+
+    // Reemplazamos las entradas globales usadas por los botones y filtros.
+    window.renderizarProductos = pintarCatalogoSeguro;
+    window.renderizarCarrito = pintarCarritoSeguro;
+    window.vaciarCarrito = window.vaciarCarritoSeguro;
+
+    function iniciarMotorSeguro() {
+        const panel = document.getElementById('cuerpo-productos');
+        const btn = document.getElementById('btn-toggle-productos');
+        if (panel) panel.style.display = 'block';
+        if (btn) btn.textContent = 'Minimizar ➖';
+        pintarCatalogoSeguro();
+        pintarCarritoSeguro();
+        actualizarContadorSeguro();
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarMotorSeguro);
+    else iniciarMotorSeguro();
+})();
+</script>
 
     <footer class="ahorra-app-footer" aria-label="Autoría de la aplicación">
         by David Ocampo 2026
@@ -2917,6 +3772,176 @@
             letter-spacing: .2px;
         }
     </style>
-npm i @vercel/analyticsimport { Analytics } from "@vercel/analytics/next"
+
+<script>
+/* ===== CONTROL DEL CARRITO FLOTANTE ===== */
+(function(){
+  const KEY='ahorra_carrito_pos_v1';
+  function el(id){return document.getElementById(id);}
+  function actualizarBadgeFlotante(){
+    const a=el('contador-carrito'), b=el('contador-carrito-flotante'), totalEl=el('total-carrito-flotante');
+    if(a&&b){b.textContent=a.textContent||'0';}
+    if(totalEl){
+      const seleccionados=(typeof baseDatosProductos!=='undefined'&&Array.isArray(baseDatosProductos)) ? baseDatosProductos.filter(p=>p&&p.enCarrito===true) : [];
+      const totales={};
+      const tiendas=(typeof listadoTiendasActivas!=='undefined' && Array.isArray(listadoTiendasActivas)) ? listadoTiendasActivas : [];
+      tiendas.forEach(t=>totales[t]=0);
+      seleccionados.forEach(p=>{
+        const qty=Number(p.qty)||1;
+        const pres=(p.presentaciones&&p.presentaciones[p.presentacionActual])||{};
+        const custom=p.preciosUnitariosCustom||{};
+        tiendas.forEach(t=>{
+          const precio=custom[t]!==undefined ? Number(custom[t]) : Number(pres[t]||0);
+          if(Number.isFinite(precio)&&precio>0) totales[t]+=precio*qty;
+        });
+      });
+      const candidatas=Object.values(totales).filter(v=>v>0);
+      const mejor=candidatas.length ? Math.min(...candidatas) : 0;
+      totalEl.textContent='$'+Math.round(mejor).toLocaleString('es-CO');
+      totalEl.title=mejor ? 'Total estimado comprando todo en la tienda más económica' : 'Carrito vacío';
+    }
+  }
+  window.actualizarBadgeCarritoFlotante=actualizarBadgeFlotante;
+  // Mantiene el total sincronizado incluso cuando cambia una cantidad o un precio manual.
+  document.addEventListener('input', function(e){
+    if(e.target && (e.target.classList.contains('qty-input') || e.target.classList.contains('price-input'))){
+      setTimeout(actualizarBadgeFlotante, 0);
+    }
+  }, true);
+  document.addEventListener('change', function(e){
+    if(e.target && (e.target.classList.contains('qty-input') || e.target.classList.contains('price-input'))){
+      setTimeout(actualizarBadgeFlotante, 0);
+    }
+  }, true);
+
+  window.alternarCarritoFlotante=function(){
+    const w=el('ventana-carrito-independiente'); if(!w)return;
+    const visible=w.classList.toggle('carrito-flotante-visible');
+    if(visible){
+      const p=el('cuerpo-carrito'); if(p)p.style.display='block';
+      const btn=el('btn-toggle-carrito'); if(btn)btn.textContent='Minimizar ➖';
+      if(typeof renderizarCarrito==='function') renderizarCarrito();
+      if(typeof actualizarResumenPresupuestoVivo==='function') actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+      actualizarMejorOpcionCompra();
+    }
+    actualizarBadgeFlotante();
+  };
+  window.alternarContenidoCarrito=function(ev){
+    if(ev)ev.stopPropagation();
+    const w=el('ventana-carrito-independiente');
+    if(!w)return;
+    // "Minimizar" ahora cierra la mini ventana y devuelve el control al icono 🛒.
+    w.classList.remove('carrito-flotante-visible');
+    actualizarBadgeFlotante();
+  };
+  function actualizarMejorOpcionCompra(){
+    const box=el('mejor-opcion-carrito'), valor=el('mejor-opcion-valor'), tienda=el('mejor-opcion-tienda');
+    if(!box||!valor||!tienda)return;
+    const seleccionados=(typeof baseDatosProductos!=='undefined'&&Array.isArray(baseDatosProductos))
+      ? baseDatosProductos.filter(p=>p&&p.enCarrito===true) : [];
+    if(!seleccionados.length){box.style.display='none';return;}
+    const totales={};
+    if(typeof listadoTiendasActivas!=='undefined' && Array.isArray(listadoTiendasActivas)) listadoTiendasActivas.forEach(t=>totales[t]=0);
+    seleccionados.forEach(p=>{
+      const qty=Number(p.qty)||1;
+      const pres=(p.presentaciones&&p.presentaciones[p.presentacionActual])||{};
+      if(!p.preciosUnitariosCustom)p.preciosUnitariosCustom={};
+      Object.keys(totales).forEach(t=>{
+        const precio=p.preciosUnitariosCustom[t]!==undefined ? Number(p.preciosUnitariosCustom[t]) : Number(pres[t]||0);
+        if(Number.isFinite(precio)&&precio>0)totales[t]+=precio*qty;
+      });
+    });
+    const candidatas=Object.entries(totales).filter(([,v])=>v>0).sort((a,b)=>a[1]-b[1]);
+    if(!candidatas.length){box.style.display='none';return;}
+    const [key,total]=candidatas[0];
+    let nombre=key;
+    try{if(typeof obtenerNombreTienda==='function')nombre=obtenerNombreTienda(key)||key;}catch(e){}
+    valor.textContent='$'+Math.round(total).toLocaleString('es-CO');
+    tienda.textContent='Comprando todo en '+nombre;
+    box.style.display='block';
+  }
+  function guardarPos(w){
+    try{localStorage.setItem(KEY,JSON.stringify({left:w.offsetLeft,top:w.offsetTop}));}catch(e){}
+  }
+  function restaurarPos(w){
+    try{const p=JSON.parse(localStorage.getItem(KEY)||'null');
+      if(!p)return; const maxL=Math.max(6,innerWidth-w.offsetWidth-6), maxT=Math.max(6,innerHeight-w.offsetHeight-6);
+      w.style.left=Math.min(Math.max(6,p.left),maxL)+'px'; w.style.top=Math.min(Math.max(6,p.top),maxT)+'px'; w.style.transform='none';
+    }catch(e){}
+  }
+  function hacerArrastrable(){
+    const w=el('ventana-carrito-independiente'), h=w&&w.querySelector('.card-header'); if(!w||!h||h.dataset.dragReady)return; h.dataset.dragReady='1';
+    let drag=false,sx=0,sy=0,sl=0,st=0;
+    h.addEventListener('pointerdown',function(e){
+      if(e.target.closest('button,select,input,a'))return;
+      drag=true; h.setPointerCapture?.(e.pointerId);
+      const r=w.getBoundingClientRect(); sx=e.clientX; sy=e.clientY; sl=r.left; st=r.top;
+      w.style.left=sl+'px'; w.style.top=st+'px'; w.style.transform='none'; h.classList.add('carrito-arrastre-activo');
+    });
+    h.addEventListener('pointermove',function(e){if(!drag)return;
+      const maxL=Math.max(6,innerWidth-w.offsetWidth-6), maxT=Math.max(6,innerHeight-w.offsetHeight-6);
+      w.style.left=Math.min(Math.max(6,sl+e.clientX-sx),maxL)+'px'; w.style.top=Math.min(Math.max(6,st+e.clientY-sy),maxT)+'px';
+    });
+    h.addEventListener('pointerup',function(){if(!drag)return;drag=false;h.classList.remove('carrito-arrastre-activo');guardarPos(w);});
+    h.addEventListener('pointercancel',function(){drag=false;h.classList.remove('carrito-arrastre-activo');});
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    const w=el('ventana-carrito-independiente'); if(!w)return;
+    hacerArrastrable();
+    hacerIconoArrastrable();
+    setTimeout(function(){restaurarPos(w); actualizarBadgeFlotante();},50); setTimeout(actualizarBadgeFlotante,250); setTimeout(actualizarBadgeFlotante,800);
+    const target=el('contador-carrito');
+    if(target) new MutationObserver(function(){actualizarBadgeFlotante();actualizarMejorOpcionCompra();}).observe(target,{childList:true,characterData:true,subtree:true});
+  });
+  // El icono 🛒 también se puede arrastrar por toda la pantalla.
+  function hacerIconoArrastrable(){
+    const b=el('boton-carrito-flotante'); if(!b||b.dataset.dragReady)return; b.dataset.dragReady='1';
+    const KEY_ICON='ahorra_carrito_icono_pos_v1';
+    let drag=false,movio=false,sx=0,sy=0,sl=0,st=0,pointerId=null;
+    try{
+      const p=JSON.parse(localStorage.getItem(KEY_ICON)||'null');
+      if(p&&Number.isFinite(p.left)&&Number.isFinite(p.top)){
+        b.style.left=p.left+'px'; b.style.top=p.top+'px'; b.style.right='auto'; b.style.bottom='auto';
+      }
+    }catch(e){}
+    b.style.touchAction='none';
+    b.addEventListener('pointerdown',function(e){
+      if(e.button!==undefined&&e.button!==0)return;
+      drag=true; movio=false; pointerId=e.pointerId; sx=e.clientX; sy=e.clientY;
+      const r=b.getBoundingClientRect(); sl=r.left; st=r.top;
+      b.setPointerCapture?.(e.pointerId);
+    });
+    b.addEventListener('pointermove',function(e){
+      if(!drag||e.pointerId!==pointerId)return;
+      const dx=e.clientX-sx, dy=e.clientY-sy;
+      if(Math.abs(dx)>4||Math.abs(dy)>4)movio=true;
+      if(!movio)return;
+      const maxL=Math.max(6,innerWidth-b.offsetWidth-6), maxT=Math.max(6,innerHeight-b.offsetHeight-6);
+      b.style.left=Math.min(Math.max(6,sl+dx),maxL)+'px';
+      b.style.top=Math.min(Math.max(6,st+dy),maxT)+'px';
+      b.style.right='auto'; b.style.bottom='auto';
+    });
+    function terminar(e){
+      if(!drag||e.pointerId!==pointerId)return;
+      drag=false;
+      if(movio){
+        try{localStorage.setItem(KEY_ICON,JSON.stringify({left:b.offsetLeft,top:b.offsetTop}));}catch(err){}
+        e.preventDefault();
+      }
+      pointerId=null;
+    }
+    b.addEventListener('pointerup',terminar);
+    b.addEventListener('pointercancel',function(){drag=false;pointerId=null;});
+    b.addEventListener('click',function(e){
+      if(movio){e.preventDefault();e.stopImmediatePropagation();movio=false;}
+    },true);
+  }
+  window.addEventListener('resize',function(){
+    const w=el('ventana-carrito-independiente'); if(!w||!w.classList.contains('carrito-flotante-visible'))return;
+    const r=w.getBoundingClientRect(); const maxL=Math.max(6,innerWidth-w.offsetWidth-6), maxT=Math.max(6,innerHeight-w.offsetHeight-6);
+    w.style.left=Math.min(Math.max(6,r.left),maxL)+'px'; w.style.top=Math.min(Math.max(6,r.top),maxT)+'px'; w.style.transform='none';
+  });
+})();
+</script>
 </body>
 </html>
