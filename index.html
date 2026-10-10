@@ -1347,21 +1347,6 @@
                     <button type="button" class="catalog-search-clear" onclick="limpiarBusquedaCatalogo()" aria-label="Limpiar búsqueda">✕ Limpiar</button>
                 </div>
 
-                <div class="live-catalog-toolbar" id="live-catalog-toolbar">
-                    <div>
-                        <b>🌐 Catálogos en vivo</b>
-                        <span id="estado-catalogos-vivos" class="live-status">Catálogo local cargado</span>
-                    </div>
-                    <div class="live-catalog-actions">
-                        <button class="sel-btn" onclick="ahorraBuscarCatalogosEnVivo()">⚡ Actualizar búsqueda con precios en vivo</button>
-                        <button class="sel-btn" onclick="ahorraCargarTodosLosCatalogos()">📚 Cargar todos los productos online</button>
-                    </div>
-                    <div id="progreso-catalogos-vivos" class="live-progress"></div>
-                    <div class="live-note">
-                        Los precios provenientes de una API se muestran con fecha/hora de consulta. Los comercios sin API pública permanecen con su catálogo existente y no se les inventan precios.
-                    </div>
-                </div>
-
                 
                 <div class="catalogo-estado-ayuda">
                     🔎 <b>Modo búsqueda:</b> aquí puedes marcar, desmarcar, buscar, cambiar presentación, sumar/restar cantidades y modificar precios sin enviarlos al carrito.
@@ -1572,7 +1557,7 @@
 
         document.addEventListener('DOMContentLoaded', inicializarPanelesMinimizados);
 
-        // BASE DE DATOS DE 150 PRODUCTOS
+        // BASE DE DATOS ORIGINAL + productos adicionales verificados en catálogos online
         const baseDatosProductos = [
             { id: "p1", cat: "granos", icon: "🌻", searchKeyword: "aceite", nombre: "Aceite de Girasol / Soya", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 500 ml": { d1: 4900, ara: 5100, barrio: 5300, exito: 5700, olimpica: 5900, caribe: 5200, euro: 5400, vaquita: 5300, jumbo: 5800 }, "Botella 1000 ml": { d1: 9400, ara: 9700, barrio: 10100, exito: 10500, olimpica: 10900, caribe: 9900, euro: 10200, vaquita: 10000, jumbo: 10800 } } },
             { id: "p2", cat: "granos", icon: "🫒", searchKeyword: "aceite de oliva", nombre: "Aceite de Oliva Extra Virgen", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.005, presentacionActual: "Frasco 500 ml", presentaciones: { "Frasco 250 ml": { d1: 5600, ara: 13500, barrio: 14200, exito: 15500, olimpica: 14900, caribe: 13900, euro: 14000, vaquita: 13800, jumbo: 15200 }, "Frasco 500 ml": { d1: 9900, ara: 24200, barrio: 25500, exito: 28000, olimpica: 26900, caribe: 24900, euro: 25000, vaquita: 24500, jumbo: 27500 } } },
@@ -1582,11 +1567,11 @@
             { id: "p6", cat: "proteinas", icon: "🍗", searchKeyword: "alitas de pollo", nombre: "Alitas de Pollo", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bandeja 500 g", presentaciones: { "Bandeja 500 g": { d1: 7700, ara: 8000, barrio: 8500, exito: 9400, olimpica: 9100, caribe: 8300, euro: 8400, vaquita: 8200, jumbo: 9200 } } },
             { id: "p7", cat: "aseo", icon: "🪞", searchKeyword: "ambientador", nombre: "Ambientador en Aerosol", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.001, presentacionActual: "Aerosol 250ml", presentaciones: { "Aerosol 250ml": { d1: 8500, ara: 9000, barrio: 9600, exito: 10700, olimpica: 10300, caribe: 9300, euro: 9500, vaquita: 9200, jumbo: 10500 } } },
             { id: "p8", cat: "granos", icon: "🫓", searchKeyword: "arepas", nombre: "Arepas de Maíz", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Paquete x5", presentaciones: { "Paquete x5": { d1: 3600, ara: 3800, barrio: 4000, exito: 4500, olimpica: 4300, caribe: 3900, euro: 4000, vaquita: 3900, jumbo: 4400 }, "Paquete x10": { d1: 6900, ara: 7300, barrio: 7800, exito: 8600, olimpica: 8300, caribe: 7500, euro: 7700, vaquita: 7600, jumbo: 8400 } } },
-            { id: "p9", cat: "granos", icon: "🍚", searchKeyword: "arroz", nombre: "Arroz", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 1 kg": { d1: 3790, ara: 4300, barrio: 4600, exito: 4900, olimpica: 4800, caribe: 4500, euro: 4400, vaquita: 4350, jumbo: 4800 }, "Bolsa 5 kg": { d1: 18900, ara: 20900, barrio: 22000, exito: 23500, olimpica: 22900, caribe: 21500, euro: 21800, vaquita: 21200, jumbo: 23000 } } },
-            { id: "p10", cat: "granos", icon: "🟢", searchKeyword: "arveja seca", nombre: "Arveja Seca", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 2100, ara: 3600, barrio: 3800, exito: 4100, olimpica: 4000, caribe: 3700, euro: 3800, vaquita: 3750, jumbo: 4000 } } },
+            { id: "p9", cat: "granos", icon: "🍚", searchKeyword: "arroz arroz libra 500 g 1 kg 2.5 kg 5 kg arroba 25 libras", nombre: "Arroz blanco (presentaciones colombianas)", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Bolsa 500 g (1 libra)", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 1895, ara: 2150, barrio: 2300, exito: 2450, olimpica: 2400, caribe: 2250, euro: 2200, vaquita: 2175, jumbo: 2400 }, "Bolsa 1 kg": { d1: 3790, ara: 4300, barrio: 4600, exito: 4900, olimpica: 4800, caribe: 4500, euro: 4400, vaquita: 4350, jumbo: 4800 }, "Bolsa 2.5 kg": { d1: 9450, ara: 10450, barrio: 11000, exito: 11750, olimpica: 11450, caribe: 10750, euro: 10900, vaquita: 10600, jumbo: 11500 }, "Bolsa 5 kg": { d1: 18900, ara: 20900, barrio: 22000, exito: 23500, olimpica: 22900, caribe: 21500, euro: 21800, vaquita: 21200, jumbo: 23000 }, "Arroba 25 libras (12.5 kg aprox.)": { d1: 47250, ara: 52250, barrio: 55000, exito: 58750, olimpica: 57250, caribe: 53750, euro: 54500, vaquita: 53000, jumbo: 57500 } } },
+            { id: "p10", cat: "granos", icon: "🟢", searchKeyword: "arveja seca arveja libra 500 g kilo 1 kg 2.5 kg", nombre: "Arveja Seca", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Bolsa 500 g (1 libra)", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 2100, ara: 3600, barrio: 3800, exito: 4100, olimpica: 4000, caribe: 3700, euro: 3800, vaquita: 3750, jumbo: 4000 }, "Bolsa 1 kg": { d1: 4200, ara: 7200, barrio: 7600, exito: 8200, olimpica: 8000, caribe: 7400, euro: 7600, vaquita: 7500, jumbo: 8000 }, "Bolsa 2.5 kg": { d1: 10500, ara: 18000, barrio: 19000, exito: 20500, olimpica: 20000, caribe: 18500, euro: 19000, vaquita: 18750, jumbo: 20000 } } },
             { id: "p11", cat: "granos", icon: "🐟", searchKeyword: "atun", nombre: "Atún en Lata", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.06, presentacionActual: "Lata 160g", presentaciones: { "Lata 160g": { d1: 4450, ara: 6100, barrio: 6400, exito: 6800, olimpica: 6600, caribe: 6200, euro: 6300, vaquita: 6200, jumbo: 6700 }, "Pack x3 latas": { d1: 13200, ara: 17500, barrio: 18900, exito: 19900, olimpica: 19400, caribe: 17800, euro: 18000, vaquita: 17600, jumbo: 19500 } } },
             { id: "p12", cat: "granos", icon: "🥣", searchKeyword: "avena", nombre: "Avena en Hojuelas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bolsa 250g", presentaciones: { "Bolsa 250g": { d1: 3200, ara: 3300, barrio: 3500, exito: 3900, olimpica: 3800, caribe: 3400, euro: 3500, vaquita: 3450, jumbo: 3800 }, "Bolsa 500g": { d1: 5400, ara: 5900, barrio: 6300, exito: 6900, olimpica: 6700, caribe: 6000, euro: 6200, vaquita: 6100, jumbo: 6800 } } },
-            { id: "p13", cat: "granos", icon: "⬜", searchKeyword: "azucar", nombre: "Azúcar Blanca", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 1 kg": { d1: 3390, ara: 4200, barrio: 4400, exito: 4800, olimpica: 4700, caribe: 4300, euro: 4400, vaquita: 4250, jumbo: 4700 } } },
+            { id: "p13", cat: "granos", icon: "⬜", searchKeyword: "azucar azúcar libra 500 g kilo 1 kg 2.5 kg 5 kg", nombre: "Azúcar Blanca", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 1695, ara: 2100, barrio: 2200, exito: 2400, olimpica: 2350, caribe: 2150, euro: 2200, vaquita: 2125, jumbo: 2350 }, "Bolsa 1 kg": { d1: 3390, ara: 4200, barrio: 4400, exito: 4800, olimpica: 4700, caribe: 4300, euro: 4400, vaquita: 4250, jumbo: 4700 }, "Bolsa 2.5 kg": { d1: 8475, ara: 10500, barrio: 11000, exito: 12000, olimpica: 11750, caribe: 10750, euro: 11000, vaquita: 10625, jumbo: 11750 }, "Bolsa 5 kg": { d1: 16950, ara: 21000, barrio: 22000, exito: 24000, olimpica: 23500, caribe: 21500, euro: 22000, vaquita: 21250, jumbo: 23500 } } },
             { id: "p14", cat: "frutas", icon: "🍌", searchKeyword: "banano", nombre: "Banano", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.1, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 2900, ara: 3000, barrio: 3100, exito: 3600, olimpica: 3500, caribe: 3200, euro: 3300, vaquita: 3100, jumbo: 3500 }, "Unidad suelta": { d1: 400, ara: 450, barrio: 500, exito: 600, olimpica: 550, caribe: 500, euro: 520, vaquita: 480, jumbo: 580 } } },
             { id: "p15", cat: "snacks", icon: "🍫", searchKeyword: "barra de cereal", nombre: "Barra de Cereal", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Unidad", presentaciones: { "Unidad": { d1: 2200, ara: 2400, barrio: 2600, exito: 3000, olimpica: 2800, caribe: 2500, euro: 2600, vaquita: 2500, jumbo: 2900 } } },
             { id: "p16", cat: "snacks", icon: "⚡", searchKeyword: "bebida energizante", nombre: "Bebida Energizante", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Lata", presentaciones: { "Lata": { d1: 5900, ara: 6200, barrio: 6700, exito: 7400, olimpica: 7100, caribe: 6400, euro: 6600, vaquita: 6500, jumbo: 7200 } } },
@@ -1617,7 +1602,7 @@
             { id: "p41", cat: "aseo", icon: "✨", searchKeyword: "limpiador", nombre: "Limpiador Multiusos", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Frasco 1000 ml", presentaciones: { "Frasco 1000 ml": { d1: 6600, ara: 6900, barrio: 7400, exito: 8100, olimpica: 7800, caribe: 7100, euro: 7450, vaquita: 7200, jumbo: 7950 } } },
             { id: "p42", cat: "proteinas", icon: "🐟", searchKeyword: "pescado", nombre: "Filete de Tilapia", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bandeja 500 g", presentaciones: { "Bandeja 500 g": { d1: 12800, ara: 13300, barrio: 14100, exito: 15900, olimpica: 15400, caribe: 13800, euro: 14400, vaquita: 13900, jumbo: 15600 } } },
             { id: "p43", cat: "frutas", icon: "🍓", searchKeyword: "fresa", nombre: "Fresa Fresca", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Bandeja 250g", presentaciones: { "Bandeja 250g": { d1: 5200, ara: 5600, barrio: 5800, exito: 6900, olimpica: 6500, caribe: 5700, euro: 6000, vaquita: 5750, jumbo: 6700 } } },
-            { id: "p44", cat: "granos", icon: "🫘", searchKeyword: "frijol", nombre: "Frijol Cargamanto", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 4100, ara: 6200, barrio: 6600, exito: 7400, olimpica: 7100, caribe: 6700, euro: 6800, vaquita: 6500, jumbo: 7200 }, "Bolsa 1 kg": { d1: 8000, ara: 12000, barrio: 12800, exito: 14200, olimpica: 13800, caribe: 13000, euro: 13400, vaquita: 12900, jumbo: 13900 } } },
+            { id: "p44", cat: "granos", icon: "🫘", searchKeyword: "frijol fríjol cargamanto libra 500 g kilo 1 kg", nombre: "Frijol Cargamanto", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bolsa 500 g (1 libra)", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 4100, ara: 6200, barrio: 6600, exito: 7400, olimpica: 7100, caribe: 6700, euro: 6800, vaquita: 6500, jumbo: 7200 }, "Bolsa 1 kg": { d1: 8000, ara: 12000, barrio: 12800, exito: 14200, olimpica: 13800, caribe: 13000, euro: 13400, vaquita: 12900, jumbo: 13900 }, "Bolsa 2.5 kg": { d1: 20000, ara: 30000, barrio: 32000, exito: 35500, olimpica: 34500, caribe: 32500, euro: 33500, vaquita: 32250, jumbo: 34750 } } },
             { id: "p45", cat: "snacks", icon: "🍪", searchKeyword: "galletas", nombre: "Galletas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bloque tradicional", presentaciones: { "Bloque tradicional": { d1: 5400, ara: 5600, barrio: 6000, exito: 6600, olimpica: 6400, caribe: 5800, euro: 6100, vaquita: 5900, jumbo: 6500 } } },
             { id: "p46", cat: "snacks", icon: "🍪", searchKeyword: "galletas", nombre: "Galletas Dulces Rellenas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Paquete", presentaciones: { "Paquete": { d1: 2700, ara: 2900, barrio: 3200, exito: 3600, olimpica: 3400, caribe: 3000, euro: 3200, vaquita: 3100, jumbo: 3500 } } },
             { id: "p47", cat: "snacks", icon: "🍪", searchKeyword: "galletas de soda", nombre: "Galletas de Soda", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bloque tradicional", presentaciones: { "Bloque tradicional": { d1: 4900, ara: 5200, barrio: 5600, exito: 6100, olimpica: 5900, caribe: 5400, euro: 5650, vaquita: 5450, jumbo: 6000 } } },
@@ -1725,6 +1710,153 @@
             { id: "p149", cat: "licores", icon: "🍻", searchKeyword: "aguardiente", nombre: "Aguardiente Antioqueño Tapa Roja", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Botella 750ml", presentaciones: { "Botella 750ml": { d1: 52000, ara: 54000, barrio: 57000, exito: 62000, olimpica: 60000, caribe: 55000, euro: 58000, vaquita: 56000, jumbo: 61000 } } },
             { id: "p150", cat: "licores", icon: "🥃", searchKeyword: "ron", nombre: "Ron Medellín 3 Años", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Botella 750ml", presentaciones: { "Botella 750ml": { d1: 56000, ara: 58000, barrio: 61000, exito: 67000, olimpica: 65000, caribe: 59000, euro: 62500, vaquita: 60500, jumbo: 66000 } } }
         ];
+
+        // Productos adicionales tomados de listados públicos de tiendas online.
+        // Solo se registra el precio publicado por la tienda de origen; no se inventan
+        // precios para otros comercios. La vigencia puede variar por ciudad y fecha.
+        baseDatosProductos.push(
+            { id: "web151", cat: "granos", icon: "🍚", searchKeyword: "azucar blanca", nombre: "Azúcar Blanca D1 1000 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 1000 g", presentaciones: { "Bolsa 1000 g": { d1: 3390 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web152", cat: "granos", icon: "🫘", searchKeyword: "lenteja el estio", nombre: "Lenteja El Estío 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 1590 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web153", cat: "granos", icon: "🧂", searchKeyword: "sal refisal", nombre: "Sal Refisal 1000 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 1000 g", presentaciones: { "Bolsa 1000 g": { d1: 2900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web154", cat: "enlatados", icon: "🐟", searchKeyword: "atun carlo forte", nombre: "Atún en Agua Carlo Forte 170 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Lata 170 g", presentaciones: { "Lata 170 g": { d1: 4450 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web155", cat: "granos", icon: "🍚", searchKeyword: "arroz premium albar", nombre: "Arroz Premium Albar 2500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 2500 g", presentaciones: { "Bolsa 2500 g": { d1: 9450 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web156", cat: "granos", icon: "🍚", searchKeyword: "arroz diana 500", nombre: "Arroz Diana 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 1990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web157", cat: "granos", icon: "🍝", searchKeyword: "spaghetti deliziare", nombre: "Spaghetti Deliziare 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 3990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web158", cat: "congelados", icon: "🍟", searchKeyword: "papas toastatas", nombre: "Papas a la Francesa Toastatas 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 4950 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web159", cat: "bebidas", icon: "💧", searchKeyword: "agua omi 5000", nombre: "Agua sin Gas Omi 5000 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 5000 ml", presentaciones: { "Botella 5000 ml": { d1: 3750 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web160", cat: "bebidas", icon: "💧", searchKeyword: "agua omi manzana", nombre: "Agua con Gas Manzana Omi 1700 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 1700 ml", presentaciones: { "Botella 1700 ml": { d1: 2750 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web161", cat: "bebidas", icon: "💧", searchKeyword: "agua omi maracuya", nombre: "Agua con Gas Maracuyá Omi 1700 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 1700 ml", presentaciones: { "Botella 1700 ml": { d1: 2750 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web162", cat: "bebidas", icon: "💧", searchKeyword: "agua omi 1000", nombre: "Agua sin Gas Omi 1000 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 1000 ml": { d1: 990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web163", cat: "bebidas", icon: "🍋", searchKeyword: "jugo limon tahiti", nombre: "Jugo de Limón Tahití 250 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 250 ml", presentaciones: { "Botella 250 ml": { d1: 3350 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web164", cat: "bebidas", icon: "🥤", searchKeyword: "soda izots", nombre: "Soda Izots 1.7 L", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 1700 ml", presentaciones: { "Botella 1700 ml": { d1: 2100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web165", cat: "bebidas", icon: "🧃", searchKeyword: "jugo naranja tree fruts", nombre: "Jugo Naranja Fresco Tree Fruts 1 L", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 1000 ml": { d1: 6600 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web166", cat: "bebidas", icon: "🍵", searchKeyword: "te hatsu surtido", nombre: "Té Hatsu Surtido 200 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 200 ml", presentaciones: { "Botella 200 ml": { d1: 5050 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web167", cat: "aceites", icon: "🫒", searchKeyword: "aceite oliva castell ferro", nombre: "Aceite de Oliva Extravir Castell D F 500 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 500 ml", presentaciones: { "Botella 500 ml": { d1: 16950 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web168", cat: "aceites", icon: "🧈", searchKeyword: "barra don olio", nombre: "Barra Esparcible Don Olio 125 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Barra 125 g", presentaciones: { "Barra 125 g": { d1: 1400 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web169", cat: "aceites", icon: "🛢️", searchKeyword: "aceite imata 3000", nombre: "Aceite Vegetal Imatá 3000 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 3000 ml", presentaciones: { "Botella 3000 ml": { d1: 19990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web170", cat: "aceites", icon: "🛢️", searchKeyword: "aceite imata 900", nombre: "Aceite Vegetal Imatá 900 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 900 ml", presentaciones: { "Botella 900 ml": { d1: 6950 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web171", cat: "aceites", icon: "🛢️", searchKeyword: "aceite girasol don olio 2000", nombre: "Aceite de Girasol Don Olio 2000 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 2000 ml", presentaciones: { "Botella 2000 ml": { d1: 17990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web172", cat: "aceites", icon: "🛢️", searchKeyword: "aceite girasol don olio 900", nombre: "Aceite de Girasol Don Olio 900 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 900 ml", presentaciones: { "Botella 900 ml": { d1: 8290 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web173", cat: "granos", icon: "🍝", searchKeyword: "cabello angel caprissima", nombre: "Cabello de Ángel Capríssima 250 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 250 g", presentaciones: { "Bolsa 250 g": { d1: 1100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web174", cat: "granos", icon: "🍝", searchKeyword: "penne deliziare", nombre: "Penne Deliziare 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 3990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web175", cat: "granos", icon: "🍝", searchKeyword: "fusilli deliziare", nombre: "Fusilli Deliziare 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 3990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web176", cat: "granos", icon: "🍝", searchKeyword: "fettuccine deliziare", nombre: "Fettuccine Deliziare 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 4200 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web177", cat: "granos", icon: "🍝", searchKeyword: "spaghetti doria promo", nombre: "Spaghetti Doria Pague 250 g Lleve 275 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 275 g", presentaciones: { "Paquete 275 g": { d1: 2100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web178", cat: "granos", icon: "🍝", searchKeyword: "fideo doria promo", nombre: "Fideo Doria Pague 250 g Lleve 275 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 275 g", presentaciones: { "Paquete 275 g": { d1: 2100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web179", cat: "granos", icon: "🍝", searchKeyword: "concha caprissima", nombre: "Pasta Concha Capríssima 250 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 250 g", presentaciones: { "Bolsa 250 g": { d1: 1100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"] },
+            { id: "web180", cat: "aceites", icon: "🛢️", searchKeyword: "aceite premier girasol", nombre: "Aceite Premier de Girasol 2700 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 2700 ml", presentaciones: { "Botella 2700 ml": { olimpica: 58300 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web181", cat: "granos", icon: "🍚", searchKeyword: "arroz sabroson 5kg", nombre: "Arroz Sabrosón 5 kg", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 5 kg", presentaciones: { "Bolsa 5 kg": { olimpica: 20990 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web182", cat: "granos", icon: "🍚", searchKeyword: "arroz diana 5kg", nombre: "Arroz Diana 5 kg", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 5 kg", presentaciones: { "Bolsa 5 kg": { olimpica: 21950 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web183", cat: "granos", icon: "🍬", searchKeyword: "azucar manuelita 2.5kg", nombre: "Azúcar Manuelita 2.5 kg", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 2.5 kg", presentaciones: { "Bolsa 2.5 kg": { olimpica: 13200 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web184", cat: "granos", icon: "🍝", searchKeyword: "pasta doria 1kg", nombre: "Pasta Espagueti Doria Clásica 1 kg", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 1 kg": { olimpica: 6650 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web185", cat: "granos", icon: "🫘", searchKeyword: "frijol zaragoza olimpica", nombre: "Fríjol Olímpica Riego Zaragoza Rosado 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { olimpica: 3950 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web186", cat: "lacteos", icon: "🥛", searchKeyword: "crema leche alqueria 180", nombre: "Crema de Leche Alquería Semi UHT 180 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 180 g", presentaciones: { "Caja 180 g": { olimpica: 5900 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web187", cat: "granos", icon: "🍚", searchKeyword: "arroz tailandes 2500", nombre: "Arroz Tailandés 2500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 2500 g", presentaciones: { "Bolsa 2500 g": { olimpica: 13650 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web188", cat: "enlatados", icon: "🐟", searchKeyword: "atun zenu aceite", nombre: "Atún Zenú Lomo en Aceite de Girasol 160 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Lata 160 g", presentaciones: { "Lata 160 g": { olimpica: 8450 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web189", cat: "granos", icon: "🫘", searchKeyword: "lenteja diana 500", nombre: "Lenteja Diana 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { olimpica: 2990 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] },
+            { id: "web190", cat: "granos", icon: "🫘", searchKeyword: "garbanzo olimpica 500", nombre: "Garbanzo Olímpica 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { olimpica: 2950 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"] }
+        );
+
+        // Ampliación temática: tostadas, mecato individual y premios pequeños para mascotas.
+        // Se conserva el precio por comercio de origen; las fechas de precio se guardan para trazabilidad.
+        baseDatosProductos.push(
+            { id: "web191", cat: "panaderia", icon: "🍞", searchKeyword: "tostadas finas hierbas", nombre: "Tostadas Horneaditos con Finas Hierbas 90 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 90 g", presentaciones: { "Paquete 90 g": { d1: 2300 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostadas-finas-hierbas-horneaditos-14-und-90g-12000613/p", _fechaPrecio: "2026-10-10" },
+            { id: "web192", cat: "panaderia", icon: "🍞", searchKeyword: "tostada clasica mantequilla", nombre: "Tostada Clásica Horneaditos 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 150 g", presentaciones: { "Paquete 150 g": { d1: 2600 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostada-clasica-mantequilla-horneaditos-150g-12006636/p", _fechaPrecio: "2026-10-10" },
+            { id: "web193", cat: "panaderia", icon: "🍞", searchKeyword: "tostaditas mantequilla", nombre: "Tostaditas Horneaditos Mantequilla 100 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 100 g", presentaciones: { "Paquete 100 g": { d1: 2450 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostaditas-mantequilla-horneaditos-100g-12000199/p", _fechaPrecio: "2026-10-10" },
+            { id: "web194", cat: "panaderia", icon: "🍞", searchKeyword: "tostadas con ajo", nombre: "Tostadas Horneaditos con Ajo 90 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 90 g", presentaciones: { "Paquete 90 g": { d1: 2300 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostadas-con-ajo-horneaditos-14-und-90g-12000692/p", _fechaPrecio: "2026-10-10" },
+            { id: "web195", cat: "panaderia", icon: "🌾", searchKeyword: "tostada integral horneaditos", nombre: "Tostada Integral Horneaditos 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 150 g", presentaciones: { "Paquete 150 g": { d1: 1950 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostada-integral-horneaditos-10-und-150g-12000048/p", _fechaPrecio: "2026-10-10" },
+            { id: "web196", cat: "panaderia", icon: "🍞", searchKeyword: "tostada clasica horneaditos", nombre: "Tostada Clásica Horneaditos 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 150 g", presentaciones: { "Paquete 150 g": { d1: 1800 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostada-clasica-horneaditos-10-und-150g-12000047/p", _fechaPrecio: "2026-10-10" },
+            { id: "web197", cat: "panaderia", icon: "🌾", searchKeyword: "tostada surtida horneaditos", nombre: "Tostada Surtida Horneaditos 100 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 100 g", presentaciones: { "Paquete 100 g": { d1: 2990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostada-surtida-horneaditos-10-und-100g-12000299/p", _fechaPrecio: "2026-10-10" },
+            { id: "web198", cat: "panaderia", icon: "🍞", searchKeyword: "tostaditas susanita", nombre: "Tostaditas Susanita Aliñadas Individual x12 200 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x12 / 200 g", presentaciones: { "Paquete x12 / 200 g": { exito: 11100 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.exito.com/tostadas-alinada-individual-200-gr-197214/p", _fechaPrecio: "2026-10-10" },
+            { id: "web199", cat: "panaderia", icon: "🍞", searchKeyword: "tostadas el country", nombre: "Tostadas El Country Integrales 320 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 320 g", presentaciones: { "Paquete 320 g": { exito: 7930 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.exito.com/tostadas-integrales-el-country-320-gramo-46116/p", _fechaPrecio: "sin fecha confirmada" },
+            { id: "web200", cat: "snacks", icon: "🍭", searchKeyword: "bon bon bum fresa unidad", nombre: "Bon Bon Bum Fresa unidad 19 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 19 g", presentaciones: { "Unidad 19 g": { d1: 600 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web201", cat: "snacks", icon: "🥥", searchKeyword: "cocada copelia", nombre: "Cocada de Leche y Panela Copelia 23 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 23 g", presentaciones: { "Unidad 23 g": { d1: 900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web202", cat: "snacks", icon: "🍫", searchKeyword: "chocolatina besties", nombre: "Chocolatina de Leche Besties 12 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 12 g", presentaciones: { "Unidad 12 g": { d1: 900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web203", cat: "snacks", icon: "🍪", searchKeyword: "choco cookie biscolata", nombre: "Choco Cookie Biscolata Break 20 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 20 g", presentaciones: { "Unidad 20 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web204", cat: "snacks", icon: "🍬", searchKeyword: "mini chicles besties", nombre: "Mini Chicles Besties 12 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 12 g", presentaciones: { "Unidad 12 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web205", cat: "snacks", icon: "🍒", searchKeyword: "pastillas chao cereza", nombre: "Pastillas Chao Cereza 20.4 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 20.4 g", presentaciones: { "Unidad 20.4 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web206", cat: "snacks", icon: "🍫", searchKeyword: "mini wafer bridge", nombre: "Mini Wafer Bridge 17.2 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 17.2 g", presentaciones: { "Unidad 17.2 g": { d1: 1100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web207", cat: "snacks", icon: "🍬", searchKeyword: "oka loka fusion", nombre: "Polvo Ácido Oka Loka Fusión 13 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 13 g", presentaciones: { "Unidad 13 g": { d1: 1100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web208", cat: "snacks", icon: "🥜", searchKeyword: "mani krak chile limon", nombre: "Maní La Especial Krak Chile Limón 23 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 23 g", presentaciones: { "Unidad 23 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web209", cat: "snacks", icon: "🍫", searchKeyword: "chocolatina jet leche", nombre: "Chocolatina Jet Leche 12 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 12 g", presentaciones: { "Unidad 12 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web210", cat: "snacks", icon: "🍪", searchKeyword: "galleta festival recreo", nombre: "Galleta Festival Recreo 56 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 56 g", presentaciones: { "Paquete 56 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web211", cat: "snacks", icon: "🍪", searchKeyword: "galletas club social original", nombre: "Galletas Club Social Original 26 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 26 g", presentaciones: { "Paquete 26 g": { d1: 800 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web212", cat: "snacks", icon: "🍪", searchKeyword: "galleta club social integral", nombre: "Galleta Club Social Integral 24 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 24 g", presentaciones: { "Paquete 24 g": { d1: 800 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web213", cat: "snacks", icon: "🍪", searchKeyword: "galleta wafer renata limon", nombre: "Galletas Wafer Renata Limón 115 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 115 g", presentaciones: { "Paquete 115 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web214", cat: "snacks", icon: "🍪", searchKeyword: "galleta wafer renata chocolate", nombre: "Galletas Wafer Renata Chocolate 115 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 115 g", presentaciones: { "Paquete 115 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-02" },
+            { id: "web215", cat: "mascotas", icon: "🐱", searchKeyword: "galletas gatos magic friends", nombre: "Galletas para Gatos Magic Friends 75 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 75 g", presentaciones: { "Paquete 75 g": { d1: 2200 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web216", cat: "mascotas", icon: "🐱", searchKeyword: "whiskas humedo gato 85", nombre: "Alimento Húmedo para Gatos Whiskas 85 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Sobre 85 g", presentaciones: { "Sobre 85 g": { d1: 2750 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web217", cat: "mascotas", icon: "🐶", searchKeyword: "galletas perros magic friends", nombre: "Galletas para Perros Magic Friends 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 150 g", presentaciones: { "Paquete 150 g": { d1: 2900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web218", cat: "mascotas", icon: "🐶", searchKeyword: "pedigree humedo perros 100", nombre: "Alimento Húmedo para Perros Pedigree 100 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Sobre 100 g", presentaciones: { "Sobre 100 g": { d1: 2750 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web219", cat: "mascotas", icon: "🐱", searchKeyword: "snack cremoso gatos magic friends", nombre: "Snack Cremoso para Gatos Magic Friends 56 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 56 g", presentaciones: { "Paquete 56 g": { d1: 7600 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web220", cat: "mascotas", icon: "🐾", searchKeyword: "bolsas desechos mascotas", nombre: "Bolsas para Desechos de Mascotas Magic Friends", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete", presentaciones: { "Paquete": { d1: 4300 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web221", cat: "mascotas", icon: "🐶", searchKeyword: "snack perros exito paté", nombre: "Snack para Perros Rellenos de Paté Éxito 80 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 80 g", presentaciones: { "Paquete 80 g": { exito: 7230 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web222", cat: "mascotas", icon: "🐶", searchKeyword: "dog yurt delidog 160", nombre: "Dog Yurt Snack para Perros Delidog 160 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 160 g", presentaciones: { "Paquete 160 g": { exito: 9990 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web223", cat: "mascotas", icon: "🐶", searchKeyword: "pedigree dentastix 77", nombre: "Pedigree Dentastix Cuidado Oral 77 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 77 g", presentaciones: { "Paquete 77 g": { exito: 9000 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web224", cat: "mascotas", icon: "🐱", searchKeyword: "temptations gato pollo 28", nombre: "Snacks para Gato Temptations Pollo 28 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 28 g", presentaciones: { "Paquete 28 g": { exito: 5240 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web225", cat: "mascotas", icon: "🐶", searchKeyword: "dog yurt nutri bar", nombre: "Dog Yurt Nutri Bar 160 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 160 g", presentaciones: { "Paquete 160 g": { exito: 10250 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web226", cat: "mascotas", icon: "🐶", searchKeyword: "dowolf galletas cordero", nombre: "Dowolf Galletas Sabor Cordero y Espinaca 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 150 g", presentaciones: { "Paquete 150 g": { exito: 12600 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web227", cat: "mascotas", icon: "🐶", searchKeyword: "pedigree dentastix mini 16", nombre: "Pedigree DentaStix Diario 16 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 16 g", presentaciones: { "Unidad 16 g": { exito: 3440 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web228", cat: "mascotas", icon: "🐶", searchKeyword: "can amor bocaditos verduras", nombre: "Can Amor Bocaditos Multi con Verduras y Avena 200 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 200 g", presentaciones: { "Paquete 200 g": { exito: 7450 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web229", cat: "mascotas", icon: "🐶", searchKeyword: "kanu croquetas brownie", nombre: "Kanu Croquetas Blandas para Perro Brownie 200 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 200 g", presentaciones: { "Paquete 200 g": { exito: 9480 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web230", cat: "mascotas", icon: "🐶", searchKeyword: "pedigree biscrok multi 225", nombre: "Pedigree Snack para Perro Biscrok Multi 225 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 225 g", presentaciones: { "Paquete 225 g": { exito: 12800 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://www.rappi.com.co/tiendas/900060108-exito/mascotas/snacks-para-mascotas", _fechaPrecio: "fecha dinámica; confirmar en tienda" },
+            { id: "web231", cat: "snacks", icon: "🥥", searchKeyword: "cocada copelia leche panela", nombre: "Cocada Copelia Leche y Panela 23 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 23 g", presentaciones: { "Unidad 23 g": { d1: 900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-09" },
+            { id: "web232", cat: "snacks", icon: "🍒", searchKeyword: "pastillas chao cereza", nombre: "Pastillas Chao Cereza 20,4 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 20,4 g", presentaciones: { "Paquete 20,4 g": { d1: 1000 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-09" },
+            { id: "web233", cat: "snacks", icon: "🍫", searchKeyword: "mini wafer bridge", nombre: "Mini Wafer Bridge 17,2 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 17,2 g", presentaciones: { "Unidad 17,2 g": { d1: 1100 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-09" },
+            { id: "web234", cat: "snacks", icon: "🍫", searchKeyword: "chocolatina jumbo mani", nombre: "Chocolatina Jumbo Maní 35 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 35 g", presentaciones: { "Unidad 35 g": { d1: 3650 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web235", cat: "snacks", icon: "🍫", searchKeyword: "chocolatina jet cookies cream", nombre: "Chocolatina Jet Cookies & Cream 11 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 11 g", presentaciones: { "Unidad 11 g": { olimpica: 1000 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"], _urlFuente: "https://priceo.co/ofertas?categoria=snacks-y-dulces", _fechaPrecio: "2026-10-09" },
+            { id: "web236", cat: "snacks", icon: "🥔", searchKeyword: "pasabocas margarita clas alita bbq", nombre: "Papas Margarita Clásicas Alita BBQ 38 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 38 g", presentaciones: { "Paquete 38 g": { olimpica: 1500 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"], _urlFuente: "https://priceo.co/ofertas", _fechaPrecio: "2026-10-09" },
+            { id: "web237", cat: "snacks", icon: "🍬", searchKeyword: "sparkies individual", nombre: "Sparkies Individual 25 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 25 g", presentaciones: { "Unidad 25 g": { vaquita: 1490 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web238", cat: "snacks", icon: "🍫", searchKeyword: "wafer cocosette", nombre: "Wafer Cocosette 46 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 46 g", presentaciones: { "Paquete 46 g": { vaquita: 1850 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web239", cat: "snacks", icon: "🍫", searchKeyword: "jet cookie cream 50", nombre: "Chocolatina Jet Cookie & Cream 50 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Barra 50 g", presentaciones: { "Barra 50 g": { vaquita: 5450 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web240", cat: "snacks", icon: "🍪", searchKeyword: "barquillo piazza vainilla", nombre: "Barquillo Piazza Vainilla 45 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 45 g", presentaciones: { "Paquete 45 g": { vaquita: 3490 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web241", cat: "snacks", icon: "🍪", searchKeyword: "galleta ducales taco cinco", nombre: "Galletas Ducales Taco x 5 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 500 g", presentaciones: { "Paquete 500 g": { vaquita: 7990 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/ofertas?categoria=snacks-y-dulces", _fechaPrecio: "2026-10-09" },
+            { id: "web242", cat: "snacks", icon: "🍬", searchKeyword: "masmelos millows leche", nombre: "Masmelos Millows Leche 35 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 35 g", presentaciones: { "Paquete 35 g": { vaquita: 1750 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/ofertas?categoria=snacks-y-dulces", _fechaPrecio: "2026-10-09" },
+            { id: "web243", cat: "snacks", icon: "🍫", searchKeyword: "bon bon bum barquillo piazza", nombre: "Barquillos Piazza Bon Bon Bum 11,7 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Unidad 11,7 g", presentaciones: { "Unidad 11,7 g": { d1: 500 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=precio", _fechaPrecio: "2026-10-09; precio publicado por comercio no integrado" },
+            { id: "web244", cat: "snacks", icon: "🥜", searchKeyword: "grageas m and ms mani chocolate", nombre: "Grageas M&M’s Maní Chocolate 49 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 49 g", presentaciones: { "Paquete 49 g": { exito: 5091 } }, _fuenteOnline: "exito", _preciosDisponibles: ["exito"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web245", cat: "snacks", icon: "🍪", searchKeyword: "galleta chips ahoy mini", nombre: "Galleta Chips Ahoy Mini 50 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 50 g", presentaciones: { "Paquete 50 g": {} }, _fuenteOnline: "externo", _preciosDisponibles: [], _urlFuente: "https://priceo.co/ofertas?categoria=snacks-y-dulces", _fechaPrecio: "2026-10-09; precio publicado por comercio no integrado" },
+            { id: "web246", cat: "snacks", icon: "🥔", searchKeyword: "doritos megaqueso", nombre: "Pasabocas Doritos Megaqueso 340 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 340 g", presentaciones: { "Paquete 340 g": { euro: 16555 } }, _fuenteOnline: "euro", _preciosDisponibles: ["euro"], _urlFuente: "https://priceo.co/categoria/snacks-y-dulces?orden=tiendas", _fechaPrecio: "2026-10-09" },
+            { id: "web247", cat: "snacks", icon: "🍪", searchKeyword: "galletas vainilla wafer noel", nombre: "Galletas Vainilla Wafer Noel 432 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 432 g", presentaciones: { "Paquete 432 g": { jumbo: 7490 } }, _fuenteOnline: "jumbo", _preciosDisponibles: ["jumbo"], _urlFuente: "https://priceo.co/categoria/panaderia-y-galletas", _fechaPrecio: "2026-10-09" },
+            { id: "web248", cat: "snacks", icon: "🍞", searchKeyword: "tostada la focacheria rustike", nombre: "Tostada La Focacheria Rustike 120 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 120 g", presentaciones: { "Paquete 120 g": { jumbo: 7090 } }, _fuenteOnline: "jumbo", _preciosDisponibles: ["jumbo"], _urlFuente: "https://priceo.co/categoria/panaderia-y-galletas", _fechaPrecio: "2026-10-09" },
+            { id: "web249", cat: "snacks", icon: "🍪", searchKeyword: "galleta gullon chip chocolate", nombre: "Galleta Chip Chocolate Gullón 125 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 125 g", presentaciones: { "Paquete 125 g": { d1: 6900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://priceo.co/ofertas", _fechaPrecio: "2026-10-09" },
+            { id: "web250", cat: "snacks", icon: "🍪", searchKeyword: "galletas greco choco dokies", nombre: "Galletas Greco Choco Dokies 112 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 112 g", presentaciones: { "Paquete 112 g": { euro: 6350 } }, _fuenteOnline: "euro", _preciosDisponibles: ["euro"], _urlFuente: "https://priceo.co/ofertas?categoria=snacks-y-dulces", _fechaPrecio: "2026-10-09" },
+            { id: "web251", cat: "cereales", icon: "🥣", searchKeyword: "cereal tosh barra avena arandanos", nombre: "Cereal Tosh Barra Avena y Arándanos 32 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Barra 32 g", presentaciones: { "Barra 32 g": { vaquita: 2490 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09" },
+            { id: "web252", cat: "cereales", icon: "🥣", searchKeyword: "nestum trigo miel 200", nombre: "Cereal infantil Nestlé Nestum Trigo Miel 200 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 200 g", presentaciones: { "Caja 200 g": {} }, _fuenteOnline: "externo", _preciosDisponibles: [], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09; precio publicado por comercio no integrado" },
+            { id: "web253", cat: "cereales", icon: "🥣", searchKeyword: "nestum cinco cereales 350", nombre: "Cereal infantil Nestlé Nestum 5 Cereales 350 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 350 g", presentaciones: { "Caja 350 g": { olimpica: 20650 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09" },
+            { id: "web254", cat: "cereales", icon: "🥣", searchKeyword: "cereal chocapic 380", nombre: "Cereal Nestlé Chocapic 380 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 380 g", presentaciones: { "Caja 380 g": {} }, _fuenteOnline: "externo", _preciosDisponibles: [], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09; precio publicado por comercio no integrado" },
+            { id: "web255", cat: "cereales", icon: "🥣", searchKeyword: "cereal trix 340", nombre: "Cereal Nestlé Trix 340 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 340 g", presentaciones: { "Caja 340 g": { jumbo: 15813 } }, _fuenteOnline: "jumbo", _preciosDisponibles: ["jumbo"], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09" },
+            { id: "web256", cat: "cereales", icon: "🥣", searchKeyword: "cereal milo econopack 380", nombre: "Cereal Milo Econopack 380 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 380 g", presentaciones: { "Bolsa 380 g": { vaquita: 23590 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09" },
+            { id: "web257", cat: "cereales", icon: "🥣", searchKeyword: "kelloggs choco krispis 570", nombre: "Cereal Kellogg’s Choco Krispis 570 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 570 g", presentaciones: { "Caja 570 g": { olimpica: 23800 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09" },
+            { id: "web258", cat: "cereales", icon: "🥣", searchKeyword: "kelloggs musli manzana 275", nombre: "Cereal Kellogg’s Müsli Manzana 275 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 275 g", presentaciones: { "Caja 275 g": { jumbo: 19760 } }, _fuenteOnline: "jumbo", _preciosDisponibles: ["jumbo"], _urlFuente: "https://priceo.co/precio/cereal", _fechaPrecio: "2026-10-09" },
+            { id: "web259", cat: "lacteos", icon: "🥛", searchKeyword: "crema de leche celema larga vida 200", nombre: "Crema de Leche Celema Larga Vida 200 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Caja 200 g", presentaciones: { "Caja 200 g": { euro: 2790 } }, _fuenteOnline: "euro", _preciosDisponibles: ["euro"], _urlFuente: "https://priceo.co/ofertas?categoria=snacks-y-dulces", _fechaPrecio: "2026-10-09" },
+            { id: "web260", cat: "lacteos", icon: "🥤", searchKeyword: "yogo yogo alpina mora 150", nombre: "Yogo Yogo Alpina Mora 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Vaso 150 g", presentaciones: { "Vaso 150 g": { olimpica: 2090 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"], _urlFuente: "https://priceo.co/categoria/lacteos-y-huevos", _fechaPrecio: "2026-10-09" },
+            { id: "web261", cat: "lacteos", icon: "🧈", searchKeyword: "margarina la fina barra 250", nombre: "Margarina La Fina Barra 250 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Barra 250 g", presentaciones: { "Barra 250 g": { vaquita: 3500 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/categoria/lacteos-y-huevos", _fechaPrecio: "2026-10-09" },
+            { id: "web262", cat: "granos", icon: "🍝", searchKeyword: "doria spaghetti integral multicereal 500", nombre: "Doria Spaghetti Integral Multicereal 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { vaquita: 2980 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/ofertas", _fechaPrecio: "2026-10-09" },
+            { id: "web263", cat: "granos", icon: "🍚", searchKeyword: "azucar incauca morena 1kg", nombre: "Azúcar Incauca Morena 1 kg", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 1 kg": { olimpica: 3200 } }, _fuenteOnline: "olimpica", _preciosDisponibles: ["olimpica"], _urlFuente: "https://priceo.co/categoria/panaderia-y-galletas", _fechaPrecio: "2026-10-09" },
+            { id: "web264", cat: "panaderia", icon: "🫓", searchKeyword: "arepa sary yuca queso 300", nombre: "Arepa Sary de Yuca con Queso 300 g x5", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x5 300 g", presentaciones: { "Paquete x5 300 g": { euro: 8280 } }, _fuenteOnline: "euro", _preciosDisponibles: ["euro"], _urlFuente: "https://priceo.co/categoria/panaderia-y-galletas", _fechaPrecio: "2026-10-09" },
+            { id: "web265", cat: "panaderia", icon: "🍞", searchKeyword: "minipalitroques susanita pizza 150", nombre: "Minipalitroques Susanita Pizza 150 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 150 g", presentaciones: { "Paquete 150 g": { vaquita: 4725 } }, _fuenteOnline: "vaquita", _preciosDisponibles: ["vaquita"], _urlFuente: "https://priceo.co/categoria/panaderia-y-galletas", _fechaPrecio: "2026-10-09" },
+            { id: "web266", cat: "mascotas", icon: "🐱", searchKeyword: "arena para gatos 4 5 kg", nombre: "Arena para Gatos 4,5 kg", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 4,5 kg", presentaciones: { "Bolsa 4,5 kg": { d1: 14850 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web267", cat: "mascotas", icon: "🧻", searchKeyword: "panos humedos magic friends 48", nombre: "Paños Húmedos Magic Friends 48 unidades", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x48", presentaciones: { "Paquete x48": { d1: 3950 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/mascotas", _fechaPrecio: "2026-10-10" },
+            { id: "web268", cat: "panaderia", icon: "🍞", searchKeyword: "tostada multicereal maiz natri 70", nombre: "Tostada Multicereal/Maíz Natri 70 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 70 g", presentaciones: { "Paquete 70 g": { d1: 3800 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/tostada-multicereal-maiz-natri-70g-12000992/p", _fechaPrecio: "2026-10-10" },
+            { id: "web269", cat: "panaderia", icon: "🍞", searchKeyword: "pan tajado blanco horneaditos 450", nombre: "Pan Tajado Blanco Horneaditos 450 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 450 g", presentaciones: { "Bolsa 450 g": { d1: 2990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/horneaditos", _fechaPrecio: "2026-10-10" },
+            { id: "web270", cat: "panaderia", icon: "🍞", searchKeyword: "pan tajado mantequilla horneaditos 450", nombre: "Pan Tajado Mantequilla Horneaditos 450 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 450 g", presentaciones: { "Bolsa 450 g": { d1: 3850 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/horneaditos", _fechaPrecio: "2026-10-10" },
+            { id: "web271", cat: "panaderia", icon: "🥐", searchKeyword: "mini croissant horneaditos 340", nombre: "Mini Croissant Horneaditos 340 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete 340 g", presentaciones: { "Paquete 340 g": { d1: 3990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/horneaditos", _fechaPrecio: "2026-10-10" },
+            { id: "web272", cat: "panaderia", icon: "🍞", searchKeyword: "pan tajado integral horneaditos 450", nombre: "Pan Tajado Integral Horneaditos 450 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 450 g", presentaciones: { "Bolsa 450 g": { d1: 3650 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/horneaditos", _fechaPrecio: "2026-10-10" },
+            { id: "web273", cat: "panaderia", icon: "🌭", searchKeyword: "pan perro horneaditos 6 und", nombre: "Pan para Perro Horneaditos 6 unidades 370 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x6 370 g", presentaciones: { "Paquete x6 370 g": { d1: 3750 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/horneaditos", _fechaPrecio: "2026-10-10" },
+            { id: "web274", cat: "congelados", icon: "🍟", searchKeyword: "croqueta yuca toastatas 500", nombre: "Croqueta de Yuca Toastatas 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 4490 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa", _fechaPrecio: "2026-10-10" },
+            { id: "web275", cat: "congelados", icon: "🥟", searchKeyword: "empanada carne toastatas 12", nombre: "Empanadas de Carne Toastatas 12 unidades 420 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x12 420 g", presentaciones: { "Paquete x12 420 g": { d1: 9850 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/toastatas", _fechaPrecio: "2026-10-10" },
+            { id: "web276", cat: "congelados", icon: "🧀", searchKeyword: "empanadas queso toastatas 10", nombre: "Empanadas de Queso Toastatas 10 unidades 400 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x10 400 g", presentaciones: { "Paquete x10 400 g": { d1: 11500 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/toastatas", _fechaPrecio: "2026-10-10" },
+            { id: "web277", cat: "congelados", icon: "🍟", searchKeyword: "papas en casco toastatas 500", nombre: "Papas en Casco Toastatas 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 6490 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/toastatas", _fechaPrecio: "2026-10-10" },
+            { id: "web278", cat: "congelados", icon: "🧀", searchKeyword: "aborrajados toastatas 500", nombre: "Aborrajados Toastatas 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 13600 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/toastatas", _fechaPrecio: "2026-10-10" },
+            { id: "web279", cat: "granos", icon: "🥫", searchKeyword: "salsa tomate zev 500", nombre: "Salsa de Tomate Zev 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 500 g", presentaciones: { "Botella 500 g": { d1: 4490 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=2", _fechaPrecio: "2026-10-10" },
+            { id: "web280", cat: "granos", icon: "🌮", searchKeyword: "tortilla fajita crachos 360", nombre: "Tortilla Fajita Crachos 12 unidades 360 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Paquete x12 360 g", presentaciones: { "Paquete x12 360 g": { d1: 5350 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=2", _fechaPrecio: "2026-10-10" },
+            { id: "web281", cat: "congelados", icon: "🥦", searchKeyword: "mix verduras cooltivo 500", nombre: "Mix de Verduras Cooltivo 500 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 5700 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=2", _fechaPrecio: "2026-10-10" },
+            { id: "web282", cat: "granos", icon: "🌽", searchKeyword: "harina maiz blanca pan 800", nombre: "Harina de Maíz Blanca PAN 800 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 800 g", presentaciones: { "Bolsa 800 g": { d1: 2700 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=2", _fechaPrecio: "2026-10-10" },
+            { id: "web283", cat: "granos", icon: "🧴", searchKeyword: "vinagre blanco zev 1000", nombre: "Vinagre Blanco Zev 1000 ml", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 1000 ml": { d1: 2850 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=2", _fechaPrecio: "2026-10-10" },
+            { id: "web284", cat: "granos", icon: "🧂", searchKeyword: "ajo granulado speciaria 28", nombre: "Ajo Granulado Speciaria 28 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Frasco 28 g", presentaciones: { "Frasco 28 g": { d1: 1990 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=2", _fechaPrecio: "2026-10-10" },
+            { id: "web285", cat: "enlatados", icon: "🍄", searchKeyword: "champinones tajados cooltivo 280", nombre: "Champiñones Tajados Cooltivo 280 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Lata 280 g", presentaciones: { "Lata 280 g": { d1: 5250 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=10", _fechaPrecio: "2026-10-10" },
+            { id: "web286", cat: "enlatados", icon: "🍅", searchKeyword: "tomates enteros pelados deliziare 400", nombre: "Tomates Enteros Pelados Deliziare 400 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Lata 400 g", presentaciones: { "Lata 400 g": { d1: 4950 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=10", _fechaPrecio: "2026-10-10" },
+            { id: "web287", cat: "cereales", icon: "🥣", searchKeyword: "cereal flips chocolate 400", nombre: "Cereal Flips Chocolate 400 g", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0, presentacionActual: "Bolsa 400 g", presentaciones: { "Bolsa 400 g": { d1: 15900 } }, _fuenteOnline: "d1", _preciosDisponibles: ["d1"], _urlFuente: "https://www.d1.com.co/despensa?page=10", _fechaPrecio: "2026-10-10" }        );
 
         const listadoTiendasActivas = ['d1', 'ara', 'barrio', 'exito', 'olimpica', 'caribe', 'euro', 'vaquita', 'jumbo'];
 
@@ -2273,14 +2405,17 @@
 
             function renderizarPrecioTiendaCat(tiendaKey) {
                 const precioUnitario = p.preciosUnitariosCustom[tiendaKey];
+                const datoNoDisponible = !!(p._fuenteOnline && Array.isArray(p._preciosDisponibles) && !p._preciosDisponibles.includes(tiendaKey));
                 const subtotal = precioUnitario * qtyActual;
+                const valorInput = datoNoDisponible ? '' : precioUnitario;
+                const textoSubtotal = datoNoDisponible ? 'Sin dato' : `$${subtotal.toLocaleString()}`;
 
                 return `
                     <div class="input-label-group">
                         <span>${tiendaKey.toUpperCase()}</span>
                         <div class="store-price-container">
-                            <input type="number" class="store-price-input" id="cat-p-${p.id}-${tiendaKey}" value="${precioUnitario}" oninput="actualizarPrecioUnitarioManual('${p.id}', '${tiendaKey}', this.value)">
-                            <div class="store-subtotal-label" id="cat-sub-${p.id}-${tiendaKey}">$${subtotal.toLocaleString()}</div>
+                            <input type="number" class="store-price-input" id="cat-p-${p.id}-${tiendaKey}" value="${valorInput}" placeholder="${datoNoDisponible ? 'N/D' : ''}" oninput="actualizarPrecioUnitarioManual('${p.id}', '${tiendaKey}', this.value)">
+                            <div class="store-subtotal-label" id="cat-sub-${p.id}-${tiendaKey}">${textoSubtotal}</div>
                         </div>
                     </div>
                 `;
@@ -2416,7 +2551,7 @@
             const orden = ordenSelect ? ordenSelect.value : 'az';
 
             const totalBD = baseDatosProductos.length;
-            document.getElementById('titulo-catalogo-principal').textContent = `📦 Catálogo Súper Masivo (${totalBD} Productos Multitienda Online)`;
+            document.getElementById('titulo-catalogo-principal').textContent = `📦 Catálogo Súper Masivo (${totalBD} productos locales y online)`;
 
             let filtrados = baseDatosProductos.filter(p => {
                 const coincideCat = categoriaActual === 'todos' || p.cat === categoriaActual;
@@ -2479,22 +2614,30 @@
         }
 
         function cambiarPresentacion(idProd, nuevaPres) {
-            const prod = baseDatosProductos.find(p => p.id === idProd);
-            if (prod) {
-                prod.presentacionActual = nuevaPres;
-                const presObj = prod.presentaciones[nuevaPres] || {};
-                
-                if (!prod.preciosUnitariosCustom) prod.preciosUnitariosCustom = {};
+            const prod = baseDatosProductos.find(p => String(p.id) === String(idProd));
+            if (!prod || !prod.presentaciones || !prod.presentaciones[nuevaPres]) return;
 
-                listadoTiendasActivas.forEach(tienda => {
-                    const nuevoPrecioBase = presObj[tienda] || 0;
-                    prod.preciosUnitariosCustom[tienda] = nuevoPrecioBase;
-                });
-            }
+            // La presentación seleccionada es la fuente de verdad para los precios.
+            // Actualizamos los precios personalizados para que el catálogo y el carrito
+            // muestren el mismo valor inmediatamente al cambiar el tamaño.
+            prod.presentacionActual = nuevaPres;
+            const presObj = prod.presentaciones[nuevaPres] || {};
+            if (!prod.preciosUnitariosCustom) prod.preciosUnitariosCustom = {};
 
-            if (pestanaActiva === 'catalogo') renderizarProductos();
-            else renderizarCarrito();
-            actualizarResumenPresupuestoVivo(); if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+            listadoTiendasActivas.forEach(tienda => {
+                const precio = presObj[tienda];
+                // Si la presentación no tiene precio para una tienda, mostrar 0/N-D,
+                // nunca conservar por accidente el precio de la presentación anterior.
+                prod.preciosUnitariosCustom[tienda] = Number.isFinite(Number(precio)) ? Number(precio) : 0;
+            });
+
+            // Refrescar ambos paneles, no solo el que esté activo: el producto puede
+            // estar en el catálogo y simultáneamente en el carrito.
+            if (typeof renderizarProductos === 'function') renderizarProductos();
+            if (typeof renderizarCarrito === 'function') renderizarCarrito();
+            if (typeof actualizarResumenPresupuestoVivo === 'function') actualizarResumenPresupuestoVivo();
+            if (typeof actualizarBadgeCarritoFlotante === 'function') actualizarBadgeCarritoFlotante();
+            if (typeof calcularMercadoMasivo === 'function') calcularMercadoMasivo(false);
         }
 
         function actualizarCantidad(idProd, val) {
@@ -2527,6 +2670,9 @@
 
                 if (!prod.preciosUnitariosCustom) prod.preciosUnitariosCustom = {};
                 prod.preciosUnitariosCustom[tiendaKey] = precioUnitario;
+                if (prod._fuenteOnline && Array.isArray(prod._preciosDisponibles) && !prod._preciosDisponibles.includes(tiendaKey) && String(valorUnitarioStr).trim() !== '') {
+                    prod._preciosDisponibles.push(tiendaKey);
+                }
 
                 const subtotal = precioUnitario * qty;
 
@@ -3300,7 +3446,7 @@
    ============================================================ */
 (function () {
     const LIVE_CATALOG_CONFIG = {
-        d1:      { nombre: 'D1', dominio: 'https://www.d1.com.co', plataforma: 'vtex' },
+        d1:      { nombre: 'D1', dominio: 'https://www.d1.com.co', plataforma: 'html-paginated' },
         exito:   { nombre: 'Éxito', dominio: 'https://www.exito.com', plataforma: 'vtex' },
         olimpica:{ nombre: 'Olímpica', dominio: 'https://www.olimpica.com', plataforma: 'vtex' },
         jumbo:   { nombre: 'Jumbo Online', dominio: 'https://www.jumbo.com.co', plataforma: 'vtex' },
@@ -3354,7 +3500,8 @@
     function liveCategory(product) {
         const raw = Array.isArray(product && product.categories) ? product.categories.join(' ') : '';
         const c = liveNormalizeText(raw);
-        if (/aseo|limpieza|hogar/.test(c)) return 'aseo';
+        if (/mascota|perro|gato|pet/.test(c)) return 'snacks';
+        if (/aseo|limpieza|hogar|cuidado personal/.test(c)) return 'aseo';
         if (/lacteo|yogur|leche|queso/.test(c)) return 'lacteos';
         if (/carne|pollo|pescado|marisco|embutido/.test(c)) return 'proteinas';
         if (/fruta|verdura|hortaliza/.test(c)) return 'frutas';
@@ -3414,13 +3561,36 @@
     }
 
     async function fetchJson(url, options) {
-        const response = await fetch(url, Object.assign({
+        const opts = Object.assign({
             headers: { 'Accept': 'application/json' },
             credentials: 'omit',
             cache: 'no-store'
-        }, options || {}));
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
+        }, options || {});
+        let errorDirecto = null;
+        try {
+            const response = await fetch(url, opts);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (e) {
+            errorDirecto = e;
+        }
+
+        // Respaldo para HTML abierto localmente o tiendas que no permiten CORS.
+        // Solo se usa con GET: no se envían consultas POST ni datos del usuario a un proxy.
+        if (!opts.method || String(opts.method).toUpperCase() === 'GET') {
+            const proxies = [
+                'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+                'https://corsproxy.io/?url=' + encodeURIComponent(url)
+            ];
+            for (const proxyUrl of proxies) {
+                try {
+                    const response = await fetch(proxyUrl, { headers: { 'Accept': 'application/json' }, cache: 'no-store' });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (_) {}
+            }
+        }
+        throw new Error(`No fue posible consultar la fuente directa ni el respaldo CORS (${errorDirecto && errorDirecto.message ? errorDirecto.message : 'error de red'}).`);
     }
 
     async function consultarVTEX(storeKey, termino, from, to) {
@@ -3432,19 +3602,26 @@
 
     async function cargarVTEX(storeKey, termino, completo) {
         let from = 0, page = 0, total = 0, loaded = 0;
+        const vistos = new Set();
         while (page < LIVE_MAX_PAGES) {
             const to = from + LIVE_PAGE_SIZE - 1;
             const data = await consultarVTEX(storeKey, termino, from, to);
             const products = Array.isArray(data) ? data : [];
             if (!products.length) break;
 
-            products.forEach(p => { if (liveUpsertVTEX(storeKey, p)) loaded++; });
+            let nuevosEnPagina = 0;
+            products.forEach(p => {
+                const item = Array.isArray(p && p.items) ? p.items[0] : null;
+                const identity = String((item && (item.ean || item.itemId)) || p.productId || p.productName || '');
+                if (identity && !vistos.has(identity)) { vistos.add(identity); nuevosEnPagina++; }
+                if (liveUpsertVTEX(storeKey, p)) loaded++;
+            });
             total += products.length;
             page++;
 
-            if (!completo || products.length < LIVE_PAGE_SIZE) break;
+            if (!completo || products.length < LIVE_PAGE_SIZE || nuevosEnPagina === 0) break;
             from += LIVE_PAGE_SIZE;
-            liveProgress(`Cargando ${LIVE_CATALOG_CONFIG[storeKey].nombre}: ${total.toLocaleString('es-CO')} productos procesados...`);
+            liveProgress(`Cargando ${LIVE_CATALOG_CONFIG[storeKey].nombre}: página ${page} · ${total.toLocaleString('es-CO')} registros consultados · ${loaded.toLocaleString('es-CO')} integraciones...`);
         }
         return { total, loaded };
     }
@@ -3498,6 +3675,180 @@
         return { total, loaded };
     }
 
+    // D1 no expone el mismo endpoint VTEX que los otros comercios.
+    // Este importador recorre páginas públicas de categorías y extrae productos/precios visibles.
+    // Se detiene cuando una página deja de aportar productos nuevos para evitar bucles.
+    async function fetchText(url) {
+        let directError = null;
+        try {
+            const r = await fetch(url, { headers: { 'Accept': 'text/html,application/xhtml+xml' }, credentials: 'omit', cache: 'no-store' });
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return await r.text();
+        } catch (e) { directError = e; }
+        const proxies = [
+            'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+            'https://corsproxy.io/?url=' + encodeURIComponent(url)
+        ];
+        for (const proxyUrl of proxies) {
+            try {
+                const r = await fetch(proxyUrl, { headers: { 'Accept': 'text/html,*/*' }, cache: 'no-store' });
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return await r.text();
+            } catch (_) {}
+        }
+        throw new Error(`No se pudo leer el catálogo público (${directError && directError.message || 'error de red/CORS'}).`);
+    }
+
+    function d1PriceFromText(text) {
+        const t = String(text || '').replace(/\u00a0/g, ' ');
+        const matches = [...t.matchAll(/\$\s*([\d.]+(?:,\d{1,2})?)/g)];
+        for (const m of matches) {
+            const n = Number(m[1].replace(/\./g, '').replace(',', '.'));
+            if (n > 0 && n < 100000000) return n;
+        }
+        return 0;
+    }
+
+    function d1CategoryFromPath(path) {
+        const x = liveNormalizeText(path);
+        if (/mascota|perro|gato/.test(x)) return 'Mascotas';
+        if (/aseo|hogar|cuidado-personal/.test(x)) return 'Aseo y limpieza';
+        if (/bebida/.test(x)) return 'Bebidas';
+        if (/lacteo|huevo/.test(x)) return 'Lácteos y huevos';
+        if (/fruta|verdura/.test(x)) return 'Frutas y verduras';
+        if (/pollo|carne|pescado|delikatessen/.test(x)) return 'Pollo, carne y pescado';
+        return 'Despensa';
+    }
+
+    function d1ExtractProducts(html, pageUrl, categoryPath) {
+        const found = new Map();
+        const add = (name, price, url) => {
+            name = String(name || '').replace(/\s+/g, ' ').trim();
+            price = Number(price);
+            if (!name || name.length < 3 || name.length > 180 || !(price > 0)) return;
+            if (/^(abrir|agregar|favoritos|ver más|mostrar anteriores)$/i.test(name)) return;
+            if (/^(despensa|bebidas|hogar|productos|filtros)$/i.test(name)) return;
+            const key = liveNormalizeText(name);
+            if (!found.has(key)) found.set(key, { name, price, url: url || pageUrl });
+        };
+
+        // First try structured Product/Offer JSON-LD if the store includes it.
+        try {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            doc.querySelectorAll('script[type="application/ld+json"]').forEach(sc => {
+                try {
+                    const json = JSON.parse(sc.textContent || 'null');
+                    const walk = obj => {
+                        if (!obj) return;
+                        if (Array.isArray(obj)) { obj.forEach(walk); return; }
+                        if (typeof obj !== 'object') return;
+                        const type = String(obj['@type'] || '').toLowerCase();
+                        if (type.includes('product')) {
+                            const offers = Array.isArray(obj.offers) ? obj.offers[0] : obj.offers;
+                            const price = Number(offers && (offers.price || offers.lowPrice));
+                            add(obj.name, price, obj.url || pageUrl);
+                        }
+                        Object.keys(obj).forEach(k => { if (obj[k] && typeof obj[k] === 'object') walk(obj[k]); });
+                    };
+                    walk(json);
+                } catch (_) {}
+            });
+
+            // Then inspect product links and their nearest card-like containers.
+            const links = [...doc.querySelectorAll('a[href]')];
+            links.forEach(a => {
+                const href = a.getAttribute('href') || '';
+                const text = (a.innerText || a.textContent || '').replace(/\s+/g, ' ').trim();
+                if (!text || text.length < 3 || /tiendas|mis listas|perfil|iniciar sesión/i.test(text)) return;
+                let node = a, cardText = text;
+                for (let depth = 0; depth < 5 && node; depth++, node = node.parentElement) {
+                    const txt = (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim();
+                    if (txt.length > text.length && txt.length < 1200 && /\$\s*[\d.]+/.test(txt)) { cardText = txt; break; }
+                }
+                const price = d1PriceFromText(cardText);
+                if (!price) return;
+                let name = text;
+                name = name.replace(/^(abrir\s*)?(agregar a lista\s*)?(agregar a favoritos\s*)?/i, '').trim();
+                // If the anchor is a generic action, take the title-like phrase before the price.
+                if (name.length < 4 || /agregar|favoritos|ver producto/i.test(name)) {
+                    const beforePrice = cardText.split(/\$\s*[\d.]+/)[0];
+                    name = beforePrice.replace(/.*?(?:Abrir|Agregar a favoritos|Agregar a lista)/i, '').trim();
+                }
+                const absoluteUrl = (() => { try { return new URL(href, pageUrl).href; } catch (_) { return pageUrl; } })();
+                add(name, price, absoluteUrl);
+            });
+
+            // Fallback for server-rendered product snippets where card anchors are not descriptive.
+            const flat = (doc.body && (doc.body.innerText || doc.body.textContent) || '').replace(/\u00a0/g, ' ');
+            const re = /(?:Abrir\s*)?(?:Agregar a lista\s*)?(?:Agregar a favoritos\s*)?([^$\n]{3,130}?)\s*\$\s*([\d.]+)/gi;
+            let m;
+            while ((m = re.exec(flat))) add(m[1].replace(/\s+/g, ' ').trim(), Number(m[2].replace(/\./g, '')), pageUrl);
+        } catch (_) {}
+
+        return [...found.values()].map(p => ({ ...p, category: d1CategoryFromPath(categoryPath) }));
+    }
+
+    function liveUpsertSimple(storeKey, p) {
+        const name = String(p.name || '').trim();
+        const price = Number(p.price);
+        if (!name || !(price > 0)) return false;
+        const sku = liveNormalizeText(name).replace(/[^a-z0-9]+/g, '-').slice(0, 70);
+        const fake = {
+            productName: name, productId: sku, linkText: '',
+            categories: [p.category || 'Despensa'],
+            items: [{ itemId: sku, name, ean: '', sellers: [{ commertialOffer: { Price: price, AvailableQuantity: 1 } }] }]
+        };
+        const before = baseDatosProductos.length;
+        const result = liveUpsertVTEX(storeKey, fake);
+        const item = baseDatosProductos.find(x => x.liveKey === `${storeKey}:${liveNormalizeText(name)}:${sku}`);
+        if (item) {
+            item._liveUrl = p.url || item._liveUrl || '';
+            item._liveUpdatedAt = new Date().toISOString();
+            item._liveSource = 'Catálogo público D1';
+        }
+        return result || baseDatosProductos.length > before;
+    }
+
+    async function cargarD1DesdePaginas(termino, completo) {
+        const cfg = LIVE_CATALOG_CONFIG.d1;
+        const categories = [
+            { path: 'despensa', pages: 25 },
+            { path: 'bebidas', pages: 6 },
+            { path: 'hogar', pages: 8 },
+            { path: 'aseo-y-limpieza', pages: 8 },
+            { path: 'lacteos-y-huevos', pages: 8 },
+            { path: 'frutas-y-verduras', pages: 5 },
+            { path: 'pollo-carne-y-pescado', pages: 8 },
+            { path: 'cuidado-personal-y-belleza', pages: 8 },
+            { path: 'extraordinarios', pages: 10 },
+            { path: 'carnes-frias-delikatessen', pages: 5 }
+        ];
+        let total = 0, loaded = 0;
+        const term = liveNormalizeText(termino || '');
+        for (const category of categories) {
+            let previousPageSignature = '';
+            const maxPages = completo ? category.pages : 1;
+            for (let page = 1; page <= maxPages; page++) {
+                const url = `${cfg.dominio}/${category.path}${page > 1 ? `?page=${page}` : ''}`;
+                const html = await fetchText(url);
+                const products = d1ExtractProducts(html, url, category.path);
+                const signature = products.map(p => liveNormalizeText(p.name)).sort().join('|');
+                if (!products.length || (signature && signature === previousPageSignature)) break;
+                previousPageSignature = signature;
+                total += products.length;
+                for (const product of products) {
+                    if (term && !liveNormalizeText(product.name).includes(term)) continue;
+                    if (liveUpsertSimple('d1', product)) loaded++;
+                }
+                liveProgress(`D1 · ${category.path} · página ${page}/${maxPages} · ${loaded.toLocaleString('es-CO')} productos incorporados en esta consulta...`);
+                if (!completo) break;
+                // Avoid hammering the shop site with simultaneous requests.
+                await new Promise(resolve => setTimeout(resolve, 180));
+            }
+        }
+        return { total, loaded };
+    }
+
     window.ahorraBuscarCatalogosEnVivo = async function () {
         const termino = (document.getElementById('buscador')?.value || '').trim();
         if (!termino) {
@@ -3527,7 +3878,9 @@
             try {
                 const r = storeKey === 'vaquita'
                     ? await cargarMagentoVaquita(termino, false)
-                    : await cargarVTEX(storeKey, termino, false);
+                    : storeKey === 'd1'
+                        ? await cargarD1DesdePaginas(termino, false)
+                        : await cargarVTEX(storeKey, termino, false);
                 resultados.push({ storeKey, ...r });
             } catch (e) {
                 resultados.push({ storeKey, total: 0, loaded: 0, error: e });
@@ -3568,7 +3921,9 @@
             try {
                 const r = storeKey === 'vaquita'
                     ? await cargarMagentoVaquita('', true)
-                    : await cargarVTEX(storeKey, '', true);
+                    : storeKey === 'd1'
+                        ? await cargarD1DesdePaginas('', true)
+                        : await cargarVTEX(storeKey, '', true);
                 total += r.total || 0;
                 loaded += r.loaded || 0;
                 liveProgress(`${LIVE_CATALOG_CONFIG[storeKey].nombre}: ${r.loaded || 0} productos integrados · acumulado ${loaded.toLocaleString('es-CO')}`);
@@ -3578,8 +3933,10 @@
             }
         }
 
-        liveStatus(`${loaded.toLocaleString('es-CO')} productos online integrados`, loaded ? 'ok' : 'error');
-        liveProgress(`Consulta completada: ${total.toLocaleString('es-CO')} registros recibidos. Última actualización ${new Date().toLocaleString('es-CO')}.`);
+        liveStatus(`${loaded.toLocaleString('es-CO')} registros integrados desde catálogos online`, loaded ? 'ok' : 'error');
+        liveProgress(loaded
+            ? `Consulta completada: ${total.toLocaleString('es-CO')} registros recibidos de las fuentes que respondieron. Última actualización ${new Date().toLocaleString('es-CO')}.`
+            : `No se integraron productos nuevos. Las tiendas pueden bloquear las API, exigir ubicación o cambiar sus endpoints. Revisa los mensajes de cada tienda e inténtalo de nuevo.`);
         renderizarProductos();
         if (typeof renderizarCarrito === 'function') renderizarCarrito();
         if (typeof calcularMercadoMasivo === 'function' && typeof obtenerComerciosSeleccionadosArray === 'function') {
@@ -3587,21 +3944,6 @@
             // Los precios ya quedan disponibles para la comparativa cuando él la ejecute.
         }
     };
-
-    // Actualización periódica: refresca solamente los productos actualmente visibles/seleccionados
-    // cuando el usuario ya está usando la sección de catálogo, evitando una descarga masiva silenciosa.
-    setInterval(async () => {
-        const panel = document.getElementById('cuerpo-productos');
-        const input = document.getElementById('buscador');
-        if (!panel || panel.style.display === 'none' || !input || !input.value.trim()) return;
-        try {
-            await window.ahorraBuscarCatalogosEnVivo();
-        } catch (_) {}
-    }, 5 * 60 * 1000);
-
-    window.addEventListener('load', function () {
-        liveStatus('APIs listas · consulta bajo demanda', '');
-    });
 })();
 
 </script>
@@ -3669,7 +4011,7 @@
             : String(a.nombre).localeCompare(String(b.nombre),'es'));
 
         const titulo = document.getElementById('titulo-catalogo-principal');
-        if (titulo) titulo.textContent = `📦 Catálogo Súper Masivo (${lista.length} Productos Multitienda Online)`;
+        if (titulo) titulo.textContent = `📦 Catálogo Súper Masivo (${lista.length} productos locales y online)`;
         const contador = document.getElementById('contador-productos-catalogo');
         if (contador) contador.textContent = `📦 Mostrando ${items.length} de ${lista.length} productos · ${cat === 'todos' ? 'todas las categorías' : cat}${q ? ` · búsqueda: “${q}”` : ''}`;
 
