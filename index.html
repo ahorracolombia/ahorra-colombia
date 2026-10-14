@@ -1352,6 +1352,15 @@
                     🔎 <b>Modo búsqueda:</b> aquí puedes marcar, desmarcar, buscar, cambiar presentación, sumar/restar cantidades y modificar precios sin enviarlos al carrito.
                     <b>El carrito solo cambia cuando pulses “Añadir al carrito”.</b>
                 </div>
+                <div class="catalogo-estado-ayuda" style="border-left:3px solid #d97706;margin-top:6px;">
+                    ⚠️ <b>Transparencia de precios:</b> los valores base son aproximaciones de mercado; solo se sustituyen automáticamente cuando la tienda devuelve una coincidencia razonable de producto y presentación. La disponibilidad y el precio final pueden variar por ciudad, promoción y tienda.
+                </div>
+
+                <div class="express-field" style="max-width:360px;margin:10px 0 14px;">
+                    <label for="costo-domicilio-comparativa">🚚 Añadir costo de domicilio (opcional, COP)</label>
+                    <input id="costo-domicilio-comparativa" class="express-input-manual" type="number" min="0" step="500" value="0" style="margin:0;background:#fff" oninput="actualizarDomicilioComparativa()">
+                    <small style="color:var(--text-muted)">Se suma al total de la opción recomendada. El costo automático depende de la dirección, la tienda y el pedido; sin acceso oficial a esos datos no se puede confirmar de forma fiable.</small>
+                </div>
 
                 <div id="mejor-opcion-carrito" class="mejor-opcion-carrito" style="display:none;">
                     <div class="mejor-opcion-etiqueta">💰 Mejor opción de compra</div>
@@ -1440,24 +1449,6 @@
         </div>
     </div>
 
-
-    <!-- ===== CENTRO DE AHORRO Y TRAZABILIDAD ===== -->
-    <section class="card" id="centro-ahorro-avanzado" style="border:2px solid #99f6e4;background:linear-gradient(135deg,#f0fdfa,#fff);">
-      <div class="card-header"><div><h3>🧠 Centro de ahorro: cesta real, precio unitario y trazabilidad</h3><p style="margin:4px 0 0;color:#64748b;font-size:12px">Compara la cesta completa, contempla domicilios y revisa qué precios tienen fuente consultada.</p></div>
-      <button class="toggle-btn" type="button" onclick="ahorraToggleCentro()">Minimizar ➖</button></div>
-      <div id="centro-ahorro-cuerpo">
-        <div class="express-grid" style="margin:12px 0">
-          <div class="express-field"><label for="ahorra-domicilio-general">🚚 Domicilio general estimado (COP)</label><input id="ahorra-domicilio-general" class="express-input-manual" type="number" min="0" step="500" value="0" style="margin:0;background:#fff" oninput="ahorraCalcularCentro()"><small style="color:#64748b">Se aplica a las tiendas sin tarifa individual.</small></div>
-          <div class="express-field"><label for="ahorra-preferencia">🎯 ¿Qué debe priorizar la recomendación?</label><select id="ahorra-preferencia" class="express-select" onchange="ahorraCalcularCentro()"><option value="total">Menor costo final (productos + domicilios)</option><option value="single">Comprar todo en una sola tienda</option><option value="mix">Compra mixta con ahorro por producto</option></select></div>
-          <div class="express-field"><label for="ahorra-notas">✏️ Preferencias editables</label><input id="ahorra-notas" class="express-input-manual" type="text" maxlength="220" placeholder="Ej. priorizar marcas económicas, no cambiar leche" style="margin:0;background:#fff"><small style="color:#64748b">Nota para tu decisión; no se usa como dato de precio.</small></div>
-        </div>
-        <div id="ahorra-costos-domicilio" class="express-grid" style="margin-bottom:12px"></div>
-        <div id="ahorra-resumen-centro" style="padding:12px;border:1px solid #99f6e4;background:#fff;border-radius:10px;margin-bottom:12px">Añade productos al carrito para calcular la cesta y los precios por unidad.</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><button class="sel-btn" type="button" onclick="ahorraExportarCSV()">⬇️ Exportar lista y precios (CSV)</button><button class="sel-btn" type="button" onclick="ahorraCalcularCentro()">🔄 Recalcular comparación</button></div>
-        <div id="ahorra-detalle-unitarios"></div>
-        <p style="font-size:11px;color:#64748b;margin:12px 0 0">Transparencia: los precios locales/manuales son referenciales hasta verificarlos. La consulta online solo se marca como consultada cuando el sistema recibió datos de una fuente; la hora de consulta no garantiza stock ni precio para tu dirección. Los domicilios son estimaciones que debes ajustar.</p>
-      </div>
-    </section>
 
     <!-- ===== MIS LISTAS PERSONALIZADAS ===== -->
     <div class="card listas-guardadas-card" id="seccion-listas-personalizadas">
@@ -1577,19 +1568,19 @@
 
         // BASE DE DATOS ORIGINAL + productos adicionales verificados en catálogos online
         const baseDatosProductos = [
-            { id: "p1", cat: "granos", icon: "🌻", searchKeyword: "aceite", nombre: "Aceite de Girasol / Soya", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 500 ml": { d1: 4900, ara: 5100, barrio: 5300, exito: 5700, olimpica: 5900, caribe: 5200, euro: 5400, vaquita: 5300, jumbo: 5800 }, "Botella 1000 ml": { d1: 9400, ara: 9700, barrio: 10100, exito: 10500, olimpica: 10900, caribe: 9900, euro: 10200, vaquita: 10000, jumbo: 10800 } } },
+            { id: "p1", cat: "granos", icon: "🌻", searchKeyword: "aceite", nombre: "Aceite de Girasol / Soya", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Botella 900 ml", presentaciones: { "Botella 500 ml": { d1: 4900, ara: 5100, barrio: 5300, exito: 5700, olimpica: 5900, caribe: 5200, euro: 5400, vaquita: 5300, jumbo: 5800 }, "Botella 900 ml": { d1: 6950, ara: 7200, barrio: 7900, exito: 8500, olimpica: 8900, caribe: 7600, euro: 8200, vaquita: 7700, jumbo: 9000 } } },
             { id: "p2", cat: "granos", icon: "🫒", searchKeyword: "aceite de oliva", nombre: "Aceite de Oliva Extra Virgen", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.005, presentacionActual: "Frasco 500 ml", presentaciones: { "Frasco 250 ml": { d1: 5600, ara: 13500, barrio: 14200, exito: 15500, olimpica: 14900, caribe: 13900, euro: 14000, vaquita: 13800, jumbo: 15200 }, "Frasco 500 ml": { d1: 9900, ara: 24200, barrio: 25500, exito: 28000, olimpica: 26900, caribe: 24900, euro: 25000, vaquita: 24500, jumbo: 27500 } } },
             { id: "p3", cat: "frutas", icon: "🥑", searchKeyword: "aguacate", nombre: "Aguacate Hass", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 10200, ara: 10600, barrio: 9900, exito: 12500, olimpica: 11900, caribe: 10900, euro: 10500, vaquita: 10100, jumbo: 12200 }, "Unidad suelta": { d1: 2500, ara: 2700, barrio: 2600, exito: 3200, olimpica: 3000, caribe: 2800, euro: 2700, vaquita: 2650, jumbo: 3100 } } },
             { id: "p4", cat: "snacks", icon: "💧", searchKeyword: "agua", nombre: "Agua en Botella", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.2, presentacionActual: "Botella 1.5L", presentaciones: { "Botella 1.5L": { d1: 2200, ara: 2300, barrio: 2600, exito: 3000, olimpica: 2900, caribe: 2500, euro: 2400, vaquita: 2300, jumbo: 2900 } } },
             { id: "p5", cat: "granos", icon: "🧄", searchKeyword: "ajo en polvo", nombre: "Ajo en Polvo Condimento", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.002, presentacionActual: "Frasco 100g", presentaciones: { "Frasco 100g": { d1: 3300, ara: 3600, barrio: 3900, exito: 4400, olimpica: 4200, caribe: 3700, euro: 3800, vaquita: 3750, jumbo: 4300 } } },
             { id: "p6", cat: "proteinas", icon: "🍗", searchKeyword: "alitas de pollo", nombre: "Alitas de Pollo", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bandeja 500 g", presentaciones: { "Bandeja 500 g": { d1: 7700, ara: 8000, barrio: 8500, exito: 9400, olimpica: 9100, caribe: 8300, euro: 8400, vaquita: 8200, jumbo: 9200 } } },
             { id: "p7", cat: "aseo", icon: "🪞", searchKeyword: "ambientador", nombre: "Ambientador en Aerosol", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.001, presentacionActual: "Aerosol 250ml", presentaciones: { "Aerosol 250ml": { d1: 8500, ara: 9000, barrio: 9600, exito: 10700, olimpica: 10300, caribe: 9300, euro: 9500, vaquita: 9200, jumbo: 10500 } } },
-            { id: "p8", cat: "granos", icon: "🫓", searchKeyword: "arepas", nombre: "Arepas de Maíz", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Paquete x5", presentaciones: { "Paquete x5": { d1: 3600, ara: 3800, barrio: 4000, exito: 4500, olimpica: 4300, caribe: 3900, euro: 4000, vaquita: 3900, jumbo: 4400 }, "Paquete x10": { d1: 6900, ara: 7300, barrio: 7800, exito: 8600, olimpica: 8300, caribe: 7500, euro: 7700, vaquita: 7600, jumbo: 8400 } } },
-            { id: "p9", cat: "granos", icon: "🍚", searchKeyword: "arroz arroz libra 500 g 1 kg 2.5 kg 5 kg arroba 25 libras", nombre: "Arroz blanco (presentaciones colombianas)", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Bolsa 500 g (1 libra)", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 1895, ara: 2150, barrio: 2300, exito: 2450, olimpica: 2400, caribe: 2250, euro: 2200, vaquita: 2175, jumbo: 2400 }, "Bolsa 1 kg": { d1: 3790, ara: 4300, barrio: 4600, exito: 4900, olimpica: 4800, caribe: 4500, euro: 4400, vaquita: 4350, jumbo: 4800 }, "Bolsa 2.5 kg": { d1: 9450, ara: 10450, barrio: 11000, exito: 11750, olimpica: 11450, caribe: 10750, euro: 10900, vaquita: 10600, jumbo: 11500 }, "Bolsa 5 kg": { d1: 18900, ara: 20900, barrio: 22000, exito: 23500, olimpica: 22900, caribe: 21500, euro: 21800, vaquita: 21200, jumbo: 23000 }, "Arroba 25 libras (12.5 kg aprox.)": { d1: 47250, ara: 52250, barrio: 55000, exito: 58750, olimpica: 57250, caribe: 53750, euro: 54500, vaquita: 53000, jumbo: 57500 } } },
+            { id: "p8", cat: "granos", icon: "🫓", searchKeyword: "arepas", nombre: "Arepas de Maíz", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Paquete x5", presentaciones: { "Paquete x5": { d1: 1990, ara: 3800, barrio: 4000, exito: 4500, olimpica: 4300, caribe: 3900, euro: 4000, vaquita: 3900, jumbo: 4400 }, "Paquete x10": { d1: 3990, ara: 4500, barrio: 4800, exito: 5300, olimpica: 5100, caribe: 4600, euro: 4800, vaquita: 4650, jumbo: 5200 } } },
+            { id: "p9", cat: "granos", icon: "🍚", searchKeyword: "arroz arroz libra 500 g 1 kg 2.5 kg 5 kg arroba 25 libras", nombre: "Arroz blanco (presentaciones colombianas)", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Bolsa 500 g (1 libra)", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 1990, ara: 2150, barrio: 2300, exito: 2450, olimpica: 2400, caribe: 2250, euro: 2200, vaquita: 2175, jumbo: 2400 }, "Bolsa 1 kg": { d1: 3790, ara: 4000, barrio: 4300, exito: 4500, olimpica: 4400, caribe: 4100, euro: 4200, vaquita: 4100, jumbo: 4500 }, "Bolsa 2.5 kg": { d1: 9750, ara: 10450, barrio: 11000, exito: 11750, olimpica: 11450, caribe: 10750, euro: 10900, vaquita: 10600, jumbo: 11500 }, "Bolsa 5 kg": { d1: 19500, ara: 20900, barrio: 22000, exito: 23500, olimpica: 22900, caribe: 21500, euro: 21800, vaquita: 21200, jumbo: 23000 }, "Arroba 25 libras (12.5 kg aprox.)": { d1: 48750, ara: 52250, barrio: 55000, exito: 58750, olimpica: 57250, caribe: 53750, euro: 54500, vaquita: 53000, jumbo: 57500 } } },
             { id: "p10", cat: "granos", icon: "🟢", searchKeyword: "arveja seca arveja libra 500 g kilo 1 kg 2.5 kg", nombre: "Arveja Seca", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Bolsa 500 g (1 libra)", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 2100, ara: 3600, barrio: 3800, exito: 4100, olimpica: 4000, caribe: 3700, euro: 3800, vaquita: 3750, jumbo: 4000 }, "Bolsa 1 kg": { d1: 4200, ara: 7200, barrio: 7600, exito: 8200, olimpica: 8000, caribe: 7400, euro: 7600, vaquita: 7500, jumbo: 8000 }, "Bolsa 2.5 kg": { d1: 10500, ara: 18000, barrio: 19000, exito: 20500, olimpica: 20000, caribe: 18500, euro: 19000, vaquita: 18750, jumbo: 20000 } } },
             { id: "p11", cat: "granos", icon: "🐟", searchKeyword: "atun", nombre: "Atún en Lata", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.06, presentacionActual: "Lata 160g", presentaciones: { "Lata 160g": { d1: 4450, ara: 6100, barrio: 6400, exito: 6800, olimpica: 6600, caribe: 6200, euro: 6300, vaquita: 6200, jumbo: 6700 }, "Pack x3 latas": { d1: 13200, ara: 17500, barrio: 18900, exito: 19900, olimpica: 19400, caribe: 17800, euro: 18000, vaquita: 17600, jumbo: 19500 } } },
             { id: "p12", cat: "granos", icon: "🥣", searchKeyword: "avena", nombre: "Avena en Hojuelas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bolsa 250g", presentaciones: { "Bolsa 250g": { d1: 3200, ara: 3300, barrio: 3500, exito: 3900, olimpica: 3800, caribe: 3400, euro: 3500, vaquita: 3450, jumbo: 3800 }, "Bolsa 500g": { d1: 5400, ara: 5900, barrio: 6300, exito: 6900, olimpica: 6700, caribe: 6000, euro: 6200, vaquita: 6100, jumbo: 6800 } } },
-            { id: "p13", cat: "granos", icon: "⬜", searchKeyword: "azucar azúcar libra 500 g kilo 1 kg 2.5 kg 5 kg", nombre: "Azúcar Blanca", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 1695, ara: 2100, barrio: 2200, exito: 2400, olimpica: 2350, caribe: 2150, euro: 2200, vaquita: 2125, jumbo: 2350 }, "Bolsa 1 kg": { d1: 3390, ara: 4200, barrio: 4400, exito: 4800, olimpica: 4700, caribe: 4300, euro: 4400, vaquita: 4250, jumbo: 4700 }, "Bolsa 2.5 kg": { d1: 8475, ara: 10500, barrio: 11000, exito: 12000, olimpica: 11750, caribe: 10750, euro: 11000, vaquita: 10625, jumbo: 11750 }, "Bolsa 5 kg": { d1: 16950, ara: 21000, barrio: 22000, exito: 24000, olimpica: 23500, caribe: 21500, euro: 22000, vaquita: 21250, jumbo: 23500 } } },
+            { id: "p13", cat: "granos", icon: "⬜", searchKeyword: "azucar azúcar libra 500 g kilo 1 kg 2.5 kg 5 kg", nombre: "Azúcar Blanca", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 500 g (1 libra)": { d1: 1695, ara: 1800, barrio: 1900, exito: 2100, olimpica: 2000, caribe: 1850, euro: 1900, vaquita: 1850, jumbo: 2050 }, "Bolsa 1 kg": { d1: 3300, ara: 3500, barrio: 3700, exito: 3950, olimpica: 3900, caribe: 3600, euro: 3700, vaquita: 3650, jumbo: 3900 }, "Bolsa 2.5 kg": { d1: 8250, ara: 8750, barrio: 9250, exito: 9900, olimpica: 9750, caribe: 9000, euro: 9250, vaquita: 9125, jumbo: 9750 }, "Bolsa 5 kg": { d1: 16500, ara: 17500, barrio: 18500, exito: 19750, olimpica: 19500, caribe: 18000, euro: 18500, vaquita: 18250, jumbo: 19500 } } },
             { id: "p14", cat: "frutas", icon: "🍌", searchKeyword: "banano", nombre: "Banano", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.1, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 2900, ara: 3000, barrio: 3100, exito: 3600, olimpica: 3500, caribe: 3200, euro: 3300, vaquita: 3100, jumbo: 3500 }, "Unidad suelta": { d1: 400, ara: 450, barrio: 500, exito: 600, olimpica: 550, caribe: 500, euro: 520, vaquita: 480, jumbo: 580 } } },
             { id: "p15", cat: "snacks", icon: "🍫", searchKeyword: "barra de cereal", nombre: "Barra de Cereal", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Unidad", presentaciones: { "Unidad": { d1: 2200, ara: 2400, barrio: 2600, exito: 3000, olimpica: 2800, caribe: 2500, euro: 2600, vaquita: 2500, jumbo: 2900 } } },
             { id: "p16", cat: "snacks", icon: "⚡", searchKeyword: "bebida energizante", nombre: "Bebida Energizante", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Lata", presentaciones: { "Lata": { d1: 5900, ara: 6200, barrio: 6700, exito: 7400, olimpica: 7100, caribe: 6400, euro: 6600, vaquita: 6500, jumbo: 7200 } } },
@@ -1632,11 +1623,11 @@
             { id: "p53", cat: "proteinas", icon: "🍔", searchKeyword: "hamburguesa", nombre: "Hamburguesas de Res Listas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Pack x4", presentaciones: { "Pack x4": { d1: 12500, ara: 13100, barrio: 13800, exito: 15500, olimpica: 14800, caribe: 13400, euro: 14100, vaquita: 13600, jumbo: 15200 } } },
             { id: "p54", cat: "lacteos", icon: "🍦", searchKeyword: "helado", nombre: "Helado Familiar", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Pote 1 Litro", presentaciones: { "Pote 1 Litro": { d1: 11500, ara: 12100, barrio: 13000, exito: 14500, olimpica: 13900, caribe: 12400, euro: 13200, vaquita: 12700, jumbo: 14200 } } },
             { id: "p55", cat: "frutas", icon: "🌿", searchKeyword: "hierbas aromaticas", nombre: "Hierbabuena / Limoncillo", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Manojo", presentaciones: { "Manojo": { d1: 1400, ara: 1500, barrio: 1300, exito: 2000, olimpica: 1900, caribe: 1600, euro: 1750, vaquita: 1450, jumbo: 1950 } } },
-            { id: "p56", cat: "granos", icon: "🥚", searchKeyword: "huevos", nombre: "Huevos", qty: 3, esencial: true, seleccionado: false, consumoDiarioPersona: 0.2, presentacionActual: "Unidades sueltas (Precio x Huevo)", presentaciones: { "Unidades sueltas (Precio x Huevo)": { d1: 450, ara: 420, barrio: 600, exito: 650, olimpica: 630, caribe: 580, euro: 590, vaquita: 560, jumbo: 640 }, "Media docena x6": { d1: 2700, ara: 2500, barrio: 3600, exito: 3900, olimpica: 3800, caribe: 3500, euro: 3550, vaquita: 3350, jumbo: 3850 }, "Cartón x30": { d1: 11990, ara: 10950, barrio: 17800, exito: 19500, olimpica: 18900, caribe: 17200, euro: 17500, vaquita: 16800, jumbo: 19200 } } },
+            { id: "p56", cat: "granos", icon: "🥚", searchKeyword: "huevos", nombre: "Huevos", qty: 3, esencial: true, seleccionado: false, consumoDiarioPersona: 0.2, presentacionActual: "Unidades sueltas (Precio x Huevo)", presentaciones: { "Unidades sueltas (Precio x Huevo)": { d1: 500, ara: 420, barrio: 600, exito: 650, olimpica: 630, caribe: 580, euro: 590, vaquita: 560, jumbo: 640 }, "Media docena x6": { d1: 3000, ara: 2500, barrio: 3600, exito: 3900, olimpica: 3800, caribe: 3500, euro: 3550, vaquita: 3350, jumbo: 3850 }, "Cartón x30": { d1: 14990, ara: 10950, barrio: 17800, exito: 19500, olimpica: 18900, caribe: 17200, euro: 17500, vaquita: 16800, jumbo: 19200 } } },
             { id: "p57", cat: "proteinas", icon: "🥪", searchKeyword: "jamon", nombre: "Jamón Tajado", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Bloque 250g", presentaciones: { "Bloque 250g": { d1: 7500, ara: 7900, barrio: 8500, exito: 9400, olimpica: 9100, caribe: 8200, euro: 8650, vaquita: 8300, jumbo: 9250 }, "Bloque 500g": { d1: 14200, ara: 14900, barrio: 16000, exito: 17900, olimpica: 17200, caribe: 15500, euro: 16200, vaquita: 15800, jumbo: 17500 } } },
             { id: "p58", cat: "frutas", icon: "🧃", searchKeyword: "jugo en caja", nombre: "Jugo en Caja", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Caja 1 Litro", presentaciones: { "Caja 1 Litro": { d1: 4100, ara: 4300, barrio: 4600, exito: 5200, olimpica: 5000, caribe: 4400, euro: 4700, vaquita: 4500, jumbo: 5100 } } },
-            { id: "p59", cat: "lacteos", icon: "🥛", searchKeyword: "leche", nombre: "Leche", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.25, presentacionActual: "Bolsa 1 Litro", presentaciones: { "Bolsa 1 Litro": { d1: 4100, ara: 4300, barrio: 4600, exito: 5100, olimpica: 4900, caribe: 4400, euro: 4650, vaquita: 4450, jumbo: 5000 }, "Caja Tetrapak 1L": { d1: 4500, ara: 4700, barrio: 5000, exito: 5500, olimpica: 5300, caribe: 4800, euro: 5100, vaquita: 4900, jumbo: 5400 } } },
-            { id: "p60", cat: "frutas", icon: "🍋", searchKeyword: "limon", nombre: "Limón Tahití", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 4000, ara: 4200, barrio: 3900, exito: 5200, olimpica: 4900, caribe: 4300, euro: 4450, vaquita: 4150, jumbo: 5100 }, "Unidad suelta": { d1: 300, ara: 350, barrio: 400, exito: 500, olimpica: 480, caribe: 420, euro: 440, vaquita: 390, jumbo: 490 } } },
+            { id: "p59", cat: "lacteos", icon: "🥛", searchKeyword: "leche", nombre: "Leche", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.25, presentacionActual: "Bolsa 900 ml", presentaciones: { "Bolsa 900 ml": { d1: 3090, ara: 3200, barrio: 3500, exito: 3900, olimpica: 3750, caribe: 3350, euro: 3500, vaquita: 3300, jumbo: 3850 }, "Caja Tetrapak 900 ml": { d1: 3550, ara: 3700, barrio: 3950, exito: 4350, olimpica: 4200, caribe: 3800, euro: 4050, vaquita: 3850, jumbo: 4300 } } },
+            { id: "p60", cat: "frutas", icon: "🍋", searchKeyword: "limon", nombre: "Limón Tahití", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 3500, ara: 4200, barrio: 3900, exito: 5200, olimpica: 4900, caribe: 4300, euro: 4450, vaquita: 4150, jumbo: 5100 }, "Unidad suelta": { d1: 300, ara: 350, barrio: 400, exito: 500, olimpica: 480, caribe: 420, euro: 440, vaquita: 390, jumbo: 490 } } },
             { id: "p61", cat: "aseo", icon: "🧼", searchKeyword: "limpiador pisos", nombre: "Limpiador de Pisos", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Frasco 500ml", presentaciones: { "Frasco 500ml": { d1: 3900, ara: 4100, barrio: 4400, exito: 5000, olimpica: 4800, caribe: 4200, euro: 4500, vaquita: 4300, jumbo: 4900 }, "Frasco 1000ml": { d1: 7200, ara: 7600, barrio: 8200, exito: 9200, olimpica: 8800, caribe: 7900, euro: 8350, vaquita: 8000, jumbo: 9000 } } },
             { id: "p62", cat: "frutas", icon: "🥬", searchKeyword: "lechuga", nombre: "Lechuga Crespa", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Unidad", presentaciones: { "Unidad": { d1: 2600, ara: 2800, barrio: 2700, exito: 3400, olimpica: 3200, caribe: 2900, euro: 3000, vaquita: 2850, jumbo: 3300 } } },
             { id: "p63", cat: "granos", icon: "🌽", searchKeyword: "maiz pira", nombre: "Maíz Pira (Crispetas)", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Bolsa 500g", presentaciones: { "Bolsa 500g": { d1: 3300, ara: 3500, barrio: 3800, exito: 4300, olimpica: 4100, caribe: 3600, euro: 3900, vaquita: 3700, jumbo: 4200 } } },
@@ -1653,7 +1644,7 @@
             { id: "p74", cat: "lacteos", icon: "🧀", searchKeyword: "crema de leche", nombre: "Crema de Leche / Nata", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Pote 200g", presentaciones: { "Pote 200g": { d1: 3800, ara: 4000, barrio: 4300, exito: 4900, olimpica: 4700, caribe: 4100, euro: 4400, vaquita: 4200, jumbo: 4800 } } },
             { id: "p75", cat: "frutas", icon: "🥔", searchKeyword: "papa", nombre: "Papa Pastusa", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Bolsa 2.5 Kilos", presentaciones: { "Bolsa 2.5 Kilos": { d1: 8300, ara: 8700, barrio: 8000, exito: 10400, olimpica: 9900, caribe: 8900, euro: 9400, vaquita: 8600, jumbo: 10200 }, "Kilo individual": { d1: 3500, ara: 3700, barrio: 3400, exito: 4500, olimpica: 4300, caribe: 3800, euro: 4000, vaquita: 3650, jumbo: 4400 } } },
             { id: "p76", cat: "snacks", icon: "🍟", searchKeyword: "papas fritas", nombre: "Papas Fritas Paquete", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Paquete familiar", presentaciones: { "Paquete familiar": { d1: 7200, ara: 7500, barrio: 8200, exito: 9000, olimpica: 8700, caribe: 7900, euro: 8350, vaquita: 8050, jumbo: 8900 }, "Paquete personal": { d1: 2500, ara: 2700, barrio: 3000, exito: 3400, olimpica: 3200, caribe: 2800, euro: 3050, vaquita: 2900, jumbo: 3350 } } },
-            { id: "p77", cat: "granos", icon: "🍝", searchKeyword: "pasta", nombre: "Pasta (Espagueti)", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 3000, ara: 3200, barrio: 3500, exito: 3900, olimpica: 3700, caribe: 3300, euro: 3550, vaquita: 3400, jumbo: 3850 }, "Bolsa 1 kg": { d1: 5800, ara: 6200, barrio: 6800, exito: 7500, olimpica: 7200, caribe: 6400, euro: 6900, vaquita: 6650, jumbo: 7400 } } },
+            { id: "p77", cat: "granos", icon: "🍝", searchKeyword: "pasta", nombre: "Pasta (Espagueti)", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 3990, ara: 3500, barrio: 3800, exito: 4200, olimpica: 4000, caribe: 3600, euro: 3900, vaquita: 3700, jumbo: 4100 }, "Bolsa 1 kg": { d1: 5800, ara: 6200, barrio: 6800, exito: 7500, olimpica: 7200, caribe: 6400, euro: 6900, vaquita: 6650, jumbo: 7400 } } },
             { id: "p78", cat: "frutas", icon: "🍐", searchKeyword: "pera", nombre: "Pera Importada", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 9400, ara: 9900, barrio: 9600, exito: 11800, olimpica: 11400, caribe: 10200, euro: 10900, vaquita: 10100, jumbo: 11600 }, "Unidad suelta": { d1: 1900, ara: 2000, barrio: 1950, exito: 2400, olimpica: 2300, caribe: 2100, euro: 2200, vaquita: 2050, jumbo: 2350 } } },
             { id: "p79", cat: "personal", icon: "🪒", searchKeyword: "maquina de afeitar", nombre: "Máquina de Afeitar", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.001, presentacionActual: "Pack x2", presentaciones: { "Pack x2": { d1: 6200, ara: 6500, barrio: 7100, exito: 8100, olimpica: 7700, caribe: 6700, euro: 7300, vaquita: 7000, jumbo: 7950 }, "Unidad suelta": { d1: 3400, ara: 3600, barrio: 3900, exito: 4400, olimpica: 4200, caribe: 3700, euro: 4000, vaquita: 3800, jumbo: 4350 } } },
             { id: "p80", cat: "frutas", icon: "🍍", searchKeyword: "pina", nombre: "Piña Perolera", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Unidad", presentaciones: { "Unidad": { d1: 4500, ara: 4800, barrio: 4300, exito: 5900, olimpica: 5600, caribe: 5000, euro: 5350, vaquita: 4700, jumbo: 5800 } } },
@@ -1662,12 +1653,12 @@
             { id: "p83", cat: "lacteos", icon: "🧀", searchKeyword: "quesito", nombre: "Quesito Antioqueño", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Bloque 500 g", presentaciones: { "Bloque 500 g": { d1: 9300, ara: 9700, barrio: 10300, exito: 11600, olimpica: 11200, caribe: 9900, euro: 10600, vaquita: 10100, jumbo: 11400 }, "Bloque 250 g": { d1: 4900, ara: 5100, barrio: 5500, exito: 6200, olimpica: 5900, caribe: 5200, euro: 5650, vaquita: 5400, jumbo: 6100 } } },
             { id: "p84", cat: "lacteos", icon: "🧀", searchKeyword: "queso mozzarella", nombre: "Queso Mozzarella Tajado", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Bloque 250g", presentaciones: { "Bloque 250g": { d1: 8300, ara: 8800, barrio: 9300, exito: 10400, olimpica: 9900, caribe: 9000, euro: 9600, vaquita: 9200, jumbo: 10250 } } },
             { id: "p85", cat: "frutas", icon: "🇨🇴", searchKeyword: "quinua", nombre: "Quinua en Grano", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Bolsa 250g", presentaciones: { "Bolsa 250g": { d1: 5800, ara: 6100, barrio: 6500, exito: 7500, olimpica: 7100, caribe: 6200, euro: 6750, vaquita: 6400, jumbo: 7350 } } },
-            { id: "p86", cat: "granos", icon: "🧂", searchKeyword: "sal", nombre: "Sal Refinada", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.005, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 1 kg": { d1: 2100, ara: 2300, barrio: 2500, exito: 2900, olimpica: 2800, caribe: 2400, euro: 2600, vaquita: 2450, jumbo: 2850 } } },
+            { id: "p86", cat: "granos", icon: "🧂", searchKeyword: "sal", nombre: "Sal Refinada", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.005, presentacionActual: "Bolsa 1 kg", presentaciones: { "Bolsa 1 kg": { d1: 2900, ara: 3000, barrio: 3200, exito: 3400, olimpica: 3300, caribe: 3000, euro: 3200, vaquita: 3000, jumbo: 3400 } } },
             { id: "p87", cat: "granos", icon: "🍅", searchKeyword: "salsa de tomate", nombre: "Salsa de Tomate Zev", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Frasco 500g", presentaciones: { "Frasco 500g": { d1: 4200, ara: 4800, barrio: 5100, exito: 5800, olimpica: 5500, caribe: 4900, euro: 5200, vaquita: 4850, jumbo: 5600 }, "Doypack 200g": { d1: 2300, ara: 2600, barrio: 2900, exito: 3200, olimpica: 3100, caribe: 2700, euro: 2950, vaquita: 2800, jumbo: 3150 } } },
             { id: "p88", cat: "granos", icon: "🌭", searchKeyword: "salchicha", nombre: "Salchicha", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Paquete x6", presentaciones: { "Paquete x6": { d1: 6300, ara: 6600, barrio: 7000, exito: 7900, olimpica: 7600, caribe: 6700, euro: 7250, vaquita: 6900, jumbo: 7750 }, "Paquete x12": { d1: 11500, ara: 12100, barrio: 12900, exito: 14500, olimpica: 13900, caribe: 12300, euro: 13350, vaquita: 12750, jumbo: 14300 } } },
             { id: "p89", cat: "granos", icon: "🌾", searchKeyword: "semola de maiz", nombre: "Sémola de Maíz", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Bolsa 500g", presentaciones: { "Bolsa 500g": { d1: 2900, ara: 3100, barrio: 3400, exito: 3900, olimpica: 3700, caribe: 3200, euro: 3550, vaquita: 3300, jumbo: 3800 } } },
             { id: "p90", cat: "granos", icon: "🍞", searchKeyword: "sopa instantanea", nombre: "Sopa Instantánea", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Sobre", presentaciones: { "Sobre": { d1: 2600, ara: 2800, barrio: 3100, exito: 3600, olimpica: 3400, caribe: 2900, euro: 3200, vaquita: 3000, jumbo: 3550 } } },
-            { id: "p91", cat: "frutas", icon: "🍅", searchKeyword: "tomate chonto", nombre: "Tomate Chonto", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 4500, ara: 4800, barrio: 4100, exito: 5800, olimpica: 5500, caribe: 4900, euro: 5200, vaquita: 4600, jumbo: 5700 }, "Unidad suelta": { d1: 500, ara: 550, barrio: 450, exito: 700, olimpica: 650, caribe: 580, euro: 610, vaquita: 520, jumbo: 680 } } },
+            { id: "p91", cat: "frutas", icon: "🍅", searchKeyword: "tomate chonto", nombre: "Tomate Chonto", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Kilo", presentaciones: { "Kilo": { d1: 4990, ara: 5300, barrio: 4800, exito: 6200, olimpica: 5900, caribe: 5200, euro: 5500, vaquita: 5000, jumbo: 6100 }, "Unidad suelta": { d1: 500, ara: 550, barrio: 450, exito: 700, olimpica: 650, caribe: 580, euro: 610, vaquita: 520, jumbo: 680 } } },
             { id: "p92", cat: "granos", icon: "🫖", searchKeyword: "te", nombre: "Té en Botella", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.02, presentacionActual: "Botella 400ml", presentaciones: { "Botella 400ml": { d1: 4400, ara: 4700, barrio: 5100, exito: 5700, olimpica: 5500, caribe: 4900, euro: 5300, vaquita: 5000, jumbo: 5600 } } },
             { id: "p93", cat: "aseo", icon: "🧻", searchKeyword: "toallas humedas", nombre: "Toallas Húmedas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.001, presentacionActual: "Paquete x80", presentaciones: { "Paquete x80": { d1: 8300, ara: 8700, barrio: 9500, exito: 10700, olimpica: 10300, caribe: 9000, euro: 9800, vaquita: 9300, jumbo: 10500 } } },
             { id: "p94", cat: "personal", icon: "🩸", searchKeyword: "toallas higienicas", nombre: "Toallas Higiénicas", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Paquete x10", presentaciones: { "Paquete x10": { d1: 5500, ara: 5800, barrio: 6300, exito: 7200, olimpica: 6900, caribe: 6100, euro: 6650, vaquita: 6300, jumbo: 7100 } } },
@@ -1682,10 +1673,10 @@
             { id: "p103", cat: "mascotas", icon: "🐈", searchKeyword: "gatos", nombre: "Alimento Seco Gatos", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.08, presentacionActual: "Bolsa 1 Kilo", presentaciones: { "Bolsa 1 Kilo": { d1: 11900, ara: 12500, barrio: 13500, exito: 14900, olimpica: 14400, caribe: 12900, euro: 13700, vaquita: 13100, jumbo: 14600 } } },
             { id: "p104", cat: "licores", icon: "🍷", searchKeyword: "vino", nombre: "Vino Tinto Mesa", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Botella 750ml", presentaciones: { "Botella 750ml": { d1: 19900, ara: 21500, barrio: 23000, exito: 26000, olimpica: 24900, caribe: 22000, euro: 23500, vaquita: 22500, jumbo: 25500 } } },
             { id: "p105", cat: "panaderia", icon: "🍞", searchKeyword: "pan tajado", nombre: "Pan Tajado Blanco / Integral", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.06, presentacionActual: "Bolsa 450g", presentaciones: { "Bolsa 450g": { d1: 5400, ara: 5700, barrio: 6100, exito: 6800, olimpica: 6500, caribe: 5900, euro: 6250, vaquita: 5950, jumbo: 6700 } } },
-            { id: "p106", cat: "granos", icon: "🌾", searchKeyword: "lenteja", nombre: "Lenteja Seca", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 1990, ara: 4600, barrio: 4900, exito: 5500, olimpica: 5300, caribe: 4700, euro: 5000, vaquita: 4750, jumbo: 5400 }, "Bolsa 1 kg": { d1: 3900, ara: 8900, barrio: 9500, exito: 10500, olimpica: 10100, caribe: 9100, euro: 9650, vaquita: 9250, jumbo: 10300 } } },
+            { id: "p106", cat: "granos", icon: "🌾", searchKeyword: "lenteja", nombre: "Lenteja Seca", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.04, presentacionActual: "Bolsa 500 g", presentaciones: { "Bolsa 500 g": { d1: 1590, ara: 2600, barrio: 2800, exito: 3200, olimpica: 3000, caribe: 2700, euro: 2850, vaquita: 2700, jumbo: 3100 }, "Bolsa 1 kg": { d1: 3180, ara: 5100, barrio: 5500, exito: 6200, olimpica: 5900, caribe: 5300, euro: 5600, vaquita: 5300, jumbo: 6100 } } },
             { id: "p107", cat: "lacteos", icon: "🥛", searchKeyword: "kumis", nombre: "Kumis Tradicional", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.03, presentacionActual: "Botella 1 Litro", presentaciones: { "Botella 1 Litro": { d1: 7900, ara: 8300, barrio: 8900, exito: 9900, olimpica: 9500, caribe: 8600, euro: 9100, vaquita: 8750, jumbo: 9750 } } },
             { id: "p108", cat: "lacteos", icon: "🧈", searchKeyword: "mantequilla", nombre: "Mantequilla de Vaca", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Bloque 250g", presentaciones: { "Bloque 250g": { d1: 6900, ara: 7200, barrio: 7800, exito: 8500, olimpica: 8200, caribe: 7400, euro: 7900, vaquita: 7550, jumbo: 8400 } } },
-            { id: "p109", cat: "granos", icon: "🟫", searchKeyword: "panela", nombre: "Panela Redonda / Fraccionada", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Panela Redonda 1000g", presentaciones: { "Panela Redonda 1000g": { d1: 5990, ara: 6200, barrio: 6500, exito: 7100, olimpica: 6800, caribe: 6100, euro: 6300, vaquita: 6050, jumbo: 6900 }, "Panela Fraccionada 1000g": { d1: 6600, ara: 6800, barrio: 7200, exito: 7800, olimpica: 7500, caribe: 6700, euro: 6900, vaquita: 6750, jumbo: 7600 } } },
+            { id: "p109", cat: "granos", icon: "🟫", searchKeyword: "panela", nombre: "Panela Redonda / Fraccionada", qty: 1, esencial: true, seleccionado: false, consumoDiarioPersona: 0.05, presentacionActual: "Panela Redonda 1000g", presentaciones: { "Panela Redonda 1000g": { d1: 6550, ara: 6600, barrio: 6900, exito: 7400, olimpica: 7100, caribe: 6600, euro: 6800, vaquita: 6600, jumbo: 7300 }, "Panela Fraccionada 1000g": { d1: 6600, ara: 6800, barrio: 7200, exito: 7800, olimpica: 7500, caribe: 6700, euro: 6900, vaquita: 6750, jumbo: 7600 } } },
             { id: "p110", cat: "granos", icon: "🏺", searchKeyword: "vinagre", nombre: "Vinagre Blanco Zev", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Botella 1000 ml", presentaciones: { "Botella 1000 ml": { d1: 2850, ara: 3100, barrio: 3400, exito: 3900, olimpica: 3700, caribe: 3200, euro: 3500, vaquita: 3300, jumbo: 3800 } } },
             { id: "p111", cat: "granos", icon: "🥢", searchKeyword: "salsa de soya", nombre: "Salsa de Soya Zev", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Frasco 178 ml", presentaciones: { "Frasco 178 ml": { d1: 1850, ara: 2100, barrio: 2300, exito: 2700, olimpica: 2500, caribe: 2100, euro: 2350, vaquita: 2200, jumbo: 2600 } } },
             { id: "p112", cat: "granos", icon: "🟡", searchKeyword: "mostaza", nombre: "Mostaza Zev", qty: 1, esencial: false, seleccionado: false, consumoDiarioPersona: 0.01, presentacionActual: "Frasco 200g", presentaciones: { "Frasco 200g": { d1: 2550, ara: 2800, barrio: 3000, exito: 3500, olimpica: 3300, caribe: 2900, euro: 3100, vaquita: 2950, jumbo: 3400 } } },
@@ -2847,6 +2838,12 @@
 
             document.getElementById('titulo-resultados-header').textContent = `📊 Resultados del Análisis Estratégico (${itemsAnalizados} productos / ${totalUnidadesAnalizadas} ítems)`;
 
+            // Un único domicilio indicado se suma al total de cada alternativa para poder compararlas.
+            // No se inventa una tarifa automática: varía por dirección, disponibilidad y monto del pedido.
+            const domicilioComparativa = Math.max(0, Number(document.getElementById('costo-domicilio-comparativa')?.value) || 0);
+            Object.keys(totalesPorTienda).forEach(t => { if (totalesPorTienda[t] > 0) totalesPorTienda[t] += domicilioComparativa; });
+            if (totalCompraMixta > 0) totalCompraMixta += domicilioComparativa;
+
             let tiendaUnificadaGanadora = '';
             let menorCostoUnificado = Infinity;
 
@@ -2871,7 +2868,7 @@
                 <div class="summary-comparison-grid">
                     <div class="summary-box">
                         <h4>🏢 Opción A: Compra Unificada (1 sola tienda)</h4>
-                        <div style="font-size: 12px; color: var(--text-muted);">Comprando todo en ${obtenerNombreTienda(tiendaUnificadaGanadora)}:</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Comprando todo en ${obtenerNombreTienda(tiendaUnificadaGanadora)}${domicilioComparativa ? ` + domicilio ${Math.round(domicilioComparativa).toLocaleString('es-CO')}` : ''}:</div>
                         <div class="summary-price">$${menorCostoUnificado.toLocaleString()}</div>
                         <div style="font-weight: 700; color: var(--primary); font-size: 13px;">
                             Sugerida: ${obtenerNombreTienda(tiendaUnificadaGanadora)}
@@ -2880,7 +2877,7 @@
 
                     <div class="summary-box highlight">
                         <h4>🎯 Opción B: Compra Mixta (Máximo Ahorro)</h4>
-                        <div style="font-size: 12px; color: var(--text-muted);">Distribuyendo los ${totalUnidadesAnalizadas} ítems en el comercio más barato:</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Distribuyendo los ${totalUnidadesAnalizadas} ítems en el comercio más barato${domicilioComparativa ? ` + domicilio ${Math.round(domicilioComparativa).toLocaleString('es-CO')}` : ''}:</div>
                         <div class="summary-price">$${totalCompraMixta.toLocaleString()}</div>
                         ${ahorroCombinado > 0 ? `<div class="savings-tag">🎉 ¡Ahorras $${ahorroCombinado.toLocaleString()} adicionales!</div>` : '<div class="savings-tag">Mismo valor que compra unificada</div>'}
                         ${listaDesgloseMixtoHTML}
@@ -3511,9 +3508,22 @@
 
     function livePresentation(name) {
         const text = String(name || '').trim();
-        const m = text.match(/(?:x\s*)?(\d+(?:[.,]\d+)?)\s*(kg|g|gr|ml|l|lt|litro|und|unid|unidades)\b/i);
-        if (!m) return 'Unidad / presentación online';
-        return text.slice(Math.max(0, text.toLowerCase().lastIndexOf(m[0].toLowerCase()) - 18)).trim() || m[0];
+        const count = text.match(/(?:\bx\s*|\bpaquete\s*x\s*|\b)(\d{1,2})\s*(?:und(?:s|idades)?|unid(?:ades)?|unidades|u\b)/i)
+            || text.match(/\bx\s*(\d{1,2})\b/i);
+        const amount = text.match(/(\d+(?:[.,]\d+)?)\s*(kg|g|gr|grs|ml|l|lt|litro|litros)\b/i);
+        let qty = '';
+        if (amount) {
+            let value = Number(String(amount[1]).replace(',', '.'));
+            let unit = amount[2].toLowerCase();
+            if (unit === 'kg') { value *= 1000; unit = 'g'; }
+            if (unit === 'gr' || unit === 'grs') unit = 'g';
+            if (unit === 'l' || unit === 'lt' || unit === 'litro' || unit === 'litros') { value *= 1000; unit = 'ml'; }
+            qty = `${Number.isInteger(value) ? value : value.toFixed(1)} ${unit}`;
+        }
+        if (count && qty) return `Paquete x${count[1]} ${qty}`;
+        if (count) return `Paquete x${count[1]}`;
+        if (qty) return `Presentación ${qty}`;
+        return 'Unidad / presentación online';
     }
 
     function liveCategory(product) {
@@ -3528,6 +3538,60 @@
         return 'granos';
     }
 
+    function liveFindMatchingBase(name, presentation) {
+        const n = liveNormalizeText(name);
+        if (!n) return null;
+        // Never map visibly different product variants into the same generic item.
+        const exclusions = {
+            p1: /\b(oliva|olivo|aguacate|coco)\b/,
+            p2: /\b(girasol|soya|vegetal|mezcla)\b/,
+            p8: /\b(yuca|queso|chocolo|chócolo|pandebono|pandeyuca|sary|rellena|integral)\b/,
+            p9: /\b(integral|coco|sushi|risotto|arroz con leche|arroz inflado)\b/,
+            p20: /\b(instantaneo|instantanea|soluble|capsulas)\b/,
+            p56: /\b(codorniz|polvo|liquido|liquidos)\b/,
+            p59: /\b(deslactosada|sin lactosa|polvo|condensada|evaporada|lacteo|almendra|avena|soya|saborizada|infantil)\b/,
+            p75: /\b(criolla|yuca|arracacha)\b/,
+            p86: /\b(marina|rosada|parrillera|sal de ajo|sal de cebolla)\b/,
+            p91: /\b(tomate cherry|tomate larga vida|tomate de arbol|tomate verde)\b/,
+            p106: /\b(lenteja roja|lenteja canadiense premium)\b/,
+            p128: /\b(condensada|evaporada|polvo|almendra|avena|soya|saborizada)\b/
+        };
+        const rules = [
+            { id:'p8', test: () => /\barepa(s)?\b/.test(n) && (/\b(maiz|blanca|blanco)\b/.test(n) || /\barepa blanca\b/.test(n)) && !exclusions.p8.test(n) },
+            { id:'p2', test: () => /\baceite\b/.test(n) && /\b(oliva|olivo)\b/.test(n) },
+            { id:'p1', test: () => /\baceite\b/.test(n) && /\b(girasol|soya|vegetal|imat[aá]|1 2 3|123)\b/.test(n) && !exclusions.p1.test(n) },
+            { id:'p9', test: () => /\barroz\b/.test(n) && !exclusions.p9.test(n) },
+            { id:'p56', test: () => /\bhuevo(s)?\b/.test(n) && !exclusions.p56.test(n) },
+            { id:'p128', test: () => /\bleche\b/.test(n) && /\b(deslactosada|sin lactosa)\b/.test(n) },
+            { id:'p59', test: () => /\bleche\b/.test(n) && !exclusions.p59.test(n) },
+            { id:'p75', test: () => /\bpapa(s)?\b/.test(n) && /\bpastusa\b/.test(n) && !exclusions.p75.test(n) },
+            { id:'p129', test: () => /\bpapa(s)?\b/.test(n) && /\bcriolla\b/.test(n) },
+            { id:'p91', test: () => /\btomate\b/.test(n) && /\bchonto\b/.test(n) && !exclusions.p91.test(n) },
+            { id:'p106', test: () => /\blenteja(s)?\b/.test(n) && !exclusions.p106.test(n) },
+            { id:'p86', test: () => /\bsal\b/.test(n) && /\b(refinada|refisal|alta pureza)\b/.test(n) && !exclusions.p86.test(n) }
+        ];
+        for (const rule of rules) {
+            if (rule.test()) return (baseDatosProductos || []).find(p => p && p.id === rule.id) || null;
+        }
+
+        const stop = new Set(['paquete','unidad','producto','marca','bolsa','bandeja','presentacion','super','premium','familiar','tradicional','und','unds','unidad','unidades','gramos','gramo','grs','gram','ml','kg','g','lt','litro','x']);
+        const tokens = n.split(/[^a-z0-9]+/).filter(t => t.length >= 3 && !stop.has(t) && !/^\d+$/.test(t));
+        let best = null, bestScore = 0;
+        for (const p of (baseDatosProductos || [])) {
+            if (!p || String(p.id || '').startsWith('live_')) continue;
+            const key = liveNormalizeText((p.searchKeyword || '') + ' ' + (p.nombre || ''));
+            // Avoid generic category-only matches such as a flavored/filled variant.
+            const blocked = exclusions[p.id];
+            if (blocked && blocked.test(n)) continue;
+            const useful = [...new Set(key.split(/[^a-z0-9]+/).filter(t => t.length >= 3 && !stop.has(t)))];
+            const overlap = tokens.filter(t => useful.some(k => k === t || (Math.min(k.length,t.length) >= 5 && (k.startsWith(t) || t.startsWith(k)))));
+            const score = overlap.length / Math.max(2, Math.min(useful.length, 4));
+            if (overlap.length >= 2 && score > bestScore) { bestScore = score; best = p; }
+        }
+        // Un resultado ambiguo no actualiza el catálogo base: se conserva como producto online aparte.
+        return best && bestScore >= 0.5 ? best : null;
+    }
+
     function liveUpsertVTEX(storeKey, product) {
         const item = Array.isArray(product.items) ? product.items.find(i => livePriceFromItem(i) > 0) || product.items[0] : null;
         if (!item) return false;
@@ -3536,9 +3600,38 @@
         const ean = String(item.ean || '').replace(/\D/g,'');
         const sku = String(item.itemId || product.productId || '');
         const key = ean ? `ean:${ean}` : `${storeKey}:${liveNormalizeText(name)}:${sku}`;
-        const presentation = livePresentation(item.name || name);
+        const presentation = livePresentation(`${name} ${item.name || ''}`);
         const price = livePriceFromItem(item);
         if (!(price > 0)) return false;
+
+        // Actualiza el producto de la comparativa existente cuando nombre y presentación coinciden;
+        // no reemplaza precios de otras tiendas ni mezcla paquetes de distinto tamaño.
+        const matchedBase = liveFindMatchingBase(name, presentation);
+        if (matchedBase) {
+            matchedBase.presentaciones = matchedBase.presentaciones || {};
+            const targetPresentation = Object.keys(matchedBase.presentaciones).find(label => {
+                const x = liveNormalizeText(label), y = liveNormalizeText(presentation);
+                const cx = (x.match(/(?:x|paquete\s*x)\s*(\d+)/) || [])[1];
+                const cy = (y.match(/(?:x|paquete\s*x)\s*(\d+)/) || [])[1];
+                const ax = (x.match(/(\d+(?:[.,]\d+)?)\s*(kg|g|gr|grs|ml|l|lt)\b/) || []);
+                const ay = (y.match(/(\d+(?:[.,]\d+)?)\s*(kg|g|gr|grs|ml|l|lt)\b/) || []);
+                if (cx || cy) return !!cx && !!cy && cx === cy;
+                if (ax[1] || ay[1]) {
+                    if (!ax[1] || !ay[1]) return false;
+                    const norm = (m) => { let v=Number(String(m[1]).replace(',','.')); let u=m[2]; if(u==='kg'){v*=1000;u='g';} if(u==='gr'||u==='grs')u='g'; if(u==='l'||u==='lt'){v*=1000;u='ml';} return `${v}:${u}`; };
+                    return norm(ax) === norm(ay);
+                }
+                return x === y;
+            });
+            if (targetPresentation) {
+                matchedBase.presentaciones[targetPresentation][storeKey] = price;
+                matchedBase.preciosUnitariosCustom = matchedBase.preciosUnitariosCustom || {};
+                if (matchedBase.presentacionActual === targetPresentation) matchedBase.preciosUnitariosCustom[storeKey] = price;
+                matchedBase._liveUpdatedAt = new Date().toISOString();
+                matchedBase._liveStore = storeKey;
+                matchedBase._liveUrl = product.linkText ? `${LIVE_CATALOG_CONFIG[storeKey].dominio}/${String(product.linkText).replace(/^\/+/,'')}/p` : '';
+            }
+        }
 
         let existing = window.__ahorraLiveByKey && window.__ahorraLiveByKey[key];
         if (!existing) {
@@ -3742,14 +3835,29 @@
         throw new Error(`No se pudo leer el catálogo público (${directError && directError.message || 'error de red/CORS'}).`);
     }
 
-    function d1PriceFromText(text) {
+    function d1PriceFromText(text, productTitle) {
         const t = String(text || '').replace(/\u00a0/g, ' ');
         const matches = [...t.matchAll(/\$\s*([\d.]+(?:,\d{1,2})?)/g)];
-        for (const m of matches) {
-            const n = Number(m[1].replace(/\./g, '').replace(',', '.'));
-            if (n > 0 && n < 100000000) return n;
+        if (!matches.length) return 0;
+        const title = String(productTitle || '').replace(/\s+/g,' ').trim();
+        let candidates = matches;
+        if (title && title.length > 5) {
+            const at = t.toLowerCase().indexOf(title.toLowerCase());
+            if (at >= 0) {
+                const after = matches.filter(m => m.index >= at + title.length);
+                if (after.length) candidates = after;
+            }
         }
-        return 0;
+        // Category filters often show "$500–$39.900" before any product card. Ignore range endpoints.
+        candidates = candidates.filter(m => {
+            const before = t.slice(Math.max(0,m.index-18),m.index);
+            const after = t.slice(m.index + m[0].length, m.index + m[0].length + 12);
+            return !(/[–—-]\s*$/.test(before) || /^\s*[–—-]/.test(after) || /precio\s*$/i.test(before));
+        });
+        const parsed = candidates.map(m => ({ m, n: Number(m[1].replace(/\./g, '').replace(',', '.')) }))
+            .filter(x => x.n > 700 && x.n < 100000000);
+        if (!parsed.length) return 0;
+        return parsed[0].n;
     }
 
     function d1CategoryFromPath(path) {
@@ -3808,7 +3916,7 @@
                     const txt = (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim();
                     if (txt.length > text.length && txt.length < 1200 && /\$\s*[\d.]+/.test(txt)) { cardText = txt; break; }
                 }
-                const price = d1PriceFromText(cardText);
+                const price = d1PriceFromText(cardText, text);
                 if (!price) return;
                 let name = text;
                 name = name.replace(/^(abrir\s*)?(agregar a lista\s*)?(agregar a favoritos\s*)?/i, '').trim();
@@ -3825,7 +3933,7 @@
             const flat = (doc.body && (doc.body.innerText || doc.body.textContent) || '').replace(/\u00a0/g, ' ');
             const re = /(?:Abrir\s*)?(?:Agregar a lista\s*)?(?:Agregar a favoritos\s*)?([^$\n]{3,130}?)\s*\$\s*([\d.]+)/gi;
             let m;
-            while ((m = re.exec(flat))) add(m[1].replace(/\s+/g, ' ').trim(), Number(m[2].replace(/\./g, '')), pageUrl);
+            while ((m = re.exec(flat))) if (!/^(precio|filtros|mostrar|productos|despensa|bebidas|lacteos|hogar)\b/i.test(m[1].trim())) add(m[1].replace(/\s+/g, ' ').trim(), Number(m[2].replace(/\./g, '')), pageUrl);
         } catch (_) {}
 
         return [...found.values()].map(p => ({ ...p, category: d1CategoryFromPath(categoryPath) }));
@@ -4255,10 +4363,21 @@
     const [key,total]=candidatas[0];
     let nombre=key;
     try{if(typeof obtenerNombreTienda==='function')nombre=obtenerNombreTienda(key)||key;}catch(e){}
-    valor.textContent='$'+Math.round(total).toLocaleString('es-CO');
-    tienda.textContent='Comprando todo en '+nombre;
+    valor.dataset.baseTotal=String(Math.round(total));
+    const domicilio=Math.max(0,Number(document.getElementById('costo-domicilio-comparativa')?.value)||0);
+    valor.textContent='$'+Math.round(total+domicilio).toLocaleString('es-CO');
+    tienda.textContent='Comprando todo en '+nombre+(domicilio?' · incluye domicilio indicado':'');
     box.style.display='block';
   }
+  window.actualizarDomicilioComparativa=function(){
+    const value=el('mejor-opcion-valor');
+    if(!value)return;
+    const base=Number(value.dataset.baseTotal||0);
+    const domicilio=Math.max(0,Number(el('costo-domicilio-comparativa')?.value)||0);
+    if(base>0)value.textContent='$'+Math.round(base+domicilio).toLocaleString('es-CO');
+    const tienda=el('mejor-opcion-tienda');
+    if(tienda&&base>0){tienda.textContent=tienda.textContent.replace(/ · incluye domicilio indicado$/,'');if(domicilio)tienda.textContent+=' · incluye domicilio indicado';}
+  };
   function guardarPos(w){
     try{localStorage.setItem(KEY,JSON.stringify({left:w.offsetLeft,top:w.offsetTop}));}catch(e){}
   }
@@ -4343,27 +4462,7 @@
 })();
 </script>
 
-<script>
-(function(){
- const money=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(n)||0);
- const storeNames={d1:'D1',ara:'Ara',exito:'Éxito',olimpica:'Olímpica',jumbo:'Jumbo',euro:'Euro',vaquita:'Vaquita',caribe:'Caribe',makro:'Makro'};
- function stores(){try{return Array.isArray(listadoTiendasActivas)?listadoTiendasActivas.slice():[]}catch(e){return ['d1','ara','exito','olimpica','jumbo','euro','vaquita']}}
- function cart(){try{return baseDatosProductos.filter(p=>p&&p.enCarrito===true)}catch(e){return []}}
- function currentPrice(p,store){const pr=p.preciosUnitariosCustom||{}; if(pr[store]!==undefined&&Number(pr[store])>0)return Number(pr[store]); const pres=(p.presentaciones||{})[p.presentacionActual]||{};return Number(pres[store])||0}
- function parsePresentation(text){const t=String(text||'').toLowerCase().replace(',','.');let m=t.match(/(\d+(?:\.\d+)?)\s*(kg|kilogramos?|g|gr|gramos?|ml|mililitros?|l|litros?|lb|lbs|libras?|und|unidades?|unidad)\b/);if(!m)return null;let n=Number(m[1]),u=m[2];if(!n)return null;if(['kg','kilogramo','kilogramos'].includes(u))return {qty:n,unit:'kg',factor:1};if(['g','gr','gramo','gramos'].includes(u))return {qty:n/1000,unit:'kg',factor:0.001};if(u==='lb'||u==='lbs'||u==='libra'||u==='libras')return {qty:n*0.45359237,unit:'kg',factor:0.45359237};if(['ml','mililitro','mililitros'].includes(u))return {qty:n/1000,unit:'L',factor:0.001};if(['l','litro','litros'].includes(u))return {qty:n,unit:'L',factor:1};return {qty:n,unit:'unidad',factor:1}}
- function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
- window.ahorraToggleCentro=function(){const c=document.getElementById('centro-ahorro-cuerpo');const b=document.querySelector('#centro-ahorro-avanzado .toggle-btn');if(!c)return;const hide=c.style.display!=='none';c.style.display=hide?'none':'block';if(b)b.textContent=hide?'Expandir ➕':'Minimizar ➖'};
- function renderShipping(){const box=document.getElementById('ahorra-costos-domicilio');if(!box)return;const ss=stores();box.innerHTML=ss.map(k=>`<div class="express-field"><label for="ahorra-envio-${safe(k)}">Domicilio ${safe(storeNames[k]||k)} (COP)</label><input id="ahorra-envio-${safe(k)}" type="number" min="0" step="500" class="express-input-manual" style="margin:0;background:#fff" placeholder="Usar general" oninput="ahorraCalcularCentro()"></div>`).join('')}
- function shipping(k){const el=document.getElementById('ahorra-envio-'+k);if(el&&el.value!=='')return Math.max(0,Number(el.value)||0);return Math.max(0,Number(document.getElementById('ahorra-domicilio-general')?.value)||0)}
- window.ahorraCalcularCentro=function(){const items=cart(),ss=stores(),out=document.getElementById('ahorra-resumen-centro'),detail=document.getElementById('ahorra-detalle-unitarios');if(!out||!detail)return;if(!items.length){out.innerHTML='Añade productos al carrito para calcular la cesta y los precios por unidad.';detail.innerHTML='';return}const totals={};const missing={};ss.forEach(k=>{totals[k]=0;missing[k]=0});let mix=0;const used=new Set();let rows=[];items.forEach(p=>{const q=Math.max(1,Number(p.qty)||1),vals=ss.map(k=>({k,price:currentPrice(p,k)})).filter(x=>x.price>0).sort((a,b)=>a.price-b.price);ss.forEach(k=>{const v=currentPrice(p,k);if(v>0)totals[k]+=v*q;else missing[k]++});if(vals.length){mix+=vals[0].price*q;used.add(vals[0].k)}const parsed=parsePresentation(p.presentacionActual);const units=parsed?ss.map(k=>({k,price:currentPrice(p,k)/parsed.qty})).filter(x=>x.price>0).sort((a,b)=>a.price-b.price):[];rows.push({p,q,vals,parsed,units,best:vals[0]})});
- const whole=ss.filter(k=>missing[k]===0&&totals[k]>0).map(k=>({k,total:totals[k]+shipping(k)})).sort((a,b)=>a.total-b.total);const usedShipping=[...used].reduce((sum,k)=>sum+shipping(k),0);const mixedTotal=mix+usedShipping;const preference=document.getElementById('ahorra-preferencia')?.value||'total';let recommendation='';if(preference==='single')recommendation=whole.length?`Recomendación: compra todo en ${storeNames[whole[0].k]||whole[0].k} por ${money(whole[0].total)}.`:'No hay una tienda con precio para todos los productos del carrito; revisa faltantes o edita precios.';else if(preference==='mix')recommendation=`Compra mixta estimada: ${money(mixedTotal)} (productos al menor precio disponible + domicilios de ${used.size} tienda(s)).`;else{const options=whole.map(x=>({...x,type:'single'}));options.push({k:'mix',total:mixedTotal,type:'mix'});options.sort((a,b)=>a.total-b.total);const best=options[0];recommendation=best.type==='mix'?`Menor total estimado: compra mixta por ${money(best.total)}.`:`Menor total estimado: todo en ${storeNames[best.k]||best.k} por ${money(best.total)}.`}
- const note=document.getElementById('ahorra-notas')?.value?.trim();out.innerHTML=`<div style="font-weight:800;font-size:15px;color:#0f766e">${safe(recommendation)}</div><div style="font-size:12px;margin-top:6px">Cesta: ${items.length} productos · Subtotal de mejor precio por producto: ${money(mix)} · Domicilios estimados de la compra mixta: ${money(usedShipping)}.</div>${note?`<div style="font-size:12px;margin-top:5px"><b>Tu preferencia:</b> ${safe(note)}</div>`:''}<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px">${ss.map(k=>`<div style="padding:9px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc"><b>${safe(storeNames[k]||k)}</b><div style="font-size:14px;font-weight:800">${totals[k]>0?money(totals[k]+shipping(k)):'Sin total'}</div><small style="color:${missing[k]?'#b45309':'#047857'}">${missing[k]?`${missing[k]} producto(s) sin precio`:'Todos los productos con precio'}</small><small style="display:block;color:#64748b">Domicilio: ${money(shipping(k))}</small></div>`).join('')}</div>`;
- detail.innerHTML=`<h4 style="margin:12px 0 6px">Precio por unidad comparable y procedencia</h4><div style="overflow:auto"><table class="detail-table"><thead><tr><th>Producto / presentación</th><th>Cantidad</th><th>Mejor precio</th><th>Precio por unidad</th><th>Estado del dato</th><th>Fuente</th></tr></thead><tbody>${rows.map(({p,q,vals,parsed,units,best})=>{const live=!!p._liveUpdatedAt;const stamp=live?new Date(p._liveUpdatedAt).toLocaleString('es-CO'):'Precio local/manual';const src=p._liveUrl||'';return `<tr><td>${safe(p.nombre)}<br><small>${safe(p.presentacionActual||'Presentación no identificada')}</small></td><td>${q}</td><td>${best?`${money(best.price)} (${safe(storeNames[best.k]||best.k)})`:'Sin precio disponible'}</td><td>${parsed&&units.length?`${money(units[0].price)} / ${parsed.unit} (${safe(storeNames[units[0].k]||units[0].k)})`:'No calculable: presentación sin peso/volumen/unidades reconocibles'}</td><td><span style="font-weight:800;color:${live?'#047857':'#b45309'}">${live?'Consulta online registrada':'Referencial / manual'}</span><br><small>${safe(stamp)}</small></td><td>${src?`<a href="${safe(src)}" target="_blank" rel="noopener">Abrir producto</a>`:'Sin enlace directo de producto'}</td></tr>`}).join('')}</tbody></table></div>`;
- };
- window.ahorraExportarCSV=function(){const items=cart();if(!items.length){alert('El carrito está vacío. Añade productos antes de exportar.');return}const ss=stores();const cells=[['Producto','Presentación','Cantidad','Tienda','Precio unitario COP','Subtotal COP','Estado','Fecha consulta','URL fuente']];items.forEach(p=>ss.forEach(k=>{const price=currentPrice(p,k);cells.push([p.nombre,p.presentacionActual||'',p.qty||1,storeNames[k]||k,price,price*(Number(p.qty)||1),p._liveUpdatedAt?'Consulta online registrada':'Referencial/manual',p._liveUpdatedAt||'',p._liveUrl||''])}));const csv='\ufeff'+cells.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ahorra-colombia-lista-y-precios.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)};
- document.addEventListener('DOMContentLoaded',()=>{renderShipping();window.ahorraCalcularCentro();const cartNode=document.getElementById('contenedor-carrito');if(cartNode&&window.MutationObserver)new MutationObserver(()=>window.ahorraCalcularCentro()).observe(cartNode,{childList:true,subtree:true,characterData:true});document.addEventListener('input',e=>{if(e.target.matches('.store-price-input,.qty-input,[id^="car-p-"],[id^="cat-p-"],[id^="car-qty-"],[id^="cat-qty-"]'))setTimeout(window.ahorraCalcularCentro,80)});document.addEventListener('change',e=>{if(e.target.matches('select.size-select,.chk-comercio,[id^="car-size-"],[id^="cat-size-"]'))setTimeout(window.ahorraCalcularCentro,80)});});
-})();
-</script>
+
 
 </body>
 </html>
