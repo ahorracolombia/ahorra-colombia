@@ -1441,6 +1441,24 @@
     </div>
 
 
+    <!-- ===== CENTRO DE AHORRO Y TRAZABILIDAD ===== -->
+    <section class="card" id="centro-ahorro-avanzado" style="border:2px solid #99f6e4;background:linear-gradient(135deg,#f0fdfa,#fff);">
+      <div class="card-header"><div><h3>🧠 Centro de ahorro: cesta real, precio unitario y trazabilidad</h3><p style="margin:4px 0 0;color:#64748b;font-size:12px">Compara la cesta completa, contempla domicilios y revisa qué precios tienen fuente consultada.</p></div>
+      <button class="toggle-btn" type="button" onclick="ahorraToggleCentro()">Minimizar ➖</button></div>
+      <div id="centro-ahorro-cuerpo">
+        <div class="express-grid" style="margin:12px 0">
+          <div class="express-field"><label for="ahorra-domicilio-general">🚚 Domicilio general estimado (COP)</label><input id="ahorra-domicilio-general" class="express-input-manual" type="number" min="0" step="500" value="0" style="margin:0;background:#fff" oninput="ahorraCalcularCentro()"><small style="color:#64748b">Se aplica a las tiendas sin tarifa individual.</small></div>
+          <div class="express-field"><label for="ahorra-preferencia">🎯 ¿Qué debe priorizar la recomendación?</label><select id="ahorra-preferencia" class="express-select" onchange="ahorraCalcularCentro()"><option value="total">Menor costo final (productos + domicilios)</option><option value="single">Comprar todo en una sola tienda</option><option value="mix">Compra mixta con ahorro por producto</option></select></div>
+          <div class="express-field"><label for="ahorra-notas">✏️ Preferencias editables</label><input id="ahorra-notas" class="express-input-manual" type="text" maxlength="220" placeholder="Ej. priorizar marcas económicas, no cambiar leche" style="margin:0;background:#fff"><small style="color:#64748b">Nota para tu decisión; no se usa como dato de precio.</small></div>
+        </div>
+        <div id="ahorra-costos-domicilio" class="express-grid" style="margin-bottom:12px"></div>
+        <div id="ahorra-resumen-centro" style="padding:12px;border:1px solid #99f6e4;background:#fff;border-radius:10px;margin-bottom:12px">Añade productos al carrito para calcular la cesta y los precios por unidad.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><button class="sel-btn" type="button" onclick="ahorraExportarCSV()">⬇️ Exportar lista y precios (CSV)</button><button class="sel-btn" type="button" onclick="ahorraCalcularCentro()">🔄 Recalcular comparación</button></div>
+        <div id="ahorra-detalle-unitarios"></div>
+        <p style="font-size:11px;color:#64748b;margin:12px 0 0">Transparencia: los precios locales/manuales son referenciales hasta verificarlos. La consulta online solo se marca como consultada cuando el sistema recibió datos de una fuente; la hora de consulta no garantiza stock ni precio para tu dirección. Los domicilios son estimaciones que debes ajustar.</p>
+      </div>
+    </section>
+
     <!-- ===== MIS LISTAS PERSONALIZADAS ===== -->
     <div class="card listas-guardadas-card" id="seccion-listas-personalizadas">
         <div class="card-header listas-guardadas-header">
@@ -3487,7 +3505,8 @@
             .map(s => s && s.commertialOffer)
             .filter(o => o && Number(o.Price) > 0 && (o.AvailableQuantity === undefined || Number(o.AvailableQuantity) > 0));
         if (!valid.length) return 0;
-        return Number(valid[0].Price);
+        // Si un SKU tiene varios vendedores disponibles, comparar el menor precio publicado.
+        return Math.min(...valid.map(o => Number(o.Price)).filter(n => Number.isFinite(n) && n > 0));
     }
 
     function livePresentation(name) {
@@ -3594,10 +3613,16 @@
     }
 
     async function consultarVTEX(storeKey, termino, from, to) {
-        const cfg = LIVE_CATALOG_CONFIG[storeKey];
-        let url = `${cfg.dominio}${VTEX_PATH}?_from=${from}&_to=${to}`;
-        if (termino) url += `&ft=${encodeURIComponent(termino)}`;
-        return fetchJson(url);
+        // Consulta al backend propio de Vercel: evita depender de CORS/proxies públicos.
+        const params = new URLSearchParams({ store: storeKey, from: String(from), to: String(to) });
+        if (termino) params.set('q', termino);
+        const response = await fetch(`/api/catalogo?${params.toString()}`, {
+            headers: { 'Accept': 'application/json' }, cache: 'no-store'
+        });
+        if (!response.ok) throw new Error(`API ${storeKey}: HTTP ${response.status}`);
+        const payload = await response.json();
+        if (!Array.isArray(payload.products)) throw new Error(`Respuesta de catálogo inválida (${storeKey})`);
+        return payload.products;
     }
 
     async function cargarVTEX(storeKey, termino, completo) {
@@ -3633,11 +3658,11 @@
             const query = `query($search:String,$page:Int){products(search:$search,pageSize:48,currentPage:$page){total_count page_info{current_page page_size total_pages} items{name sku url_key price_range{minimum_price{final_price{value}}}}}}`;
             const body = JSON.stringify({ query, variables: { search: termino || '', page } });
 
-            const data = await fetchJson(`${cfg.dominio}/graphql`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body
-            });
+            // Magento se consulta desde el backend de Vercel para evitar CORS.
+            const apiUrl = `/api/catalogo?store=vaquita&page=${page}&q=${encodeURIComponent(termino || '')}`;
+            const response = await fetch(apiUrl, { headers: { 'Accept': 'application/json' }, cache: 'no-store' });
+            if (!response.ok) throw new Error(`API Vaquita: HTTP ${response.status}`);
+            const data = await response.json();
 
             const products = data && data.data && data.data.products;
             const items = products && Array.isArray(products.items) ? products.items : [];
@@ -3679,6 +3704,24 @@
     // Este importador recorre páginas públicas de categorías y extrae productos/precios visibles.
     // Se detiene cuando una página deja de aportar productos nuevos para evitar bucles.
     async function fetchText(url) {
+        // D1: leer la página desde nuestro backend, no desde un proxy CORS de terceros.
+        try {
+            const parsed = new URL(url);
+            if (parsed.hostname === 'www.d1.com.co') {
+                const apiParams = new URLSearchParams({
+                    store: 'd1',
+                    path: parsed.pathname.replace(/^\//, ''),
+                    page: parsed.searchParams.get('page') || '1',
+                    format: 'html'
+                });
+                const apiResponse = await fetch(`/api/catalogo?${apiParams.toString()}`, { cache: 'no-store' });
+                if (apiResponse.ok) return await apiResponse.text();
+                throw new Error(`API D1: HTTP ${apiResponse.status}`);
+            }
+        } catch (apiError) {
+            // Conserva compatibilidad con apertura local; se informa si el backend no está desplegado.
+            if (location.protocol !== 'file:') throw apiError;
+        }
         let directError = null;
         try {
             const r = await fetch(url, { headers: { 'Accept': 'text/html,application/xhtml+xml' }, credentials: 'omit', cache: 'no-store' });
@@ -4299,5 +4342,28 @@
   });
 })();
 </script>
+
+<script>
+(function(){
+ const money=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(n)||0);
+ const storeNames={d1:'D1',ara:'Ara',exito:'Éxito',olimpica:'Olímpica',jumbo:'Jumbo',euro:'Euro',vaquita:'Vaquita',caribe:'Caribe',makro:'Makro'};
+ function stores(){try{return Array.isArray(listadoTiendasActivas)?listadoTiendasActivas.slice():[]}catch(e){return ['d1','ara','exito','olimpica','jumbo','euro','vaquita']}}
+ function cart(){try{return baseDatosProductos.filter(p=>p&&p.enCarrito===true)}catch(e){return []}}
+ function currentPrice(p,store){const pr=p.preciosUnitariosCustom||{}; if(pr[store]!==undefined&&Number(pr[store])>0)return Number(pr[store]); const pres=(p.presentaciones||{})[p.presentacionActual]||{};return Number(pres[store])||0}
+ function parsePresentation(text){const t=String(text||'').toLowerCase().replace(',','.');let m=t.match(/(\d+(?:\.\d+)?)\s*(kg|kilogramos?|g|gr|gramos?|ml|mililitros?|l|litros?|lb|lbs|libras?|und|unidades?|unidad)\b/);if(!m)return null;let n=Number(m[1]),u=m[2];if(!n)return null;if(['kg','kilogramo','kilogramos'].includes(u))return {qty:n,unit:'kg',factor:1};if(['g','gr','gramo','gramos'].includes(u))return {qty:n/1000,unit:'kg',factor:0.001};if(u==='lb'||u==='lbs'||u==='libra'||u==='libras')return {qty:n*0.45359237,unit:'kg',factor:0.45359237};if(['ml','mililitro','mililitros'].includes(u))return {qty:n/1000,unit:'L',factor:0.001};if(['l','litro','litros'].includes(u))return {qty:n,unit:'L',factor:1};return {qty:n,unit:'unidad',factor:1}}
+ function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+ window.ahorraToggleCentro=function(){const c=document.getElementById('centro-ahorro-cuerpo');const b=document.querySelector('#centro-ahorro-avanzado .toggle-btn');if(!c)return;const hide=c.style.display!=='none';c.style.display=hide?'none':'block';if(b)b.textContent=hide?'Expandir ➕':'Minimizar ➖'};
+ function renderShipping(){const box=document.getElementById('ahorra-costos-domicilio');if(!box)return;const ss=stores();box.innerHTML=ss.map(k=>`<div class="express-field"><label for="ahorra-envio-${safe(k)}">Domicilio ${safe(storeNames[k]||k)} (COP)</label><input id="ahorra-envio-${safe(k)}" type="number" min="0" step="500" class="express-input-manual" style="margin:0;background:#fff" placeholder="Usar general" oninput="ahorraCalcularCentro()"></div>`).join('')}
+ function shipping(k){const el=document.getElementById('ahorra-envio-'+k);if(el&&el.value!=='')return Math.max(0,Number(el.value)||0);return Math.max(0,Number(document.getElementById('ahorra-domicilio-general')?.value)||0)}
+ window.ahorraCalcularCentro=function(){const items=cart(),ss=stores(),out=document.getElementById('ahorra-resumen-centro'),detail=document.getElementById('ahorra-detalle-unitarios');if(!out||!detail)return;if(!items.length){out.innerHTML='Añade productos al carrito para calcular la cesta y los precios por unidad.';detail.innerHTML='';return}const totals={};const missing={};ss.forEach(k=>{totals[k]=0;missing[k]=0});let mix=0;const used=new Set();let rows=[];items.forEach(p=>{const q=Math.max(1,Number(p.qty)||1),vals=ss.map(k=>({k,price:currentPrice(p,k)})).filter(x=>x.price>0).sort((a,b)=>a.price-b.price);ss.forEach(k=>{const v=currentPrice(p,k);if(v>0)totals[k]+=v*q;else missing[k]++});if(vals.length){mix+=vals[0].price*q;used.add(vals[0].k)}const parsed=parsePresentation(p.presentacionActual);const units=parsed?ss.map(k=>({k,price:currentPrice(p,k)/parsed.qty})).filter(x=>x.price>0).sort((a,b)=>a.price-b.price):[];rows.push({p,q,vals,parsed,units,best:vals[0]})});
+ const whole=ss.filter(k=>missing[k]===0&&totals[k]>0).map(k=>({k,total:totals[k]+shipping(k)})).sort((a,b)=>a.total-b.total);const usedShipping=[...used].reduce((sum,k)=>sum+shipping(k),0);const mixedTotal=mix+usedShipping;const preference=document.getElementById('ahorra-preferencia')?.value||'total';let recommendation='';if(preference==='single')recommendation=whole.length?`Recomendación: compra todo en ${storeNames[whole[0].k]||whole[0].k} por ${money(whole[0].total)}.`:'No hay una tienda con precio para todos los productos del carrito; revisa faltantes o edita precios.';else if(preference==='mix')recommendation=`Compra mixta estimada: ${money(mixedTotal)} (productos al menor precio disponible + domicilios de ${used.size} tienda(s)).`;else{const options=whole.map(x=>({...x,type:'single'}));options.push({k:'mix',total:mixedTotal,type:'mix'});options.sort((a,b)=>a.total-b.total);const best=options[0];recommendation=best.type==='mix'?`Menor total estimado: compra mixta por ${money(best.total)}.`:`Menor total estimado: todo en ${storeNames[best.k]||best.k} por ${money(best.total)}.`}
+ const note=document.getElementById('ahorra-notas')?.value?.trim();out.innerHTML=`<div style="font-weight:800;font-size:15px;color:#0f766e">${safe(recommendation)}</div><div style="font-size:12px;margin-top:6px">Cesta: ${items.length} productos · Subtotal de mejor precio por producto: ${money(mix)} · Domicilios estimados de la compra mixta: ${money(usedShipping)}.</div>${note?`<div style="font-size:12px;margin-top:5px"><b>Tu preferencia:</b> ${safe(note)}</div>`:''}<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px">${ss.map(k=>`<div style="padding:9px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc"><b>${safe(storeNames[k]||k)}</b><div style="font-size:14px;font-weight:800">${totals[k]>0?money(totals[k]+shipping(k)):'Sin total'}</div><small style="color:${missing[k]?'#b45309':'#047857'}">${missing[k]?`${missing[k]} producto(s) sin precio`:'Todos los productos con precio'}</small><small style="display:block;color:#64748b">Domicilio: ${money(shipping(k))}</small></div>`).join('')}</div>`;
+ detail.innerHTML=`<h4 style="margin:12px 0 6px">Precio por unidad comparable y procedencia</h4><div style="overflow:auto"><table class="detail-table"><thead><tr><th>Producto / presentación</th><th>Cantidad</th><th>Mejor precio</th><th>Precio por unidad</th><th>Estado del dato</th><th>Fuente</th></tr></thead><tbody>${rows.map(({p,q,vals,parsed,units,best})=>{const live=!!p._liveUpdatedAt;const stamp=live?new Date(p._liveUpdatedAt).toLocaleString('es-CO'):'Precio local/manual';const src=p._liveUrl||'';return `<tr><td>${safe(p.nombre)}<br><small>${safe(p.presentacionActual||'Presentación no identificada')}</small></td><td>${q}</td><td>${best?`${money(best.price)} (${safe(storeNames[best.k]||best.k)})`:'Sin precio disponible'}</td><td>${parsed&&units.length?`${money(units[0].price)} / ${parsed.unit} (${safe(storeNames[units[0].k]||units[0].k)})`:'No calculable: presentación sin peso/volumen/unidades reconocibles'}</td><td><span style="font-weight:800;color:${live?'#047857':'#b45309'}">${live?'Consulta online registrada':'Referencial / manual'}</span><br><small>${safe(stamp)}</small></td><td>${src?`<a href="${safe(src)}" target="_blank" rel="noopener">Abrir producto</a>`:'Sin enlace directo de producto'}</td></tr>`}).join('')}</tbody></table></div>`;
+ };
+ window.ahorraExportarCSV=function(){const items=cart();if(!items.length){alert('El carrito está vacío. Añade productos antes de exportar.');return}const ss=stores();const cells=[['Producto','Presentación','Cantidad','Tienda','Precio unitario COP','Subtotal COP','Estado','Fecha consulta','URL fuente']];items.forEach(p=>ss.forEach(k=>{const price=currentPrice(p,k);cells.push([p.nombre,p.presentacionActual||'',p.qty||1,storeNames[k]||k,price,price*(Number(p.qty)||1),p._liveUpdatedAt?'Consulta online registrada':'Referencial/manual',p._liveUpdatedAt||'',p._liveUrl||''])}));const csv='\ufeff'+cells.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ahorra-colombia-lista-y-precios.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)};
+ document.addEventListener('DOMContentLoaded',()=>{renderShipping();window.ahorraCalcularCentro();const cartNode=document.getElementById('contenedor-carrito');if(cartNode&&window.MutationObserver)new MutationObserver(()=>window.ahorraCalcularCentro()).observe(cartNode,{childList:true,subtree:true,characterData:true});document.addEventListener('input',e=>{if(e.target.matches('.store-price-input,.qty-input,[id^="car-p-"],[id^="cat-p-"],[id^="car-qty-"],[id^="cat-qty-"]'))setTimeout(window.ahorraCalcularCentro,80)});document.addEventListener('change',e=>{if(e.target.matches('select.size-select,.chk-comercio,[id^="car-size-"],[id^="cat-size-"]'))setTimeout(window.ahorraCalcularCentro,80)});});
+})();
+</script>
+
 </body>
 </html>
